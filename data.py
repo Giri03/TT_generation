@@ -66,12 +66,22 @@ for j in range(population_size):
     for i in course:
         population.append([l , i[0], random.choice(i[2]), random.choice(days), random.choice(meettime), 0])
         l = l + 1
-print(population)
+#print(population)
+count = 0
+for i in days:
+    for j in meettime:
+        cou = Counter(population[s][2] for s in range(len(population)) if population[s][4] == j and population[s][3] == i )
+                  
+        # for k, v in Counter(population[s][2] for s in range(len(population)) if population[s][4] == j and population[s][3] == i).items():
+        #     if (v > 1) :
+        #         count += 1
+for i in population:
+    for j,k in cou.items():
+        if j == i[2]:
+            i[5] = k 
 
-# for i in days:
-#     for j in meettime:
-#         for k, v in Counter(population[s][2] for s in range(len(population)) if population[s][4] == j and population[s][3] == i).items():
-#             if (v > 1) :     
+print(cou)
+print(population)                
             
             
                          
