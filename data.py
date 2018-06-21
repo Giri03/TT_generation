@@ -1,10 +1,8 @@
+# import packages
 from collections import Counter
-
 import random
 
 #course [name, no_students, instructors]
-
-
 c1 = ['c1', 25, ['James', 'Mike']]
 c2 = ['c2', 35, ['James', 'Mike', 'Steve']]
 c3 = ['c3', 25, ['James', 'Mike']]
@@ -55,7 +53,7 @@ timeslot_group = []
 # for i in range(len(meettime)):
 #     for j in dept:
 #         for x in j:
-#             for k in x[2]: 
+#             for k in x[2]:
 #                 timeslot_group.append([x[0] , k ,meettime[i][1]])
 
 # for x in timeslot_group:
@@ -66,24 +64,35 @@ for j in range(population_size):
     for i in course:
         population.append([l , i[0], random.choice(i[2]), random.choice(days), random.choice(meettime), 0])
         l = l + 1
-print(population)
+#
+for i in population:
+    if(i[3]=="thur" and i[4]=="m1"):
+        print(i[2])
 
+#calulating the
+
+
+# try for calculate the conflicts
 # for i in days:
 #     for j in meettime:
-#         for k, v in Counter(population[s][2] for s in range(len(population)) if population[s][4] == j and population[s][3] == i).items():
-#             if (v > 1) :     
-            
-            
-                         
+#         for s in range(len(population)):
+#             # print(population[s][2])
+#             print(population[s][4]==j)
+
+        # for k, v in Counter(population[s][2] for s in range(len(population)) if population[s][4] == j and population[s][3] == i).items():
+        #     if (v > 1) :
+
+
+
 #    return [k for k, v in Counter(l).items() if v > 1]
 
         # population.append([course[i][0]])
-    
+
 #     course_name = random.choice(random.choice(dept))
 #     for x in course:
 #         if (x[0] == course_name):
 #             instructor_name = random.choice(x[2])
-#             no_students = x[1] 
+#             no_students = x[1]
 #     room = random.choice(rooms)
 #     meetingtime = random.choice(meettime)
 #     k = [course_name, instructor_name, no_students, room[0], room[1], meetingtime[1] ]
