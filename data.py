@@ -1,8 +1,7 @@
 from collections import Counter
-
 import random
 
-#course [name, no_students, instructors]
+# course [name, no_students, instructors]
 
 
 c1 = ['c1', 25, ['James', 'Mike']]
@@ -15,7 +14,7 @@ c7 = ['c7', 45, ['Jane', 'Mike']]
 
 course = [c1, c2, c3, c4, c5, c6, c7]
 
-#rooms  [id, capacity]
+# rooms  [id, capacity]
 r1 = ['r1', 25]
 r2 = ['r2', 45]
 r3 = ['r3', 35]
@@ -30,7 +29,7 @@ i4 = ['i4', 'Jane']
 
 instructor = [i1, i2, i3, i4]
 
-#meetingtime [id, time]
+# meetingtime [id, time]
 # m1 = ['m1', '9am-10am']
 # m2 = ['m2', '10am-11am']
 # m3 = ['m3', '11am-12pm']
@@ -38,7 +37,7 @@ instructor = [i1, i2, i3, i4]
 
 meettime = ['m1', 'm2', 'm3', 'm4']
 
-#departments
+# departments
 math = [c1, c3]
 ee = [c2, c4, c5]
 phy = [c6, c7]
@@ -47,43 +46,69 @@ dept = [math, ee, phy]
 data = [dept, instructor, course, rooms, meettime]
 days = ['mon', 'tues', 'wed', 'thur', 'fri']
 
+
+# creating population
+
 schedule = []
 population = []
 timeslot_group = []
 
-#random selection for creating schedule
-# for i in range(len(meettime)):
-#     for j in dept:
-#         for x in j:
-#             for k in x[2]: 
-#                 timeslot_group.append([x[0] , k ,meettime[i][1]])
-
-# for x in timeslot_group:
-#     print (x)
 l = 0
 population_size = 200
 for j in range(population_size):
     for i in course:
         population.append([l , i[0], random.choice(i[2]), random.choice(days), random.choice(meettime), 0])
         l = l + 1
-#print(population)
+
+# find fitness value  or no. of conflicts      
 count = 0
 for i in days:
     for j in meettime:
         cou = Counter(population[s][2] for s in range(len(population)) if population[s][4] == j and population[s][3] == i )
-                  
-        # for k, v in Counter(population[s][2] for s in range(len(population)) if population[s][4] == j and population[s][3] == i).items():
-        #     if (v > 1) :
-        #         count += 1
+
+# extracting from counter dictionary                  
 for i in population:
     for j,k in cou.items():
         if j == i[2]:
             i[5] = k 
 
-population.sort(key = lambda x: x[5] , reverse = True)
-print(population)         
+
+def swap(a, b):
+    temp = a
+    a = b
+    b = temp
+    return a, b
+
+# crossover
+pc = 0.7
+# here selection is list obtained after tournament selection
+for i in range(0, 200, 2):
+    if random.random() > pc:
+        if(random.choice([True, False])):
+            swap(selection[i][4], selection[i+1][4])
+        if(random.choice([True, False])):
+            swap(selection[i][5], selection[i+1][5])
+
+# mutation
+pm = 0.2
+for i in range(0, 200, 2):
+    if random.random() < pm:
+        if(random.choice([True, False])):
+            swap(selection[i][4], random.choice(days))
+        if(random.choice([True, False])):
+            swap(selection[i][5], random.choice(meettime))
+
+# create new population .. here range for new population should be 25% of original ..so 200 from crossover and mutation + 150
+for i in range(150):
+    selection.append(random.choice(population))
+population = selection
+    
+
+# population.sort(key = lambda x: x[5] , reverse = True)
+# print(population)         
 
             
+
             
                          
 #    return [k for k, v in Counter(l).items() if v > 1]
