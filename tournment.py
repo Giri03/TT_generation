@@ -20,6 +20,7 @@ for i in range(population_size):
         # print(len(cross))
         if(min > cross[5]):
             min = cross[5]
-    population1.append(cross)
+            rem = cross
+    population1.append(rem)
 
 print(population1)

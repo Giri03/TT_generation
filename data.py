@@ -4,7 +4,6 @@ import random
 
 #course [name, no_students, instructors]
 
-
 c1 = ['c1', 25, ['James', 'Mike']]
 c2 = ['c2', 35, ['James', 'Mike', 'Steve']]
 c3 = ['c3', 25, ['James', 'Mike']]
@@ -79,13 +78,9 @@ for i in population:
     for j,k in cou.items():
         if j == i[2]:
             i[5] = k
-
-print(cou)
-print(population)
-
-
-
-
+# 
+# print(cou)
+# print(population)
 #    return [k for k, v in Counter(l).items() if v > 1]
 
         # population.append([course[i][0]])
@@ -99,5 +94,4 @@ print(population)
 #     meetingtime = random.choice(meettime)
 #     k = [course_name, instructor_name, no_students, room[0], room[1], meetingtime[1] ]
 #     schedule.append(k)
-
 # print (schedule)
