@@ -79,7 +79,7 @@ def swap(a, b):
     b = temp
     return a, b
 
-# crossover
+# crossover is 
 pc = 0.7
 # here selection is list obtained after tournament selection
 for i in range(0, 200, 2):
