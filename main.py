@@ -80,7 +80,7 @@ def new_population(population, population1):
     population = population1
     return population
 
-def timetable(population):
+def timetables(population):
     timetable = []
     for i in days:
         for j in meettime:
@@ -100,15 +100,18 @@ def change_fitness(population):
 
 if __name__ == '__main__':
     population = create_population()
-    population = fitness(population)
-    population1 = tournament(population)
-    population1 = crossover(population1)
-    population1 = mutation(population1)
-    population1 = change_fitness(population1)
-    population1 = fitness(population1)
-    population = new_population(population, population1)
-    print(len(population))
-    timetable = timetable(population)
+    for i in range(100):
+        population = fitness(population)
+        population1 = tournament(population)
+        population1 = crossover(population1)
+        population1 = mutation(population1)
+        population1 = change_fitness(population1)
+        population1 = fitness(population1)
+        population = new_population(population, population1)
+        timetable = timetables(population)
+        timetable = change_fitness(timetable)
+        timetable = fitness(timetable)
+        
     for u in timetable:
         print(u)
 
