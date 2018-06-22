@@ -1,6 +1,6 @@
 from collections import Counter
 import random
-
+import sys
 # course [name, no_students, instructors]
 
 
@@ -47,82 +47,4 @@ data = [dept, instructor, course, rooms, meettime]
 days = ['mon', 'tues', 'wed', 'thur', 'fri']
 
 
-# creating population
-
-schedule = []
-population = []
-timeslot_group = []
-
-l = 0
-population_size = 200
-for j in range(population_size):
-    for i in course:
-        population.append([l , i[0], random.choice(i[2]), random.choice(days), random.choice(meettime), 0])
-        l = l + 1
-
-# find fitness value  or no. of conflicts      
-count = 0
-for i in days:
-    for j in meettime:
-        cou = Counter(population[s][2] for s in range(len(population)) if population[s][4] == j and population[s][3] == i )
-
-# extracting from counter dictionary                  
-for i in population:
-    for j,k in cou.items():
-        if j == i[2]:
-            i[5] = k 
-
-
-def swap(a, b):
-    temp = a
-    a = b
-    b = temp
-    return a, b
-
-# crossover is 
-pc = 0.7
-# here selection is list obtained after tournament selection
-for i in range(0, 200, 2):
-    if random.random() > pc:
-        if(random.choice([True, False])):
-            swap(selection[i][4], selection[i+1][4])
-        if(random.choice([True, False])):
-            swap(selection[i][5], selection[i+1][5])
-
-# mutation
-pm = 0.2
-for i in range(0, 200, 2):
-    if random.random() < pm:
-        if(random.choice([True, False])):
-            swap(selection[i][4], random.choice(days))
-        if(random.choice([True, False])):
-            swap(selection[i][5], random.choice(meettime))
-
-# create new population .. here range for new population should be 25% of original ..so 200 from crossover and mutation + 150
-for i in range(150):
-    selection.append(random.choice(population))
-population = selection
-    
-
-# population.sort(key = lambda x: x[5] , reverse = True)
-# print(population)         
-
             
-
-            
-                         
-#    return [k for k, v in Counter(l).items() if v > 1]
-
-        # population.append([course[i][0]])
-    
-#     course_name = random.choice(random.choice(dept))
-#     for x in course:
-#         if (x[0] == course_name):
-#             instructor_name = random.choice(x[2])
-#             no_students = x[1] 
-#     room = random.choice(rooms)
-#     meetingtime = random.choice(meettime)
-#     k = [course_name, instructor_name, no_students, room[0], room[1], meetingtime[1] ]
-#     schedule.append(k)
-
-# print (schedule)
