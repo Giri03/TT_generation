@@ -3,6 +3,7 @@ import random
 import sys
 # course [name, no_students, instructors]
 
+
 c1 = ['c1', 25, ['James', 'Mike']]
 c2 = ['c2', 35, ['James', 'Mike', 'Steve']]
 c3 = ['c3', 25, ['James', 'Mike']]
