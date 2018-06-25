@@ -15,11 +15,17 @@ def create_population():
             l = l + 1
     return population
 
-    # extracting from counter dictionary
+def fitness(population):
+    count = 0
+    for i in days:
+        for j in meettime:
+            cou = Counter(population[s][2] for s in range(len(population)) if population[s][4] == j and population[s][3] == i )
+
+    # extracting from counter dictionary                  
     for i in population:
         for j,k in cou.items():
             if j == i[2]:
-                i[5] = k
+                i[5] = k 
     return population
 
 def tournament(population):
@@ -74,7 +80,7 @@ def new_population(population, population1):
     population = population1
     return population
 
-def timetable(population):
+def timetables(population):
     timetable = []
     for i in days:
         for j in meettime:
@@ -85,7 +91,7 @@ def timetable(population):
                     min = table[5]
                     remem = table
             timetable.append(remem)
-    return timetable
+    return timetable    
 
 def change_fitness(population):
     for x in population:
@@ -94,14 +100,24 @@ def change_fitness(population):
 
 if __name__ == '__main__':
     population = create_population()
-    population = fitness(population)
-    population1 = tournament(population)
-    population1 = crossover(population1)
-    population1 = mutation(population1)
-    population1 = change_fitness(population1)
-    population1 = fitness(population1)
-    population = new_population(population, population1)
-    print(len(population))
-    timetable = timetable(population)
+    for i in range(100):
+        population = fitness(population)
+        population1 = tournament(population)
+        population1 = crossover(population1)
+        population1 = mutation(population1)
+        population1 = change_fitness(population1)
+        population1 = fitness(population1)
+        population = new_population(population, population1)
+        timetable = timetables(population)
+        timetable = change_fitness(timetable)
+        timetable = fitness(timetable)
+        
     for u in timetable:
         print(u)
+
+
+
+
+
+
+
