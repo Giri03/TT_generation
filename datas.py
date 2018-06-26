@@ -45,6 +45,3 @@ phy = [c6, c7]
 dept = [math, ee, phy]
 data = [dept, instructor, course, rooms, meettime]
 days = ['mon', 'tues', 'wed', 'thur', 'fri']
-
-
-            
