@@ -21,11 +21,11 @@ def fitness(population):
         for j in meettime:
             cou = Counter(population[s][2] for s in range(len(population)) if population[s][4] == j and population[s][3] == i )
 
-    # extracting from counter dictionary                  
+    # extracting from counter dictionary
     for i in population:
         for j,k in cou.items():
             if j == i[2]:
-                i[5] = k 
+                i[5] = k
     return population
 
 def tournament(population):
@@ -91,7 +91,7 @@ def timetables(population):
                     min = table[5]
                     remem = table
             timetable.append(remem)
-    return timetable    
+    return timetable
 
 def change_fitness(population):
     for x in population:
@@ -111,13 +111,6 @@ if __name__ == '__main__':
         timetable = timetables(population)
         timetable = change_fitness(timetable)
         timetable = fitness(timetable)
-        
+
     for u in timetable:
         print(u)
-
-
-
-
-
-
-
