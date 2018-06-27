@@ -20,10 +20,23 @@ a = [[1,1,1] , [1,2,2], [1,2,3], [1,4,5]]
 b = [[1,1,1] , [1,2,2], [1,2,3], [1,4,5], [1,1,1] , [1,2,2], [1,2,3], [1,4,5]]
 c = a + b
 print(c)
-for i in range(len(a)):
-    for key, group in groupby(a[i][0]):
-        print(group)
-        print(key)
-        print(0)
+
 giri  = [[4, 5]]
 print (list(i for i in giri[0]))
+
+p = { 'a' : 7, 'n' : 9 }
+for key, value in p.items():
+    print( key + ':' + str(value))
+
+data = [[1, 2], [4, 6]]
+c = list(i for  not in data)
+
+p = '9'
+s = '0'
+print(int(p+s) + 6)
+
+
+d1 = '9'
+d3 = '6'
+d1, d3 = d3, d1
+print(d1 + ' ' + d3)
