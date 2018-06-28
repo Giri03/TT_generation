@@ -12,27 +12,37 @@ def create_population():
     population_lab = []
     for j in range(population_size_sub):
         l = -1
+        ids = 0
         for k in subjects:
             l += 1
             for i in k:
+                ids += 1 
                 p = random.choice(i[1])
                 if(p[1] == 'AB'):
-                    population_sub.append([years[l][0], i[0], p[0], random.choice(['A', 'B']), random.choice(rooms), random.choice(days), random.choice(meettime[0]), -1])
+                    population_sub.append([years[l][0], i[0], p[0], random.choice(['A', 'B']), random.choice(rooms), random.choice(days), random.choice(meettime[0]), ids,-1])
                 else:
-                    population_sub.append([years[l][0], i[0], p[0], p[1], random.choice(rooms), random.choice(days), random.choice(meettime[0]), -1])    
+                    population_sub.append([years[l][0], i[0], p[0], p[1], random.choice(rooms), random.choice(days), random.choice(meettime[0]), ids, -1])    
     for j in range(population_size_lab):
         l = -1
         for k in labs:
             l += 1
             for i in k:
+                ids += 1
                 p = random.choice(i[1])
                 if(p[1] == 'AB'):
-                    population_lab.append([years[l][0], i[0], p[0], random.choice(['A', 'B']), random.choice(days), random.choice(meettime[1]), -1])
+                    population_lab.append([years[l][0], i[0], p[0], random.choice(['A', 'B']), random.choice(days), random.choice(meettime[1]),  ids, -1])
                 else:
-                    population_lab.append([years[l][0], i[0], p[0], p[1], random.choice(days), random.choice(meettime[1]), -1])    
+                    population_lab.append([years[l][0], i[0], p[0], p[1], random.choice(days), random.choice(meettime[1]),  ids, -1])    
 
     population.append(population_sub)
     population.append(population_lab)
+    return population
+
+
+st = create_population()
+def sortIt(population):
+    population[0].sort(key = lambda x:x[-1])
+    population[1].sort(key = lambda x:x[-1])
     return population
 
 def fitness(population):
@@ -154,15 +164,11 @@ def crossover(selection):
     pc = 0.57
     population_lab_size = len(selection[1])
     population_sub_size = len(selection[0])
-    print(population_lab_size )
-    print(population_sub_size)
-    print(selection[0][337][4])
-    print('#########')
+    
     # for lectures
     for i in range(0, population_sub_size - 1 , 2):
         if random.random() > pc:
             if(random.choice([True, False])):
-                print(i)
                 swap(selection[0][i][4], selection[0][i+1][4])# rooms
             if(random.choice([True, False])):
                 swap(selection[0][i][6], selection[0][i+1][6])# slot
@@ -219,18 +225,23 @@ def change_fitness(population):
             j[5] = 0
     return population
 
+
+
 if __name__ == '__main__':
     population = create_population()
     # print(population)
     population = fitness(population)
-    population = labs_labs(population)
-    population1 = tournament(population)
-    population1 = crossover(population1)
-    population1 = mutation(population1)
-    print(population1)
-    population1 = change_fitness(population1)
-    population1 = fitness(population1)
-    population = new_population(population, population1)
+    # print(population[1])
+    s = sortIt(population)
+    print(s[1])
+
+    # population = labs_labs(population)
+    # population1 = tournament(population)
+    # population1 = crossover(population1)
+    # population1 = mutation(population1)
+    # population1 = change_fitness(population1)
+    # population1 = fitness(population1)
+    # population = new_population(population, population1)
 
 # pop = create_population()
 # pop = fitness(pop)
