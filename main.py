@@ -222,31 +222,75 @@ def new_population(population, population1):
 def change_fitness(population):
     for x in population:
         for j in x:
-            j[5] = 0
+            j[-1] = 0
     return population
 
+def timetables(population):
+    divs = ['A', 'B']
+    toplabtime = []
+    toplabs =  [[],[],[],[]]
+    count_toplabs = 0
+    timetable = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
+    lab_matrix = [[2,2,1,1],[2,2,1,1],[2,2,1,1],[2,2,1,1],[2,2,1,1]]
+    tea_matrix = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
+    # population[0].sort(key = lambda x:x[-1])
+    # print(population[1])
+    population[0].sort(key = lambda x:x[-1])
+    population[1].sort(key = lambda x:x[-1])
+    # print(population[1])
+    for y in years:
+        for div in divs:
+            for i in population[1]:
+                if i[0] == y[0] and i[3] == div:
+                    if(lab_matrix[days.index(i[4])][meettime[1].index(i[5])]>0):
+                        if(i[5] and i[4] not in toplabtime):
+                            if all([i[4] not in item for item in toplabtime]):
+                                if len(toplabtime) <= len(y[2]):
+                                    toplabtime.append(i[4]+i[5])
+                                    if len(toplabtime) >= len(y[2]):
+                                        break
+            for i in population[1]:
+                if i[0] == y[0] and i[3] == div:
+                    if i[4]+i[5] in toplabtime:
+                        index1 = toplabtime.index(i[4]+i[5])
+                        print(toplabtime)
+                        print(index1)
+                        if len(toplabs[index1]) < 4:
+                            if i[-2] not in toplabs[index1]:
+                                count_toplabs +=1
+                                toplabs[index1].append(i[-2])
+                                timetable[days.index(i[4])][meettime[1].index(i[5])*2].append(i[-2])
+                                # for conflicts in last 2 lectures in tt
+                                if(not meettime[1][-1]==i[5]):
+                                    timetable[days.index(i[4])][meettime[1].index(i[5])*2+1].append(i[-2])
+                                else:
+                                    timetable[days.index(i[4])][5].append(i[-2])
+                                if count_toplabs >= 12:
+                                    break
+            for k in toplabtime:
+                lab_matrix[days.index(k[:3])][meettime[1].index(k[3:])]-=1
 
+            # for subjects
+            for d in days:
+                for m in meettime[0]:
+                    for i in population[0]:
+                        if i[5] == d and i[6] == m:
+                            if not timetable[days.index(d)][meettime[0].index(m)]:
+                                if i[2] not in tea_matrix[days.index(d)][meettime[0].index(m)]:
+                                    timetable[days.index(d)][meettime[0].index(m)].append(i[-2])
+                                    tea_matrix[days.index(d)][meettime[0].index(m)].append(i[2])
+    return timetable
 
 if __name__ == '__main__':
     population = create_population()
-    # print(population)
     population = fitness(population)
-    # print(population[1])
-    s = sortIt(population)
-    print(s[1])
-
-    # population = labs_labs(population)
-    # population1 = tournament(population)
-    # population1 = crossover(population1)
-    # population1 = mutation(population1)
-    # population1 = change_fitness(population1)
-    # population1 = fitness(population1)
-    # population = new_population(population, population1)
-
-# pop = create_population()
-# pop = fitness(pop)
-# pop = labs_labs(pop[1])
-# pop1 = tournament(pop)
-
-# print(len(pop1[0]))
-# print(pop[0])
+    population = labs_labs(population)
+    population1 = tournament(population)
+    population1 = crossover(population1)
+    population1 = mutation(population1)
+    population1 = change_fitness(population1)
+    population1 = fitness(population1)
+    # print((population[1]))
+    population = new_population(population, population1)
+    timetable = timetables(population)
+    print(timetable)
