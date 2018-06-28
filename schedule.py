@@ -1,14 +1,24 @@
-# get a list of all classes
+from data import subjects, days, meettime, rooms, labs, years, divs
+from main import create_population
+from collections import Counter
+import random
+import sys
 
-# calculate list the fitness and no. of conflicts
-no_conflicts = 0
-fitness = 0
-#data time table for each day in 3 departments.
-class =[ ["3:00-4:00", "AM", "IT", "NETTO"],["3:00-4:00", "AM", "IT", "NETTO"]]
+def check(lists):
+    for i in lists:
+        if i < 5:
+            return True
+        return False
 
-# calculate no. of conflicts -
-# at a time
-# get first class mind the time slot.
-# get all classes (where timeslot same)
-    # if same instructor conflict++
-    # if same room no conflict++
+s = create_population()
+population_lab = s[1]
+lists = [0,0,0,0,0,0]
+
+for d in days:
+    for m in meettime[1]:
+        for j in population_lab:
+            if(j[4] == d and j[5] == m):
+                for y in range(3):
+                    print(y)
+                    if(years[y][0] == j[0]):
+                        break

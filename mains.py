@@ -28,6 +28,16 @@ def fitness(population):
                 i[5] = k
     return population
 
+
+
+# population size = 200
+# initial population = 1400
+# tournment size e= 25% i.e., 350
+# at the end new population contains 200 items
+# some max no.
+# algo
+# iterate 200 time
+# for each iteration choose 350 random elements from overall population
 def tournament(population):
     tournment_size = 350
     # some max no.

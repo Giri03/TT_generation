@@ -19,8 +19,8 @@ for j in course:
                 min = table[5]
                 remem = table
     tt.append(remem)
-            
-# print(tt)            
+
+# print(tt)
 
 for i in days:
     for j in meettime:
@@ -38,7 +38,6 @@ for i in range(len(tt)):
             count += 1
             timetable[s] = tt[i]
             print(s)
-
 print(tt)
 for d in timetable:
     print(d)
