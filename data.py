@@ -5,8 +5,13 @@ be = ['be', ['s41', 's42', 's43', 's44'], ['l41','l42','l43','l44']]
 years = [se, te, be]
 divs = ['SEA', 'SEB', 'TEA', 'TEB', 'BEA', 'BEB']
 
+<<<<<<< HEAD
 # t-->teachers
 # ti (id, timess
+=======
+# t-->teachers
+# ti (id, 'ti'meslot)
+>>>>>>> 681e808d5312b55001a8966530a1a586fdef0e15
 # t1 = ['t1', 'ts1']
 # t2 = ['t2', 'ts1']
 # t3 = ['t3', 'ts1']
@@ -25,7 +30,7 @@ divs = ['SEA', 'SEB', 'TEA', 'TEB', 'BEA', 'BEB']
 # t18 = ['t18', 'ts1']
 # t19 = ['t19', 'ts1']
 # t20 = ['t20', 'ts2']
-
+teachers = ['t1', 't2', 't3', 't4','t5','t6' 't7', 't8', 't9', 't10', 't11', 't12', 't13' , 't14', 't15', 't16', 't17', 't18', 't17', 't20']
 # subjects
 s21 = ['s21', [['t1', 'AB']]]
 s22 = ['s22', [['t2', 'AB']]]

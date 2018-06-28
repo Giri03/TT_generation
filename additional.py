@@ -46,10 +46,14 @@ for y in years:
                 for i in population[0]:
                     if i[5] == d and i[6] == m:
                         if not timetable[days.index(d)][meettime[0].index(m)]:
+<<<<<<< HEAD
                             if i[2] not in teamatrix[days.index(d)][meettime[0].index(m)]:
                                 timetable[days.index(d)][meettime[0].index(m)].append(i[-2])
                                 teamatrix[days.index(d)][meettime[0].index(m)].append(i[2])
 
+=======
+                            if i[2] not in teamatrix[days.index(d)][meettime[0]
+>>>>>>> 681e808d5312b55001a8966530a1a586fdef0e15
 print(toplabs)
 print(toplabtime)
 print(lab_matrix)
