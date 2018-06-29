@@ -19,9 +19,9 @@ def create_population():
                 ids += 1
                 p = random.choice(i[1])
                 if(p[1] == 'AB'):
-                    population_sub.append([years[l][0], i[0], p[0], random.choice(['A', 'B']), random.choice(rooms), random.choice(days), random.choice(meettime[0]), ids,-1])
+                    population_sub.append([years[l][0], i[0], p[0], random.choice(['A', 'B']), random.choice(rooms), random.choice(days), random.choice(meettime[0]), 'id'+str(ids),-1])
                 else:
-                    population_sub.append([years[l][0], i[0], p[0], p[1], random.choice(rooms), random.choice(days), random.choice(meettime[0]), ids, -1])
+                    population_sub.append([years[l][0], i[0], p[0], p[1], random.choice(rooms), random.choice(days), random.choice(meettime[0]), 'id'+str(ids) , -1])
     ids = 1000
     for j in range(population_size_lab):
         l = -1
@@ -31,9 +31,9 @@ def create_population():
                 ids += 1
                 p = random.choice(i[1])
                 if(p[1] == 'AB'):
-                    population_lab.append([years[l][0], i[0], p[0], random.choice(['A', 'B']), random.choice(days), random.choice(meettime[1]),  ids, -1])
+                    population_lab.append([years[l][0], i[0], p[0], random.choice(['A', 'B']), random.choice(days), random.choice(meettime[1]),  'id'+str(ids), -1])
                 else:
-                    population_lab.append([years[l][0], i[0], p[0], p[1], random.choice(days), random.choice(meettime[1]),  ids, -1])
+                    population_lab.append([years[l][0], i[0], p[0], p[1], random.choice(days), random.choice(meettime[1]),  'id'+str(ids), -1])
 
     population.append(population_sub)
     population.append(population_lab)
@@ -170,7 +170,7 @@ def swap(a, b):
     a, b = b, a
 
 def crossover(selection):
-    pc = 0.57
+    pc = 0.70
     population_lab_size = len(selection[1])
     population_sub_size = len(selection[0])
 
@@ -197,7 +197,7 @@ st = crossover(population)
 population = st
 
 def mutation(population1):
-    pm = 0.2
+    pm = 0.1
     population_lab_size = len(population1[1])
     population_sub_size = len(population1[0])
     for i in range(0, population_sub_size, 2):
@@ -225,8 +225,8 @@ population = st
 
 def new_population(population, population1):
     # new pop will be 30% of original => 25% from tournament selection + 5% random choice
-    per_sub = len(population[0]) // 20
-    per_lab = len(population[1]) // 20
+    per_sub = len(population[0]) // 7
+    per_lab = len(population[1]) // 7
     for i in range(per_sub):
         population1[0].append(random.choice(population[0]))
     for i in range(per_lab):
@@ -248,31 +248,48 @@ def change_fitness(population):
             j[-1] = 0
     return population
 
+def getList(pop_id, choice): #
+    if(choice == 0):
+        for i in population[0]:
+            if i[-2] == pop_id:
+                return i
+    else:
+        for i in population[1]:
+            if i[-2] == pop_id:
+                return i
+
 def timetables(population):
+    divs = ['A', 'B']
     timetable = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
-    lab_matrix = [[2,2,1,1],[2,2,1,1],[2,2,1,1],[2,2,1,1],[2,2,1,1]]
+    lab_matrix = [[2,2,1,1],[2,2,1,1],[2,2,1,1] ,[2,2,1,1],[2,2,1,1]]
     tea_matrix = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
     # population[0].sort(key = lambda x:x[-1])
     population[0].sort(key = lambda x:x[-1])
     population[1].sort(key = lambda x:x[-1])
-
+    # frozen constraint
+    zerohours = [['mon', '02:40-03:40'],['thu', '02:40-03:40'],['wed', '01:40-02:40']]
+    count_zero = -1
     for y in years:
+        count_zero += 1
+        # set zero hour for tt => mon 4 lecture
         for div in divs:
-            y = years[0]
-            div = 'A'
             timetable = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
             toplabtime = []
             toplabs =  [[],[],[],[]]
             count_toplabs = 0
+            timetable[days.index(zerohours[count_zero][0])][meettime[0].index(zerohours[count_zero][1])].append('ZERO')
             for i in population[1]:
                 if i[0] == y[0] and i[3] == div:
-                    if(lab_matrix[days.index(i[4])][meettime[1].index(i[5])]>0):
-                        if(i[5] and i[4] not in toplabtime):
-                            if all([i[4] not in item for item in toplabtime]):
-                                if len(toplabtime) <= len(y[2]):
-                                    toplabtime.append(i[4]+i[5])
-                                    if len(toplabtime) >= len(y[2]):
-                                        break
+                    # to check for not conflicting with zero hour
+                    print(zerohours[count_zero][0] + '  ' + i[4] + '  ' + zerohours[count_zero][1] + '  ' + i[5])
+                    if not (zerohours[count_zero][0] == i[4] and (zerohours[count_zero][1][:5] == i[5][:5] or zerohours[count_zero][1][-5:] == i[5][-5:])):
+                        if(lab_matrix[days.index(i[4])][meettime[1].index(i[5])]>0):
+                            if(i[5] and i[4] not in toplabtime):
+                                if all([i[4] not in item for item in toplabtime]):
+                                    if len(toplabtime) <= len(y[2]):
+                                        toplabtime.append(i[4]+i[5])
+                                        if len(toplabtime) >= len(y[2]):
+                                            break
             count_toplabs = 0
             for i in population[1]:
                 if i[0] == y[0] and i[3] == div:
@@ -296,7 +313,7 @@ def timetables(population):
             for d in days:
                 for m in meettime[0]:
                     for i in population[0]:
-                        if i[0] == y[0] and i[3] == 'A':
+                        if i[0] == y[0] and i[3] == div:
                             if i[5] == d and i[6] == m:
                                 if not timetable[days.index(d)][meettime[0].index(m)]:
                                     if i[2] not in tea_matrix[days.index(d)][meettime[0].index(m)]:
@@ -316,8 +333,5 @@ if __name__ == '__main__':
     population1 = fitness(population1)
     population = new_population(population, population1)
     print(population)
-    for x in population[1]:
-        if x[0] == 'se' and x[3] == 'A':
-            print(x)
     timetable = timetables(population)
     print(timetable)
