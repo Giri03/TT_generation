@@ -5,6 +5,7 @@ import sys
 
 population_size_sub = 100
 population_size_lab = 50
+timetable = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
 
 def create_population():
     population = []
@@ -132,9 +133,9 @@ population = st
 
 def tournament(population):
     tournment_size_sub = len(population[0]) // 20
-    tournment_size_lab = len(population[1]) // 20
+    tournment_size_lab = len(population[1]) // 15
     newpop_sub_size = len(population[0]) // 4
-    newpop_lab_size = len(population[1]) // 4
+    newpop_lab_size = len(population[1]) // 3
     # some max no.
     cross = []
     # algo
@@ -170,7 +171,7 @@ def swap(a, b):
     a, b = b, a
 
 def crossover(selection):
-    pc = 0.70
+    pc = 0.65
     population_lab_size = len(selection[1])
     population_sub_size = len(selection[0])
 
@@ -197,7 +198,7 @@ st = crossover(population)
 population = st
 
 def mutation(population1):
-    pm = 0.1
+    pm = 0.45
     population_lab_size = len(population1[1])
     population_sub_size = len(population1[0])
     for i in range(0, population_sub_size, 2):
@@ -226,7 +227,7 @@ population = st
 def new_population(population, population1):
     # new pop will be 30% of original => 25% from tournament selection + 5% random choice
     per_sub = len(population[0]) // 7
-    per_lab = len(population[1]) // 7
+    per_lab = len(population[1]) // 5
     for i in range(per_sub):
         population1[0].append(random.choice(population[0]))
     for i in range(per_lab):
@@ -251,11 +252,35 @@ def getList(pop_id, choice): #
             if i[-2] == pop_id:
                 return i
 
+def getTime(meet):
+
+    ind = meettime[1].index(meet)
+    if meettime[1][-1] == meet:
+        meet = meettime[0][ind*2]
+        meet += meettime[0][-2]
+    else:
+        meet = meettime[0][ind*2]
+        meet += meettime[0][ind*2+1]
+    return meet
+
+def isConsecutive(popList,timetable):
+    meet = meettime[0].index(popList[6])
+    day = days.index(popList[5])
+    print('minkey')
+    print(timetable[day])
+    if(popList[6] == meettime[0][0]):
+        return False
+    if len(timetable[day][meet-1]) == 0:
+        return False
+    if(popList[1] == timetable[day][meet-1][1]):
+        return True
+
 def timetables(population):
     divs = ['A', 'B']
     timetable = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
     lab_matrix = [[2,2,1,1],[2,2,1,1],[2,2,1,1] ,[2,2,1,1],[2,2,1,1]]
     tea_matrix = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
+    # room_matrix = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
     # population[0].sort(key = lambda x:x[-1])
     population[0].sort(key = lambda x:x[-1])
     population[1].sort(key = lambda x:x[-1])
@@ -273,16 +298,20 @@ def timetables(population):
             timetable[days.index(zerohours[count_zero][0])][meettime[0].index(zerohours[count_zero][1])].append('ZERO')
             for i in population[1]:
                 if i[0] == y[0] and i[3] == div:
-                    # to check for not conflicting with zero hour
-                    # print(zerohours[count_zero][0] + '  ' + i[4] + '  ' + zerohours[count_zero][1] + '  ' + i[5])
-                    if not (zerohours[count_zero][0] == i[4] and (zerohours[count_zero][1][:5] == i[5][:5] or zerohours[count_zero][1][-5:] == i[5][-5:])):
-                        if(lab_matrix[days.index(i[4])][meettime[1].index(i[5])]>0):
-                            if(i[5] and i[4] not in toplabtime):
-                                if all([i[4] not in item for item in toplabtime]):
-                                    if len(toplabtime) <= len(y[2]):
-                                        toplabtime.append(i[4]+i[5])
-                                        if len(toplabtime) >= len(y[2]):
-                                            break
+                    # check for teachers conflicts
+                    separatetime = getTime(i[5])
+                    separatetime1, separatetime2 = separatetime[:11], separatetime[11:]
+                    if i[2] not in tea_matrix[days.index(i[4])][meettime[0].index(separatetime1)] or tea_matrix[days.index(i[4])][meettime[0].index(separatetime2)]:
+                        # to check for not conflicting with zero hour
+                        if not (zerohours[count_zero][0] == i[4] and (zerohours[count_zero][1][:5] == i[5][:5] or zerohours[count_zero][1][-5:] == i[5][-5:])):
+                            if(lab_matrix[days.index(i[4])][meettime[1].index(i[5])]>0):
+                                if(i[5] and i[4] not in toplabtime):
+                                    if all([i[4] not in item for item in toplabtime]):
+                                        if len(toplabtime) <= len(y[2]):
+                                            toplabtime.append(i[4]+i[5])
+                                            if len(toplabtime) >= len(y[2]):
+                                                break
+
             count_toplabs = 0
             for i in population[1]:
                 if i[0] == y[0] and i[3] == div:
@@ -292,35 +321,45 @@ def timetables(population):
                             if i[-2] not in toplabs[index1]:
                                 count_toplabs +=1
                                 toplabs[index1].append(i[-2])
-                                timetable[days.index(i[4])][meettime[1].index(i[5])*2].append(i[2])
+                                timetable[days.index(i[4])][meettime[1].index(i[5])*2].append(i)
+                                tea_matrix[days.index(i[4])][meettime[0].index(separatetime1)].append(i[2])
+                                tea_matrix[days.index(i[4])][meettime[0].index(separatetime2)].append(i[2])
                                 # for conflicts in last 2 lectures in tt
                                 if(not meettime[1][-1]==i[5]):
-                                    timetable[days.index(i[4])][meettime[1].index(i[5])*2+1].append(i[2])
+                                    timetable[days.index(i[4])][meettime[1].index(i[5])*2+1].append(i)
                                 else:
-                                    timetable[days.index(i[4])][5].append(i[2])
+                                    timetable[days.index(i[4])][5].append(i)
+
                                 # if count_toplabs >= 16:
                                 #     break
             for k in toplabtime:
                 lab_matrix[days.index(k[:3])][meettime[1].index(k[3:])]-=1
             # for subjects
             for d in days:
+                prior_i = "null"
                 for m in meettime[0]:
                     for i in population[0]:
                         if i[0] == y[0] and i[3] == div:
                             if i[5] == d and i[6] == m:
                                 if not timetable[days.index(d)][meettime[0].index(m)]:
-                                    if i[2] not in tea_matrix[days.index(d)][meettime[0].index(m)]:
-                                        timetable[days.index(d)][meettime[0].index(m)].append(i[2])
-                                        tea_matrix[days.index(d)][meettime[0].index(m)].append(i[2])
-            print(timetable)
-
+                                # check for consecutive lectures
+                                   # if it is not first lecture then check
+                                   # check function i
+                                    # z = isConsecutive(i,timetable)
+                                    if not (prior_i == i[1]):
+                                        if i[2] not in tea_matrix[days.index(d)][meettime[0].index(m)]:
+                                            # if i[4] not in room_matrix[days.index(d)][meettime[0].index(m)]:
+                                            timetable[days.index(d)][meettime[0].index(m)].append(i)
+                                            prior_i = i[1]
+                                            tea_matrix[days.index(d)][meettime[0].index(m)].append(i[1])
+                                                # room_matrix[days.index(d)][meettime[0].index(m)].append(i[4])
+        for x in timetable:
+            for y in x:
+                print(y)
     return timetable
 
 if __name__ == '__main__':
     population = create_population()
-    for i in population:
-        for j in i:
-            print(j)
     population = fitness(population)
     population = labs_labs(population)
     population1 = tournament(population)
@@ -330,6 +369,7 @@ if __name__ == '__main__':
     population1 = fitness(population1)
     population = new_population(population, population1)
     timetable = timetables(population)
-    print(timetable)
-    # for x in timetable:
-    #     for p in population:
+    for x in timetable:
+        for j in x:
+            print(j)
+        #     for p in population:
