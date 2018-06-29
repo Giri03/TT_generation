@@ -7,7 +7,7 @@ divs = ['A','B']
 # t-->teachers
 # ti (id, 'ti'meslot)
 # t1 = ['t1', 'ts1']
-# t2 = ['t2', 'ts1']
+# t2 = ['t2', 'ts1']``
 # t3 = ['t3', 'ts1']
 # t4 = ['t4', 'ts2']
 # t7 = ['t7', 'ts2']

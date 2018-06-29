@@ -10,18 +10,18 @@ def create_population():
     population = []
     population_sub = []
     population_lab = []
+    ids = 0
     for j in range(population_size_sub):
         l = -1
-        ids = 0
         for k in subjects:
             l += 1
             for i in k:
                 ids += 1
                 p = random.choice(i[1])
                 if(p[1] == 'AB'):
-                    population_sub.append([years[l][0], i[0], p[0], random.choice(['A', 'B']), random.choice(rooms), random.choice(days), random.choice(meettime[0]), 'id'+str(ids),-1])
+                    population_sub.append([years[l][0], i[0], p[0], random.choice(['A', 'B']), random.choice(rooms), random.choice(days), random.choice(meettime[0]), 'S-'+str(ids),-1])
                 else:
-                    population_sub.append([years[l][0], i[0], p[0], p[1], random.choice(rooms), random.choice(days), random.choice(meettime[0]), 'id'+str(ids) , -1])
+                    population_sub.append([years[l][0], i[0], p[0], p[1], random.choice(rooms), random.choice(days), random.choice(meettime[0]), 'S-'+str(ids) , -1])
     ids = 1000
     for j in range(population_size_lab):
         l = -1
@@ -31,9 +31,9 @@ def create_population():
                 ids += 1
                 p = random.choice(i[1])
                 if(p[1] == 'AB'):
-                    population_lab.append([years[l][0], i[0], p[0], random.choice(['A', 'B']), random.choice(days), random.choice(meettime[1]),  'id'+str(ids), -1])
+                    population_lab.append([years[l][0], i[0], p[0], random.choice(['A', 'B']), random.choice(days), random.choice(meettime[1]),  'L-'+str(ids), -1])
                 else:
-                    population_lab.append([years[l][0], i[0], p[0], p[1], random.choice(days), random.choice(meettime[1]),  'id'+str(ids), -1])
+                    population_lab.append([years[l][0], i[0], p[0], p[1], random.choice(days), random.choice(meettime[1]),  'L-'+str(ids), -1])
 
     population.append(population_sub)
     population.append(population_lab)
@@ -131,8 +131,8 @@ population = st
 
 
 def tournament(population):
-    tournment_size_sub = len(population[0]) // 10
-    tournment_size_lab = len(population[1]) // 10
+    tournment_size_sub = len(population[0]) // 20
+    tournment_size_lab = len(population[1]) // 20
     newpop_sub_size = len(population[0]) // 4
     newpop_lab_size = len(population[1]) // 4
     # some max no.
@@ -235,13 +235,6 @@ def new_population(population, population1):
     population = population1
     return population
 
-st = crossover(population)
-population = st
-for x in st[0]:
-    print(x)
-for x in st[1]:
-    print(x)
-
 def change_fitness(population):
     for x in population:
         for j in x:
@@ -251,7 +244,7 @@ def change_fitness(population):
 def getList(pop_id, choice): #
     if(choice == 0):
         for i in population[0]:
-            if i[-2] == pop_id:
+            if i[-2]  == pop_id:
                 return i
     else:
         for i in population[1]:
@@ -281,7 +274,7 @@ def timetables(population):
             for i in population[1]:
                 if i[0] == y[0] and i[3] == div:
                     # to check for not conflicting with zero hour
-                    print(zerohours[count_zero][0] + '  ' + i[4] + '  ' + zerohours[count_zero][1] + '  ' + i[5])
+                    # print(zerohours[count_zero][0] + '  ' + i[4] + '  ' + zerohours[count_zero][1] + '  ' + i[5])
                     if not (zerohours[count_zero][0] == i[4] and (zerohours[count_zero][1][:5] == i[5][:5] or zerohours[count_zero][1][-5:] == i[5][-5:])):
                         if(lab_matrix[days.index(i[4])][meettime[1].index(i[5])]>0):
                             if(i[5] and i[4] not in toplabtime):
@@ -299,12 +292,12 @@ def timetables(population):
                             if i[-2] not in toplabs[index1]:
                                 count_toplabs +=1
                                 toplabs[index1].append(i[-2])
-                                timetable[days.index(i[4])][meettime[1].index(i[5])*2].append(i[-2])
+                                timetable[days.index(i[4])][meettime[1].index(i[5])*2].append(i[2])
                                 # for conflicts in last 2 lectures in tt
                                 if(not meettime[1][-1]==i[5]):
-                                    timetable[days.index(i[4])][meettime[1].index(i[5])*2+1].append(i[-2])
+                                    timetable[days.index(i[4])][meettime[1].index(i[5])*2+1].append(i[2])
                                 else:
-                                    timetable[days.index(i[4])][5].append(i[-2])
+                                    timetable[days.index(i[4])][5].append(i[2])
                                 # if count_toplabs >= 16:
                                 #     break
             for k in toplabtime:
@@ -317,13 +310,17 @@ def timetables(population):
                             if i[5] == d and i[6] == m:
                                 if not timetable[days.index(d)][meettime[0].index(m)]:
                                     if i[2] not in tea_matrix[days.index(d)][meettime[0].index(m)]:
-                                        timetable[days.index(d)][meettime[0].index(m)].append(i[-2])
-                                        tea_matrix[days.index(d)][meettime[0].index(m)].append(i[1])
+                                        timetable[days.index(d)][meettime[0].index(m)].append(i[2])
+                                        tea_matrix[days.index(d)][meettime[0].index(m)].append(i[2])
+            print(timetable)
 
     return timetable
 
 if __name__ == '__main__':
     population = create_population()
+    for i in population:
+        for j in i:
+            print(j)
     population = fitness(population)
     population = labs_labs(population)
     population1 = tournament(population)
@@ -332,6 +329,7 @@ if __name__ == '__main__':
     population1 = change_fitness(population1)
     population1 = fitness(population1)
     population = new_population(population, population1)
-    print(population)
     timetable = timetables(population)
     print(timetable)
+    # for x in timetable:
+    #     for p in population:
