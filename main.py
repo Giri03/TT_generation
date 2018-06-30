@@ -262,21 +262,20 @@ def getTime(meet):
         meet = meettime[0][ind*2]
         meet += meettime[0][ind*2+1]
     return meet
-
-def isConsecutive(popList,timetable):
-    meet = meettime[0].index(popList[6])
-    day = days.index(popList[5])
-    print('minkey')
-    print(timetable[day])
-    if(popList[6] == meettime[0][0]):
-        return False
-    if len(timetable[day][meet-1]) == 0:
-        return False
-    if(popList[1] == timetable[day][meet-1][1]):
-        return True
+#
+# def isConsecutive(popList,timetable):
+#     meet = meettime[0].index(popList[6])
+#     day = days.index(popList[5])
+#     print('minkey')
+#     print(timetable[day])
+#     if(popList[6] == meettime[0][0]):
+#         return False
+#     if len(timetable[day][meet-1]) == 0:
+#         return False
+#     if(popList[1] == timetable[day][meet-1][1]):
+#         return True
 
 def timetables(population):
-    divs = ['A', 'B']
     timetable = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
     lab_matrix = [[2,2,1,1],[2,2,1,1],[2,2,1,1] ,[2,2,1,1],[2,2,1,1]]
     tea_matrix = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
@@ -353,9 +352,9 @@ def timetables(population):
                                             prior_i = i[1]
                                             tea_matrix[days.index(d)][meettime[0].index(m)].append(i[1])
                                                 # room_matrix[days.index(d)][meettime[0].index(m)].append(i[4])
-        for x in timetable:
-            for y in x:
-                print(y)
+            for x in timetable:
+                for h in x:
+                    print(h)
     return timetable
 
 if __name__ == '__main__':
@@ -369,7 +368,5 @@ if __name__ == '__main__':
     population1 = fitness(population1)
     population = new_population(population, population1)
     timetable = timetables(population)
-    for x in timetable:
-        for j in x:
-            print(j)
+
         #     for p in population:
