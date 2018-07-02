@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <div class="jumbotron text-center">
+    <input type="text" id="teachArray" class="inputField" placeholder="Add Teachers" required>
+    <button type="submit"  onclick="addInTeach();"><img src="plus.gif" alt="Add Icon" widht="20px" height="20px"></button>
+    <p id="someText"></p>
+  </div>
+  <input type="text" name="ddd">
+  <form>
+        <div class="form-group">
+          <label for="addTeacher">Add Teacher</label>
+          <input type="text" class="form-control" id="addTeacher" aria-describedby="emailHelp" placeholder="Enter email">
+          </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+
+  <input type="text" id="teachArray" class="inputField" placeholder="Add Teachers" required>
+  <script type="text/javascript">
+  var arrayTeach = []
+  function addInTeach(){
+    var input = document.getElementById('teachArray').value;
+    arrayTeach.push(input);
+    // Make array
+    var values = "";
+    for(i=0; i<arrayTeach.length; i++){
+      values = values +" " + arrayTeach[i];
+    }
+  </script>
+{% endblock %}

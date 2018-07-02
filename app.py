@@ -41,10 +41,14 @@ def show_course_id(id):
 def show_index():
     return render_template('index.html')
 
-
 @app.route('/about')
 def show_about():
     return render_template('about.html')
+
+@app.route('/teacher')
+def show_teacher():
+    return render_template('teacher.html')
+
 
 #reg form class
 # class TeacherForm(Form):
