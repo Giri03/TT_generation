@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+#! python3
+>>>>>>> a6b243238f1c4a674af807dcba15e63bbad78ea0
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
 from data import Courses#function in data.p
 from flask_mysqldb import MySQL
@@ -12,6 +16,7 @@ from flask import render_template
 # from Flask_SQLAlchemy import ModelForm
 # from flask_Salchemy import ModelForm
 # from flaskext.mysql import MySQL
+<<<<<<< HEAD
 # from get import get
 # from flaskext.mysql import MySQL
 
@@ -19,10 +24,17 @@ app = Flask(__name__)
 
 
 # config MySQL
+=======
+
+app = Flask(__name__)
+
+#config MySQL
+>>>>>>> a6b243238f1c4a674af807dcba15e63bbad78ea0
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'ttgeneration'
+<<<<<<< HEAD
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 # init MySQL
@@ -37,12 +49,23 @@ def show_courses():
 def show_course_id(id):
     return render_template('course.html', id=id)
 
+=======
+# By default it returns a tuple we change the datatype to dictionary
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+
+#init MySQL
+mysql= MySQL(app)
+# bootstrap = Bootstrap(app)
+Courses = Courses()
+
+>>>>>>> a6b243238f1c4a674af807dcba15e63bbad78ea0
 @app.route('/')
 def show_index():
     return render_template('index.html')
 
 @app.route('/about')
 def show_about():
+<<<<<<< HEAD
     return render_template('about.html')
 
 @app.route('/teacher')
@@ -67,6 +90,17 @@ def show_teacher():
 #     return render_template('form1.html', my_form=my_form)
 #
 
+=======
+    return render_template('form2.html')
+
+@app.route('/courses')
+def show_courses():
+    return render_template('courses.html', courses = Courses)
+
+@app.route('/course/<string:id>/')
+def show_course_id(id):
+    return render_template('course.html', id=id)
+>>>>>>> a6b243238f1c4a674af807dcba15e63bbad78ea0
 
 #reg form class
 class RegisterForm(Form):
@@ -183,7 +217,15 @@ def logout():
 def dashboard():
     return render_template('dashboard.html')
 
+<<<<<<< HEAD
 
+=======
+#Test
+@app.route('/test')
+@is_logged_in
+def test():
+    return render_template('test.html')
+>>>>>>> a6b243238f1c4a674af807dcba15e63bbad78ea0
 #user log in
 if __name__ ==  '__main__':
     app.secret_key='secret123'
