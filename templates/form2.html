@@ -1,0 +1,232 @@
+<style>
+body {
+    font-family: "Lato", sans-serif;
+    height: 100%;
+    overflow: hidden;  /*makes the body non-scrollable (we will add scrolling to the sidebar and main content containers)*/
+    margin: 0px;  /*removes default style*/
+    display: flex;  /*enables flex content for its children*/
+    box-sizing: border-box;
+
+}
+button{
+    width: 100%;
+    height: 50px;
+    background-color: #3a352b;
+    border: 2px solid #3a352b;
+    font-style: inherit, italic, bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 17px;
+    margin-top: 16px;
+    color: #f1f1f1;
+    text-align: left;
+    padding-left: 39px;
+    display: flex;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+button:hover{
+    color: rgb(212, 141, 9);
+}
+.main{
+  margin-bottom:100px;/* Height of footer*/
+}
+
+.footer{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height:70px;
+    background:#ccc;
+    z-index: 5;
+
+}
+.sidenav {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #3a352b;
+    overflow-x: hidden;
+    padding-top: 160px;
+
+}
+
+.sidenav a {
+    padding: 6px 6px 6px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.main {
+    margin-left: 310px; /* Same as the width of the sidenav */
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+input[type=text], select {
+    width: 500px;
+    height: 8%;
+    display: inherit;
+    border: 1px solid rgb(133, 136, 136);
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+#plus{
+    color: #b98422;
+}
+html {
+    height: 100%;
+}
+
+.column {
+    height: 100%;  /*allows both columns to span the full height of the browser window*/
+    display: flex;
+    flex-direction: column;  /*places the left and right headers above the bottom content*/
+}
+
+#left {
+    flex-shrink: 0;  /*makes sure that content is not cut off in a smaller browser window*/
+}
+
+.top-left {
+    flex-shink: 0;
+}
+
+.top-right {
+    flex-shrink: 0;
+    display: inline-flex;
+}
+
+ul {
+    display: inline-flex;
+    list-style: none;
+}
+
+.bottom {
+    flex-grow: 1;  /*ensures that the container will take up the full height of the parent container*/
+    overflow-y: auto;  /*adds scroll to this container*/
+}
+
+.button {
+    background-color: #008CBA; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin-left: 300px;
+}
+.flexContainer {
+    display: flex;
+    margin-left: 300px;
+
+}
+
+.inputField {
+    flex: 1;
+}
+</style>
+<body>
+    <div id="left" class="column">
+        <div class="top-left"></div>
+        <div class="bottom">
+            <div class="sidenav">
+                <button name = 'menus' id = 'menu'  >
+                  <div id='plus'><strong>+</strong></div>
+                    Add Teachers
+                </button>
+                <button name = 'menus' id = 'menu2' onclick= 'makeVisible(menu2)' disabled>
+                    <div id='plus'><strong> + </strong></div>
+                    Add Rooms
+                </button>
+                <button name = 'menus' id = 'menu3' onclick= 'makeVisible(menu3)' disabled>
+                    <div id='plus'><strong> + </strong></div>
+                    Add Subjects
+                </button>
+                <button name = 'menus' id = 'menu4' onclick= 'makeVisible(menu4)' disabled>
+                    <div id='plus'><strong> + </strong></div>
+                    Add Labs
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="right" class="column">
+        <div class="top-right"></div>
+        <div class="bottom">
+            <div id='addteacher'>
+                <div class="flexContainer">
+                    <input type="text" id="teachArray" class="inputField" placeholder="Add Teachers" required>
+                    <button type="submit"  onclick="addInTeach();"><img src="plus.gif" alt="Add Icon" widht="20px" height="20px"></button>
+                    <p id="someText"></p>
+                </div>
+                <button type='submit' onclick="disableme(); makeVisible(menu2);" class="button">Continue</button>
+            </div>
+            <div id='addroom' style="visibility: hidden">
+                    <button onclick="myFunction()" class="button">Add Rooms</button>
+                    <button onclick="disableme(); makeVisible(menu2);" class="button">Continue</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function myFunction() {
+                        var x = document.createElement("INPUT");
+                        x.setAttribute("type", "text");
+                        x.setAttribute("required", "required")
+                        x.setAttribute("placeholder", "TEXT");
+                        document.body.appendChild(x);
+    }
+    function makeVisible(i){
+        document.getElementById(i).style.visibility='visible';
+    }
+    function disableme(){
+        var x = document.getElementById('menu2')
+        x.disabled = false;
+        var a = document.getElementById('menu')
+        a.disabled = true;
+    }
+    var arrayTeach = []
+    function addInTeach(){
+      var input = document.getElementById('teachArray').value;
+      arrayTeach.push(input);
+      // Make array
+      var values = "";
+      for(i=0; i<arrayTeach.length; i++){
+        values = values +" " + arrayTeach[i];
+      }
+      // Display array
+      document.getElementById('teachArray').value = "";
+      document.getElementById('someText').innerHTML = values;
+    }
+    function disableme2(){
+        var y = document.getElementById('menu3')
+        y.disabled = false;
+        var b = document.getElementById('menu2')
+        b.disabled = true;
+    }
+    function disableme3(){
+        var z = document.getElementById('menu4')
+        z.disabled = false;
+        var c = document.getElementById('menu3')
+        c.disabled = true;
+    }
+    function disableme4(){
+        var w = document.getElementById('menu')
+        w.disabled = false;
+        var d = document.getElementById('menu4')
+        d.disabled = true;
+    }
+</script>
