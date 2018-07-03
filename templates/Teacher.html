@@ -3,27 +3,38 @@
 {% block body %}
 <form action=""  method="post">
   <div class="form-group">
-    <label for="addTeacher">Add Teacher</label>
-    <input type="text" id="teachArray" class="form-control" placeholder="Add Teachers">
+    <label for="teachArray">Add Teacher</label>
+    <input type="text" id="teachArray" name="teachArray" class="form-control" placeholder="Add Teachers">
+    <textarea name="textAreaField1" id="textAreaField1" ></textarea>
+    <!-- style="visibility: hidden" -->
     <br>
-    <button  onclick="addInTeach();" class="btn btn-primary">Add</button>
-    <button onclick="/room" class="btn btn-prim</form>y">Continue</button>
+    <button type="button" onclick="addInTeach();" class="btn btn-primary">Add</button>
+    <input type="submit" onclick="javascript: form.action='/room';" value="continue" class="btn btn-primary">
   </div>
 </form>
-<p id="allTeach">fff</p>
 <script>
-  var arrayTeach = '';
+  var arrayTeach = [];
   function addInTeach(){
     var input = document.getElementById('teachArray').value;
-    arrayTeach += input + ',';
-    // // Make array
-    var values = "";
-    for(i=0; i<arrayTeach.length; i++){
-      values = values +" " + arrayTeach[i];
+    // check whether user has added something or not
+    if(input != "")
+    {
+      arrayTeach.push(input);
+      console.log(arrayTeach)
+      // Make array
+      var values = "";
+      for(i=0; i<arrayTeach.length; i++){
+        values = arrayTeach[i] + "," + values;
+      }
+      console.log(values);
+      // }
+      // // Display array
+      document.getElementById('teachArray').value = "";
+      document.getElementById('textAreaField1').innerHTML = values;
     }
-    // Display array
-    document.getElementById('teachArray').value = "";
-    document.getElementById('allTeach').innerHTML = values;
+    else {
+      console.log("add first");
+    }
   }
 </script>
 {% endblock %}

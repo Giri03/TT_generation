@@ -1,5 +1,5 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
-from data import Courses#function in data.p
+# from data import Courses#function in data.p
 from flask_mysqldb import MySQL
 from wtforms import Form, StringField, SelectField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
@@ -27,32 +27,52 @@ app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 # init MySQL
 mysql= MySQL(app)
+# for bootstrap
 Bootstrap(app)
-
-Courses = Courses()
 
 # @app.route('/about')
 # def show_about():
 #     return render_template('about.html')
-
+listing = []
+# teachers
 @app.route('/teacher', methods=['GET', 'POST'])
 def show_teacher():
-    value = request.form['allRooms']
-    # value1 = request.form['labale']
-    # value = "fj"
-    return '<h1>'+value+'</h1>'
+    return render_template('Teacher.html')
 
+# rooms
 @app.route('/room', methods=['GET', 'POST'])
 def show_room():
-    return render_template('rooms.html')
 
-# @app.route('/subject')
-# def show_subject():
-#     value = request.form('allTeach')
-#     return '<h1>'+value+'</h1>'
-    # return render_template('subject.html')
+    # value1 = value1.rstrip(',')
+    if request.method == 'POST':
+        value1 = request.form['textAreaField1']
+        value1 = value1.rstrip(',')
+        # return value1
 
-    # return render_template('subject.html')
+        # value1 = request.form['room_textAreaField1']
+        cur = mysql.connection.cursor()
+        for j in value1.split(','):
+            cur.execute("INSERT INTO teachers(t_name) VALUES (%s)",(j,))
+            mysql.connection.commit()
+        cur.close()
+        return render_template('rooms.html')
+    else:
+        return render_template('something.html')
+
+@app.route('/subject')
+def show_subject():
+    if request.method == 'POST':
+        value1 = request.form['room_textAreaField']
+        cur = mysql.connection.cursor()
+        for x in value1.split(','):
+            cur.execute("INSERT INTO rooms(r_name) VALUES (%s)", (x))
+            mysql.connection.commit()
+        cur.close()
+        teacher_list = cur.execute("SELECT tid FROM teachers")
+        return render_template('subject.html', teacher_list = teacher_list)
+    else:
+        return render_template('something.html')
+
 @app.route('/lab', methods=['GET', 'POST'])
 def show_lab():
     value = request.form('someS')
@@ -92,7 +112,6 @@ class RegisterForm(Form):
         validators.EqualTo('confirm', message='Password do not match')
     ])
     confirm = PasswordField('Confirm Password')
-
 
 #user register
 @app.route('/register', methods=['GET', 'POST'])

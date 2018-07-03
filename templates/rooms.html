@@ -1,32 +1,30 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<form class="" action="/teacher" method="post">
+<form class=""  method="post">
   <div class="form-group">
-    <!-- <label for="addTeacher" id='allRooms' name='labele'>Add Room</label> -->
-    <input type="text" id="allRooms"  name="allRooms"  class="form-control" placeholder="Add Teachers" required>
+    <label for="addRooms">Add Room</label>
+    <input type="text" id="allRooms" name="allRooms" class="form-control" placeholder="Add Rooms" required>
+    <textarea name="room_textAreaField" id="room_textAreaField" style="visibility: hidden"></textarea>
     <br>
-    <input onclick="addInTeach();" value="jkl" class="btn btn-primary">
-    <button type="submit" class="btn btn-primary">Continue</button>
+    <button type="submit" onclick="addInRoom();" class="btn btn-primary">Add</button>
+    <input type="submit" onclick="javascript: form.action='/subject';" value="continue" class="btn btn-primary">
   </div>
-  <ul>
-  <li id="allRooms" name="allRooms"></li>
-  </ul>
 </form>
-  <script>
-    var arrayTeach = []
-    function addInTeach(){
-      var input = document.getElementById('allRooms').value;
-      arrayTeach.push(input);
-      // Make array
-      var values = "";
-      for(i=0; i<arrayTeach.length; i++){
-        values = values +" " + arrayTeach[i];
-      }
-      // Display array
-      // document.getElementById('teachArray').value = "";
-      document.getElementById('allRooms').innerHTML = "Hi";
-    }
-
-  </script>
+<script>
+  var arrayRoom = '';
+  function addInRoom(){
+    var input = document.getElementById('allRooms').value;
+    arrayRoom = arrayRoom + ',' + input;
+    // Make array
+    // var values = "";
+    // for(i=0; i<arrayTeach.length; i++){
+    //   values = values +" " + arrayTeach[i];
+    // }
+    // console.log(values)
+    // // Display array
+    document.getElementById('allRooms').value = "";
+    document.getElementById('room_textAreaField').innerHTML = arrayRoom;
+  }
+</script>
 {% endblock %}
