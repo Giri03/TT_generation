@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<form class="" action="/teacher" method="post">
+  <div class="form-group">
+    <!-- <label for="addTeacher" id='allRooms' name='labele'>Add Room</label> -->
+    <input type="text" id="allRooms"  name="allRooms"  class="form-control" placeholder="Add Teachers" required>
+    <br>
+    <input onclick="addInTeach();" value="jkl" class="btn btn-primary">
+    <button type="submit" class="btn btn-primary">Continue</button>
+  </div>
+  <ul>
+  <li id="allRooms" name="allRooms"></li>
+  </ul>
+</form>
+  <script>
+    var arrayTeach = []
+    function addInTeach(){
+      var input = document.getElementById('allRooms').value;
+      arrayTeach.push(input);
+      // Make array
+      var values = "";
+      for(i=0; i<arrayTeach.length; i++){
+        values = values +" " + arrayTeach[i];
+      }
+      // Display array
+      // document.getElementById('teachArray').value = "";
+      document.getElementById('allRooms').innerHTML = "Hi";
+    }
+
+  </script>
+{% endblock %}

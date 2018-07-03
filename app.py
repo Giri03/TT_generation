@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-#! python3
->>>>>>> a6b243238f1c4a674af807dcba15e63bbad78ea0
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
 from data import Courses#function in data.p
 from flask_mysqldb import MySQL
@@ -16,92 +12,61 @@ from flask import render_template
 # from Flask_SQLAlchemy import ModelForm
 # from flask_Salchemy import ModelForm
 # from flaskext.mysql import MySQL
-<<<<<<< HEAD
-# from get import get
+# from ge   t import get
 # from flaskext.mysql import MySQL
 
 app = Flask(__name__)
 
 
 # config MySQL
-=======
-
-app = Flask(__name__)
-
-#config MySQL
->>>>>>> a6b243238f1c4a674af807dcba15e63bbad78ea0
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'ttgeneration'
-<<<<<<< HEAD
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 # init MySQL
 mysql= MySQL(app)
+Bootstrap(app)
+
 Courses = Courses()
 
-@app.route('/courses')
-def show_courses():
-    return render_template('courses.html', courses = Courses)
+# @app.route('/about')
+# def show_about():
+#     return render_template('about.html')
 
-@app.route('/course/<string:id>/')
-def show_course_id(id):
-    return render_template('course.html', id=id)
-
-=======
-# By default it returns a tuple we change the datatype to dictionary
-app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
-
-#init MySQL
-mysql= MySQL(app)
-# bootstrap = Bootstrap(app)
-Courses = Courses()
-
->>>>>>> a6b243238f1c4a674af807dcba15e63bbad78ea0
-@app.route('/')
-def show_index():
-    return render_template('index.html')
-
-@app.route('/about')
-def show_about():
-<<<<<<< HEAD
-    return render_template('about.html')
-
-@app.route('/teacher')
+@app.route('/teacher', methods=['GET', 'POST'])
 def show_teacher():
-    return render_template('teacher.html')
+    value = request.form['allRooms']
+    # value1 = request.form['labale']
+    # value = "fj"
+    return '<h1>'+value+'</h1>'
 
+@app.route('/room', methods=['GET', 'POST'])
+def show_room():
+    return render_template('rooms.html')
 
-#reg form class
-# class TeacherForm(Form):
-# from flask.ext.wtf import Form
-# from wtforms import TextField, TextAreaField
+# @app.route('/subject')
+# def show_subject():
+#     value = request.form('allTeach')
+#     return '<h1>'+value+'</h1>'
+    # return render_template('subject.html')
+
+    # return render_template('subject.html')
+@app.route('/lab', methods=['GET', 'POST'])
+def show_lab():
+    value = request.form('someS')
+    return '<h1>'+value+'</h1>'
+
 #
-# class FlashCard(Form):
-#   title = TextField('Card title:')
-#   content = TextAreaField('Card content:')
+# @app.route('/your')
+# def show_your():
+#     return render_template('side_bar.html')
 
-# @app.route('/teachers')
-# def show_teachers():
-#     my_form = FlashCard()
-#     if my_form.validate_on_submit:
-#        # save flash card data here.
-#     return render_template('form1.html', my_form=my_form)
-#
-
-=======
-    return render_template('form2.html')
-
-@app.route('/courses')
-def show_courses():
-    return render_template('courses.html', courses = Courses)
-
-@app.route('/course/<string:id>/')
-def show_course_id(id):
-    return render_template('course.html', id=id)
->>>>>>> a6b243238f1c4a674af807dcba15e63bbad78ea0
-
+@app.errorhandler(404)
+def page_not_found(e):
+    """Return a custom 404 error."""
+    return 'Sorry, nothing at this URL.', 404
 #reg form class
 class RegisterForm(Form):
     # SelectField(u'Field name', choices = myChoices, validators = [Required()])
@@ -217,15 +182,7 @@ def logout():
 def dashboard():
     return render_template('dashboard.html')
 
-<<<<<<< HEAD
 
-=======
-#Test
-@app.route('/test')
-@is_logged_in
-def test():
-    return render_template('test.html')
->>>>>>> a6b243238f1c4a674af807dcba15e63bbad78ea0
 #user log in
 if __name__ ==  '__main__':
     app.secret_key='secret123'

@@ -1,0 +1,93 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <form class=""  method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="addTeacher">Add Subject</label>
+      <input type="text" id="subArray" name="subArray" class="form-control" placeholder="Add Subject" required>
+      <label for="addTeacher">Add Teacher</label>
+      <input type="text" id="teachArray" class="form-control" placeholder="Add Teacher" required>
+      <br>
+      <button type="submit" onclick="addInTeach();" class="btn btn-primary">Add</button>
+      <button type="submit" onclick="addInDivision()" class="btn btn-primary">Continue</button>
+    </div>
+    <label for="addTeacher">Teachers</label>
+    <p id="someTeach"></p>
+    <label for="addTeacher">Subjects</label>
+    <p id="someSub"></p>
+  </form>
+<div class="container">
+  <h2>Divisions</h2>
+  <ul class="pagination">
+    <li><a href="/lab">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+  </ul>
+</div>
+
+  <script>
+    var allSubjects = []
+    var allTeachers = []
+    var arraySub = []
+    var arrayTeach = []
+    //subjects
+    function addInTeach(){
+      var input = document.getElementById('subArray').value;
+      arraySub.push(input);
+      // // Make array
+      // var values = "";
+      // for(i=0; i<arraySub.length; i++){
+      //   values = values +" " + arraySub[i];
+      // }
+      //
+      document.getElementById('subArray').value = "";
+      // document.getElementById('someSub').innerHTML = values;
+      //
+
+      //for teacher
+      var input = document.getElementById('teachArray').value;
+      arrayTeach.push(input);
+      // Make array
+      // var values = "";
+      // for(i=0; i<arrayTeach.length; i++){
+      //   values = values +" " + arrayTeach[i];
+      // }
+      // // Display arr
+      document.getElementById('teachArray').value = "";
+      // document.getElementById('someTeach').innerHTML = values;
+
+    }
+
+    function addInDivision(){
+      allSubjects.push(arraySub);
+      // allTeachers.push(arraySub)
+      var values="";
+      for(i=0; i<allSubjects.length; i++){
+        for(j=0; j<arraySub.length; j++){
+          values = values +" " + arraySub[j];
+        }
+      }
+      // var poo = 'pooja';
+      // Display array
+      document.getElementById('teachArray').value = "";
+      document.getElementById('subArray').value = "";
+      document.getElementById('someTeach').innerHTML = values;
+    }
+    var dd = {'mvar': 1};
+    $.ajax({
+    type: "POST",
+    url: "{{ url_for("localhost/5000/lab") }}",
+    contentType: "application/json",
+    data: JSON.stringify({hello: "world"}),
+    dataType: "json",
+    success: function(response) {
+        console.log(response);
+    },
+    error: function(err) {
+        console.log(err);
+    }
+  });
+  </script>
+{% endblock %}

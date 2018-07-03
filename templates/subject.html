@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<form class="" action="/lab" method="post" >
+<div class="form-group">
+  <label for="addTeacher">Add Subject</label>
+  <input type="text" id="subArray" name="subArray" class="form-control" placeholder="Add Subject" required>
+  <label for="addTeacher">Add Teacher</label>
+  <input type="text" id="teachArray" class="form-control" placeholder="Add Teacher" required>
+  <br>
+  <button type="submit" onclick="addInTeach();" class="btn btn-primary">Add</button>
+  <button type="submit" class="btn btn-primary">Continue</button>
+</div>
+<label for="addTeacher">Teachers</label>
+<p id="someTeach"></p>
+<label for="addTeacher">Subjects</label>
+<p id="someSub"></p>
+</form>
+  <script>
+    //subjects
+    var arrayTeach = []
+    var arraySub = []
+    function addInTeach(){
+
+      var input = document.getElementById('subArray').value;
+      arraySub.push(input);
+      // Make array
+      var values = "";
+      for(i=0; i<arraySub.length; i++){
+        values = values +" " + arraySub[i];
+      }
+      document.getElementById('subArray').value = "";
+      document.getElementById('someSub').innerHTML = values;
+
+
+      //for teacher
+      var input = document.getElementById('teachArray').value;
+      arrayTeach.push(input);
+      // Make array
+      var values = "";
+      for(i=0; i<arrayTeach.length; i++){
+        values = values +" " + arrayTeach[i];
+      }
+      // Display array
+      document.getElementById('teachArray').value = "";
+      document.getElementById('someTeach').innerHTML = values;
+    }
+
+  </script>
+{% endblock %}
