@@ -1,4 +1,4 @@
-from data import subjects, days, meettime, rooms, labs, years, teachers, divs, zerohours, free_lec
+from data import subjects, days, meettime, rooms, labs, years, teachers, divs, zerohours, free_lec, tp_lecture
 from collections import Counter
 import random
 import sys
@@ -271,11 +271,20 @@ def timetables(population):
     # population[0].sort(key = lambda x:x[-1])
     population[0].sort(key = lambda x:x[-1])
     population[1].sort(key = lambda x:x[-1])
+    # for tplectures
+    count_tp = -1
     # frozen constraint
-
     for y in years:
+        count_tp += 1
+        # set T&P day for year randomly
+        zero_day = "thu"
+        zero_time = "12:10-01:10"
+        exclude_zero_day = list(x for x in days if x not in zero_day)
+        tp_day = random.choice(exclude_zero_day)
+        tp_time = random.choice(meettime[0])
+
         for div in divs:
-            timetable = [ [[ ],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
+            timetable = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
             # set zero hour for tt => thur 4 lecture
             timetable[days.index('thu')][meettime[0].index('12:10-01:10')].append('Zero Hour')
             # set free lectures.
@@ -283,23 +292,26 @@ def timetables(population):
                 if(p[0]==y[0]):
                     iny = q
             ind = divs.index(div)
-            # print(ind)
             index = iny*2+ind
-            # print(index)
             l = random.sample(days,free_lec[index])
             for p in l:
                 timetable[days.index(p)][meettime[0].index('03:40-04:40')].append('Free Lecture')
-            # timetable[days.index(random.choice(days))][meettime[0].index('03:40-04:40')].append('Zero Hour')
+
             toplabtime = []
             toplabs =  [[],[],[],[]]
             count_toplabs = 0
+            # set tp_lecture
+            tea_matrix[days.index(tp_day)][meettime[0].index(tp_time)].append(tp_lecture[count_tp])
+            timetable[days.index(tp_day)][meettime[0].index(tp_time)].append('T&P')
             # if(day )
             # timetable[days.index(zerohours[count_zero][0])][meettime[0].index(zerohours[count_zero][1])].append('ZERO')
             for i in population[1]:
                 if i[0] == y[0] and i[3] == div:
                     # check for teachers conflicts
+                    # map lab times and lec times
                     separatetime = getTime(i[5])
                     separatetime1, separatetime2 = separatetime[:11], separatetime[11:]
+                    # print(i[2])
                     if i[2] not in tea_matrix[days.index(i[4])][meettime[0].index(separatetime1)] or tea_matrix[days.index(i[4])][meettime[0].index(separatetime2)]:
                         # to check for not conflicting with zero hour
                         if not ('thu' == i[4] and '11:10-01:10' == i[5]):

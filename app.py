@@ -267,7 +267,6 @@ def register():
         cur.close()
         # flash("your message", "type of message ")
         flash('You Are Now Registered', 'success')
-
         redirect(url_for('show_index')) #method name for index.
     return render_template('register.html', form=form)
 

@@ -66,3 +66,7 @@ rooms = ['r1', 'r2', 'r3', 'r4', 'r5', 'r6']
 zerohours = [['mon', '02:40-03:40'],['thu', '02:40-03:40'],['wed', '01:40-02:40']]
 # for keeping last lecture empty
 free_lec = [2,2,0,0,2,2]
+
+
+# T&P lectures
+tp_lecture = ['t2','t4','t15','t17','t9','t20']
