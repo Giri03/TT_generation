@@ -11,6 +11,8 @@
     <label for="addTeacher">Choose Teacher for all batches<label>
     <!-- do select for teachers -->
     <textarea name="Lab_textAreaField" id="Lab_textAreaField" ></textarea>
+    <textarea name="Lab_textAreaField2" id="Lab_textAreaField2" ></textarea>
+    <textarea name="Lab_textAreaField3" id="Lab_textAreaField3" ></textarea>
     <!-- style="visibility: hidden" -->
     <br>
     <select name="subjects0" id="chooseTea" class=>
@@ -42,8 +44,12 @@
 </form>
 <script>
 //subjects
-    var currentLabs = "";
+    var cur_Labs = "";
+    var cur_teach = "";
+    var cur_room = "";
     var all_labs = "";
+    var all_tea = "";
+    var all_room = "";
     var counter = 0;
     function addLaborateries(){
         var input = document.getElementById('addLab').value;
@@ -54,8 +60,12 @@
         var input6 = document.getElementById('addLabRoom').value;
 
         if(input != '' && input6 != ''){
-            currentLabs = input + ':' + input2 + ',' + input3 + ',' + input4 + ',' + input5 + ':' + input6 + '~' + currentLabs;
-            console.log(currentLabs);
+            cur_Labs = input + '~' + cur_Labs;
+            cur_teach = input2 + ':' + input3 + ':' + input4 + ':' + input5 + '~' + cur_teach;
+            cur_room = input6 + '~' + cur_room;
+            console.log(cur_Labs);
+            console.log(cur_teach);
+            console.log(cur_room);
             document.getElementById('addLab').value = "";
             document.getElementById('addLabRoom').value = "";
         }
@@ -69,17 +79,25 @@
         if(input != ''){
             if(counter == 4){
 
-                // window.location('/home');
-                // progress bar
             }
             else{
-                currentLabs = currentLabs.slice(0, -1);
-                all_labs = currentLabs + '/' + all_labs;
+                cur_Labs = cur_Labs.slice(0, -1);
+                cur_teach = cur_teach.slice(0, -1);
+                cur_room = cur_room.slice(0, -1);
+                all_labs = cur_Labs + '/' + all_labs;
+                all_tea = cur_teach + '/' + all_tea;
+                all_room = cur_room + '/' + all_room;
                 console.log(all_labs);
-                currentLabs = '';
+                console.log(all_tea);
+                console.log(all_room);
+                cur_Labs = '';
+                cur_teach = '';
+                cur_room = '';
                 document.getElementById('addLab').value = "";
                 document.getElementById('addLabRoom').value = "";
                 document.getElementById('Lab_textAreaField').innerHTML = all_labs;
+                document.getElementById('Lab_textAreaField2').innerHTML = all_tea;
+                document.getElementById('Lab_textAreaField3').innerHTML = all_room;
             }
         }
         else{

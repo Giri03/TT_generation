@@ -53,7 +53,7 @@ Bootstrap(app)
 #     return render_template('about.html')
 
 listing = []
-years = ['seA', 'seb', 'beA', 'beb', 'teA', 'teb']
+years = ['seA', 'seB', 'beA', 'beB', 'teA', 'teB']
 # divs = [a, b]
 # teachers
 @app.route('/teacher', methods=['GET', 'POST'])
@@ -113,7 +113,6 @@ def show_subject():
         #         mysql.connection.commit()
         #
 
-
         # for subjects name
         # for i,x in enumerate(value1.split('~')):
         #     for j,y in enumerate(x.split(',')):
@@ -121,7 +120,6 @@ def show_subject():
         #             cur.execute("INSERT INTO subjects(s_name, year, division) VALUES (%s, %s, %s)", (y,years[i],divs[j]))
         #             mysql.connection.commit()
         #     m = 1
-
     #         cur.execute("INSERT INTO rooms(r_name) VALUES (%s)", (x,))
 @app.route('/lab', methods=['GET', 'POST'])
 def show_lab():
@@ -138,6 +136,7 @@ def show_lab():
                 s2 = years[count][2:]
                 cur.execute("INSERT INTO subjects(s_name, s_teach, year, division) VALUES (%s, %s, %s, %s)", (k,l,s1,s2,))
                 mysql.connection.commit()
+            count = count + 1;
         cur.close()
         cursor = mysql.connection.cursor()
         cur = cursor.execute("SELECT t_name FROM teachers")
@@ -151,27 +150,51 @@ def show_lab():
 def show_afterlab():
     if request.method == 'POST':
         value1 = request.form['Lab_textAreaField']
-        value1 = value1.rstrip(',')
+        value2 = request.form['Lab_textAreaField2']
+        value3 = request.form['Lab_textAreaField3']
+        value1 = value1.rstrip('/')
+        value2 = value2.rstrip('/')
+        value3 = value3.rstrip('/')
         cur = mysql.connection.cursor()
-        list3 = []
-        listty = []
-        count = -1
-        for x in value1.split('/'):
-            for j in x.split('~'):
-                for k in j.split(':'):
-                    list3.append(k)
-            listty.append(list3)
-
-        print(listty)
-        for x in range(len(listty)):
-            # print(count)
-            # print(years)
-            firstyear = years[count]
-            # print(firstyear)
-            cur.execute("INSERT INTO labs(l_name, l_teac, l_room, year, division) VALUES (%s, %s, %s, %s, %s)", (list3[x], list3[x + 1], list3[x + 2], firstyear[:2], firstyear[-1]))
-            x += 3
-            mysql.connection.commit()
+        count = 0
+        for i,j,k in zip(value1.split('/'),value2.split('/'),value3.split('/')):
+            for l,m,n in zip(i.split('~'),j.split('~'),k.split('~')):
+                s1 = years[count][:2]
+                s2 = years[count][2:]
+                print(l + ' ' + m +' ' +n)
+                cur.execute("INSERT INTO labs(l_name, l_teac, l_room, year, division) VALUES (%s, %s, %s, %s, %s)", (l,m,n,s1,s2,))
+                mysql.connection.commit()
+            count = count + 1
         cur.close()
+
+#
+# i = '1/2/3';
+# j = '4,5/6,7/8,9';
+# k = '8,8/8,8/8,8';
+# for i,j,k in zip(value1.split('/'),value2.split('/'),value3.split('/')):
+#     for l,m,n in zip(i.split('~'),j.split('~'),k.split('~')):
+#         print(l+m+n)
+        # count = 0
+        # cur = mysql.connection.cursor()
+        # list3 = []
+        # listty = []
+        # count = -1
+        # for x in value1.split('/'):
+        #     for j in x.split('~'):
+        #         for k in j.split(':'):
+        #             list3.append(k)
+        #     listty.append(list3)
+        #
+        # print(listty)
+        # for x in range(len(listty)):
+        #     # print(count)
+        #     # print(years)
+        #     firstyear = years[count]
+        #     # print(firstyear
+        #     cur.execute("INSERT INTO labs(l_name, l_teac, l_room, year, division) VALUES (%s, %s, %s, %s, %s)", (list3[x], list3[x + 1], list3[x + 2], firstyear[:2], firstyear[-1]))
+        #     x += 3
+        #     mysql.connection.commit()
+        # cur.close()
         # cur.execute("INSERT INTO subjects(s_id, s_name, year, division) VALUES (%s, %s, %s, %s)", (k,l,s1,s2,))
         #     mysql.connection.commit()
         #     cur.close()
