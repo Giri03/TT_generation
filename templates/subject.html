@@ -3,43 +3,75 @@
 {% block body %}
 <form class=""  method="post" >
   <div class="form-group">
-    <label for="subArray">Add Subject</label>
-    <input type="text" id="subArray" name="subArray" class="form-control" placeholder="Add Subject" required>
+    <label for="addSub">Add Subject</label>
+    <input type="text" id="addSub" name="addSub" class="form-control" placeholder="Add Subject" required>
     <label for="addTeacher">Choose Teacher<label>
     <!-- do select for teachers -->
-    <textarea name="Sub_textAreaField" id="Sub_textAreaField" style="visibility: hidden"></textarea>
     <br>
-    <button type="submit" onclick="addInSub;" class="btn btn-primary">Add</button>
-    <input type="submit" onclick="javascript: form.action='/lab';" value="continue" class="btn btn-primary">
+    <textarea  id="Sub_textAreaField1" name="Sub_textAreaField1" ></textarea>
+    <textarea  id="Sub_textAreaField2" name="Sub_textAreaField2"></textarea>
+    <!-- style="visibility: hidden" -->
+    <br><br>
+    <select name="subjects0" id="chooseTea">
+      {% for i in subject0 %}
+      <option value="{{ i.t_name }}">{{ i.t_name }}</option>
+      {% endfor %}
+    </select>
+
+    <button type="button" onclick="addSubj();" class="btn btn-primary">Add</button>
+    <input type="button" onclick="allSubj();" value="continue" class="btn btn-primary">
+    <button type="submit" name="button2" id='ram' onclick="javascript: form.action='/lab';" > when done !</button>
   </div>
 </form>
-  <script>
-    //subjects
-    var arrayTeach = '';
-    var arraySub = '';
-    function addInTeach(){
-
-      var input = document.getElementById('subArray').value;
-      arraySub.push(input);
-      // Make array
-      var values = "";
-      for(i=0; i<arraySub.length; i++){
-        values = values +" " + arraySub[i];
-      }
-      document.getElementById('subArray').value = "";
-      document.getElementById('someSub').innerHTML = values;
-
-      //for teacher
-      var input = document.getElementById('teachArray').value;
-      arrayTeach.push(input);
-      // Make array
-      var values = "";
-      for(i=0; i<arrayTeach.length; i++){
-        values = values +" " + arrayTeach[i];
-      }
-      // Display array
-      document.getElementById('teachArray').value = "";
-      document.getElementById('someTeach').innerHTML = values;
+<script>
+//subjects
+    var currentSub = "";
+    var allSubjects = "";
+    var currentTea = "";
+    var allTeas = "";
+    var counter = 0;
+    function addSubj(){
+        var input = document.getElementById('addSub').value;
+        var input2 = document.getElementById('chooseTea').value;
+        if(input != ''){
+            currentSub = input + ',' + currentSub;
+            currentTea = input2  + ',' + currentTea;
+            console.log(currentSub);
+            console.log(currentTea);
+            document.getElementById('addSub').value = "";
+        }
+        else{
+            alert('Please fill all fields!');
+        }
     }
-  </script>
+    function allSubj(){
+        var input2 = document.getElementById('addSub').value;
+        counter += 1
+        if(input2 != ''){
+            if(counter == 2){
+              // window.location('/lab');
+              alert('hellloo')
+              // progress bar
+            }
+            else{
+                currentSub = currentSub.slice(0, -1);
+                currentTea = currentTea.slice(0, -1);
+                allSubjects = currentSub + '~' + allSubjects;
+                allTeas = currentTea + '~' + allTeas;
+                console.log(allSubjects);
+                console.log(allTeas);
+                currentSub = '';
+                currentTea = '';
+                document.getElementById('addSub').value = "";
+                document.getElementById('Sub_textAreaField1').innerHTML = allSubjects;
+                document.getElementById('Sub_textAreaField2').innerHTML = allTeas;
+            }
+        }
+        else{
+            alert('please fill all fields!');
+        }
+    }
+    // print(allSubjects)
+</script>
+
 {% endblock %}

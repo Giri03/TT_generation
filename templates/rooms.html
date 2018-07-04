@@ -5,9 +5,10 @@
   <div class="form-group">
     <label for="addRooms">Add Room</label>
     <input type="text" id="allRooms" name="allRooms" class="form-control" placeholder="Add Rooms" required>
-    <textarea name="room_textAreaField" id="room_textAreaField" style="visibility: hidden"></textarea>
+    <textarea name="room_textAreaField" id="room_textAreaField" ></textarea>
+    <!-- style="visibility: hidden" -->
     <br>
-    <button type="submit" onclick="addInRoom();" class="btn btn-primary">Add</button>
+    <button type="button" onclick="addInRoom();" class="btn btn-primary">Add</button>
     <input type="submit" onclick="javascript: form.action='/subject';" value="continue" class="btn btn-primary">
   </div>
 </form>
@@ -15,7 +16,7 @@
   var arrayRoom = '';
   function addInRoom(){
     var input = document.getElementById('allRooms').value;
-    arrayRoom = arrayRoom + ',' + input;
+    arrayRoom = input + ',' + arrayRoom;
     // Make array
     // var values = "";
     // for(i=0; i<arrayTeach.length; i++){

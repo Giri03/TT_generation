@@ -1,93 +1,91 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <form class=""  method="POST" enctype="multipart/form-data">
-    <div class="form-group">
-      <label for="addTeacher">Add Subject</label>
-      <input type="text" id="subArray" name="subArray" class="form-control" placeholder="Add Subject" required>
-      <label for="addTeacher">Add Teacher</label>
-      <input type="text" id="teachArray" class="form-control" placeholder="Add Teacher" required>
-      <br>
-      <button type="submit" onclick="addInTeach();" class="btn btn-primary">Add</button>
-      <button type="submit" onclick="addInDivision()" class="btn btn-primary">Continue</button>
-    </div>
-    <label for="addTeacher">Teachers</label>
-    <p id="someTeach"></p>
-    <label for="addTeacher">Subjects</label>
-    <p id="someSub"></p>
-  </form>
-<div class="container">
-  <h2>Divisions</h2>
-  <ul class="pagination">
-    <li><a href="/lab">1</a></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-  </ul>
-</div>
+<div id='meter'><div id='progress'></div> </div>
+<form class=""  method="post" >
+  <div class="form-group">
+    <label for="addLab">Add Labs</label>
+    <input type="text" id="addLab" name="addLab" class="form-control" placeholder="Add Lab" required>
+    <label for="addLabRoom">Add Lab Rooms</label>
+    <input type="text" id="addLabRoom" name="addLabRoom" class="form-control" placeholder="Add Lab Rooms" required>
+    <label for="addTeacher">Choose Teacher for all batches<label>
+    <!-- do select for teachers -->
+    <textarea name="Lab_textAreaField" id="Lab_textAreaField" ></textarea>
+    <!-- style="visibility: hidden" -->
+    <br>
+    <select name="subjects0" id="chooseTea" class=>
+            {% for i in subject0 %}
+            <option value="{{ i.t_name }}">{{ i.t_name }}</option>
+            {% endfor %}
+    </select>
+    <select name="subjects0" id="chooseTea2" class=>
+        {% for i in subject0 %}
+        <option value="{{ i.t_name }}">{{ i.t_name }}</option>
+        {% endfor %}
+    </select>
+    <select name="subjects0" id="chooseTea3" class=>
+        {% for i in subject0 %}
+        <option value="{{ i.t_name }}">{{ i.t_name }}</option>
+        {% endfor %}
+    </select>
+    <select name="subjects0" id="chooseTea4" class=>
+        {% for i in subject0 %}
+        <option value="{{ i.t_name }}">{{ i.t_name }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <button type="button" onclick="addLaborateries();" class="btn btn-primary">Add</button>
+    <input type="button" onclick="allLaborateries();" value="continue" class="btn btn-primary">
+    <br>
+    <button type="submit" name="button2" id='ram' onclick="javascript: form.action='/afterlab';" > when done !</button>
+  </div>
+</form>
+<script>
+//subjects
+    var currentLabs = "";
+    var all_labs = "";
+    var counter = 0;
+    function addLaborateries(){
+        var input = document.getElementById('addLab').value;
+        var input2 = document.getElementById('chooseTea').value;
+        var input3 = document.getElementById('chooseTea2').value;
+        var input4 = document.getElementById('chooseTea3').value;
+        var input5 = document.getElementById('chooseTea4').value;
+        var input6 = document.getElementById('addLabRoom').value;
 
-  <script>
-    var allSubjects = []
-    var allTeachers = []
-    var arraySub = []
-    var arrayTeach = []
-    //subjects
-    function addInTeach(){
-      var input = document.getElementById('subArray').value;
-      arraySub.push(input);
-      // // Make array
-      // var values = "";
-      // for(i=0; i<arraySub.length; i++){
-      //   values = values +" " + arraySub[i];
-      // }
-      //
-      document.getElementById('subArray').value = "";
-      // document.getElementById('someSub').innerHTML = values;
-      //
-
-      //for teacher
-      var input = document.getElementById('teachArray').value;
-      arrayTeach.push(input);
-      // Make array
-      // var values = "";
-      // for(i=0; i<arrayTeach.length; i++){
-      //   values = values +" " + arrayTeach[i];
-      // }
-      // // Display arr
-      document.getElementById('teachArray').value = "";
-      // document.getElementById('someTeach').innerHTML = values;
-
-    }
-
-    function addInDivision(){
-      allSubjects.push(arraySub);
-      // allTeachers.push(arraySub)
-      var values="";
-      for(i=0; i<allSubjects.length; i++){
-        for(j=0; j<arraySub.length; j++){
-          values = values +" " + arraySub[j];
+        if(input != '' && input6 != ''){
+            currentLabs = input + ':' + input2 + ',' + input3 + ',' + input4 + ',' + input5 + ':' + input6 + '~' + currentLabs;
+            console.log(currentLabs);
+            document.getElementById('addLab').value = "";
+            document.getElementById('addLabRoom').value = "";
         }
-      }
-      // var poo = 'pooja';
-      // Display array
-      document.getElementById('teachArray').value = "";
-      document.getElementById('subArray').value = "";
-      document.getElementById('someTeach').innerHTML = values;
+        else{
+            alert('please fill all fields!');
+        }
     }
-    var dd = {'mvar': 1};
-    $.ajax({
-    type: "POST",
-    url: "{{ url_for("localhost/5000/lab") }}",
-    contentType: "application/json",
-    data: JSON.stringify({hello: "world"}),
-    dataType: "json",
-    success: function(response) {
-        console.log(response);
-    },
-    error: function(err) {
-        console.log(err);
+    function allLaborateries(){
+        var input = document.getElementById('addLab').value;
+        counter += 1
+        if(input != ''){
+            if(counter == 4){
+
+                // window.location('/home');
+                // progress bar
+            }
+            else{
+                currentLabs = currentLabs.slice(0, -1);
+                all_labs = currentLabs + '/' + all_labs;
+                console.log(all_labs);
+                currentLabs = '';
+                document.getElementById('addLab').value = "";
+                document.getElementById('addLabRoom').value = "";
+                document.getElementById('Lab_textAreaField').innerHTML = all_labs;
+            }
+        }
+        else{
+            alert('please fill all fields!');
+        }
     }
-  });
-  </script>
+    // print(allSubjects)
+</script>
 {% endblock %}
