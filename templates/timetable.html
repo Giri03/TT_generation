@@ -1,5 +1,24 @@
 {% extends 'layout.html' %}
 {% block body %}
+<script type="text/javascript">
+  var doc = new jsPDF();
+  var specialElementHandlers = {
+  '#editor': function (element, renderer) {
+  return true;
+  }
+  };
+
+  function now() {
+    doc.fromHTML($('#content').html(), 15, 15, {
+    'width': 170,
+    'elementHandlers': specialElementHandlers
+    });
+    doc.save('sample-content.pdf');
+    }
+
+</script>
+<div id="content">
+  TIMETABLE
   {% for x in timetable %}
   <table class="table">
     <thead>
@@ -34,4 +53,8 @@
     <tbody>
   </table>
 {% endfor %}
+
+<div id="editor"></div>
+<button onclick="now()" id="btn" download="HTML 5 PDF">Generate PDF</button>
+
 {% endblock %}

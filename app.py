@@ -151,27 +151,32 @@ class RegisterForm(Form):
 #user register
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegisterForm(request.form)
-    if request.method == 'POST' and form.validate():
-        firstname = form.firstname.data
-        email = form.email.data
-        username = form.username.data
-        lastname = form.lastname.data
-        branch = form.branch.data
-        year = form.year.data
-        division = form.division.data
-        password = sha256_crypt.encrypt(str(form.password.data))
-        # use cursor to execute commands
-        cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO users(username, firstname, lastname, email, password, year, division, branch) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (username, firstname, lastname, email, password, year, division, branch))
-        #commit to db
-        mysql.connection.commit()
-        #close connection
-        cur.close()
-        # flash("your message", "type of message ")
-        flash('You Are Now Registered', 'success')
-        redirect(url_for('dashboard')) #method name for index.
-    return render_template('register.html', form=form)
+    try:
+        form = RegisterForm(request.form)
+        if request.method == 'POST' and form.validate():
+            firstname = form.firstname.data
+            email = form.email.data
+            username = form.username.data
+            lastname = form.lastname.data
+            branch = form.branch.data
+            year = form.year.data
+            division = form.division.data
+            password = sha256_crypt.encrypt(str(form.password.data))
+            # use cursor to execute commands
+            cur = mysql.connection.cursor()
+            cur.execute("INSERT INTO users(username, firstname, lastname, email, password, year, division, branch) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (username, firstname, lastname, email, password, year, division, branch))
+            #commit to db
+            mysql.connection.commit()
+            #close connection
+            cur.close()
+            # flash("your message", "type of message ")
+            flash('You Are Now Registered', 'success')
+            redirect(url_for('dashboard')) #method name for index.
+        return render_template('register.html', form=form)
+
+    except Exception as e:
+        flash('Sorry, User name is taken!', 'danger')
+        return render_template('register.html', form=form)
 
 #userlogin
 @app.route('/login', methods=['GET','POST'])
