@@ -10,38 +10,38 @@
     <input type="text" style="width: 500px;" id="addLabRoom" name="addLabRoom" class="form-control" placeholder="Add Lab Rooms" required>
     <!-- do select for teachers -->
     <!-- style="visibility: hidden" -->
-    <br>
+    <br><br>
     <select class="custom-select" style="width: 500px;" name="subjects0" id="chooseTea" class=>
             {% for i in subject0 %}
             <option value="{{ i.t_name }}">{{ i.t_name }}</option>
             {% endfor %}
     </select>
-    <br>
+    <br><br>
     <select class="custom-select" style="width: 500px;" name="subjects0" id="chooseTea2" class=>
         {% for i in subject0 %}
         <option value="{{ i.t_name }}">{{ i.t_name }}</option>
         {% endfor %}
     </select>
-    <br>
+    <br><br>
     <select class="custom-select" style="width: 500px;" name="subjects0" id="chooseTea3" class=>
         {% for i in subject0 %}
         <option value="{{ i.t_name }}">{{ i.t_name }}</option>
         {% endfor %}
     </select>
-    <br>
+    <br><br>
     <select class="custom-select" style="width: 500px;" name="subjects0" id="chooseTea4" class=>
         {% for i in subject0 %}
         <option value="{{ i.t_name }}">{{ i.t_name }}</option>
         {% endfor %}
     </select>
-    <br>
+    <br><br>
     <button type="button" onclick="addLaborateries();" class="btn btn-primary">Add</button>
     <input type="button" onclick="allLaborateries();" value="continue" class="btn btn-primary">
     <br>
     <button type="submit" name="button2" id='ram' onclick="javascript: form.action='/afterlab';" > when done !</button>
-    <textarea name="Lab_textAreaField" id="Lab_textAreaField" ></textarea>
-    <textarea name="Lab_textAreaField2" id="Lab_textAreaField2" ></textarea>
-    <textarea name="Lab_textAreaField3" id="Lab_textAreaField3" ></textarea>
+    <textarea name="Lab_textAreaField" style="visibility: hidden"id="Lab_textAreaField" ></textarea>
+    <textarea name="Lab_textAreaField2" id="Lab_textAreaField2" style="visibility: hidden"></textarea>
+    <textarea name="Lab_textAreaField3" id="Lab_textAreaField3" style="visibility: hidden"></textarea>
 
   </div>
 </form>
@@ -76,12 +76,13 @@
             alert('please fill all fields!');
         }
     }
+    document.getElementById('ram').style.visibility='hidden';
     function allLaborateries(){
         var input = document.getElementById('addLab').value;
         counter += 1
         if(input != ''){
-            if(counter == 4){
-
+            if(counter == 1){
+              ram.style.visibility="visible";
             }
             else{
                 cur_Labs = cur_Labs.slice(0, -1);

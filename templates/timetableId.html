@@ -1,36 +1,60 @@
-{% extends 'layout_user.html' %}
+{% extends 'layout.html' %}
 {% block body %}
+  <script type="text/javascript">
+    var doc = new jsPDF();
+    var specialElementHandlers = {
+    '#editor': function (element, renderer) {
+    return true;
+    }
+    };
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>T1</th>
-      <th>T2</th>
-      <th>T3</th>
-      <th>T4</th>
-      <th>T5</th>
-      <th>T6</th>
-      <th>T7</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for y in timetable[index] %}
-    <tr>
-      {% for w in y %}
-      <td>
-        {% if w[0] is defined %}
-          {% if 'S-' in w[0][-2] %}
-            {{w[0][1] + '  ' + w[0][2] +  '  ' + w[0][4]}}
-          {% else %}
-            {% for m in w %}
-              {{m[1] + '  ' + m[2] +  '  ' + m[-3]}}
-            {% endfor %}
-          {% endif %}
-        {% endif %}
-      </td>
+    function now() {
+      alert('kdjgk');
+      doc.fromHTML($('#content').html(), 15, 15, {
+      'width': 170,
+      'elementHandlers': specialElementHandlers
+      });
+      doc.save('sample-content.pdf');
+      console.log('djjkj')
+    }
+    
+  </script>
+  <div id="content">
+    TIMETABLE
+    <table class="table">
+      <thead>
+        <tr>
+          <th>T1</th>
+          <th>T2</th>
+          <th>T3</th>
+          <th>T4</th>
+          <th>T5</th>
+          <th>T6</th>
+          <th>T7</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for y in timetable[index] %}
+        <tr>
+          {% for w in y %}
+          <td>
+            {% if w[0] is defined %}
+              {% if 'S-' in w[0][-2] %}
+                {{w[0][1] + '  ' + w[0][2] +  '  ' + w[0][4]}}
+              {% else %}
+                {% for m in w %}
+                  {{m[1] + '  ' + m[2] +  '  ' + m[-3]}}
+                {% endfor %}
+              {% endif %}
+            {% endif %}
+          </td>
+          {% endfor %}
+       </tr>
       {% endfor %}
-   </tr>
-  {% endfor %}
-  <tbody>
-</table>
+      <tbody>
+    </table>
+  </div>
+  <div id="editor"></div>
+  <button onclick="now()" id="btn" download="HTML 5 PDF">Generate PDF</button>
+
 {% endblock %}
