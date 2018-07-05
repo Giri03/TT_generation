@@ -156,7 +156,6 @@ def tournament(population):
         population1_lab.append(cross)
     population1.append(population1_sub)
     population1.append(population1_lab)
-
     return population1
 
 def swap(a, b):
@@ -262,7 +261,7 @@ def getTime(meet):
 #     if(popList[1] == timetable[day][meet-1][1]):
 #         return True
 
-
+all_timetable = []
 def timetables(population):
     timetable = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
     lab_matrix = [[2,2,1,1],[2,2,1,1],[2,2,1,1] ,[2,2,1,1],[2,2,1,1]]
@@ -366,10 +365,12 @@ def timetables(population):
                                                 prior_i = i[1]
                                                 tea_matrix[days.index(d)][meettime[0].index(m)].append(i[1])
                                                 room_matrix[days.index(d)][meettime[0].index(m)].append(i[4])
+            all_timetable.append(timetable)
             for x in timetable:
                 for h in x:
                     print(h)
-    return timetable
+
+    return all_timetable
 
 if __name__ == '__main__':
     population = create_population()
@@ -381,7 +382,7 @@ if __name__ == '__main__':
     population1 = change_fitness(population1)
     population1 = fitness(population1)
     population = new_population(population, population1)
-    timetable = timetables(population)
+    all_timetable = timetables(population)
 
         #     for p in population:
 

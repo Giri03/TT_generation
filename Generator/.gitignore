@@ -1,7 +1,0 @@
-*.pyc
-settings.json
-schedule.py
-pop.py
-op.py
-new_population.py
-/venv

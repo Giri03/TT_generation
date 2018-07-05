@@ -1,0 +1,9 @@
+{% extends 'layout_user.html' %}
+{% block body %}
+  <h1>Timetable Generator</h1>
+  <ul class="list-group">
+    {% for course in courses %}
+      <li class="list-group-item"><a href=course/{{course.id}}>{{course.title}}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

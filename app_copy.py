@@ -1,11 +1,25 @@
-from flask import Flask, make_response, render_template, flash, redirect, url_for, session, logging, request
+from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
+# from data import Courses#function in data.p
 from flask_mysqldb import MySQL
 from wtforms import Form, StringField, SelectField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 from functools import wraps
 from flask_bootstrap import Bootstrap
-from main import *
-# import pdfkit
+from main import timetables
+# from flask import Flask
+# from flask import request
+# from flask import render_template
+# from flask_sqlalchemy import SQLAlchemy
+# from wtforms import widgets
+# from wtforms.compat import text_type, string_types
+# from wtforms.fields import SelectFieldBase
+# from wtforms.validators import ValidationError
+# from wtforms_components import Unique
+# from Flask_SQLAlchemy import ModelForm
+# from flask_Salchemy import ModelForm
+# from flaskext.mysql import MySQL
+# from get import get
+# from flaskext.mysql import MySQL
 
 app = Flask(__name__)
 
@@ -16,6 +30,17 @@ app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'ttgeneration'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
+
+# config MySQL for SQLAlchemy
+# 'mysql://username:password@server/db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/ttgeneration'
+#                                         # 'mysql://scott:tiger@localhost/mydatabase'
+# db = SQLAlchemy(app)
+#
+# class Users(db.Model):
+# 	__tablename__ = 'users'
+# 	u_id = db.Column('t_id', db.Integer, primary_key=True)
+# 	u_name = db.Column('t_name', db.String(50),unique=True)
 
 # init MySQL
 mysql= MySQL(app)
@@ -66,6 +91,36 @@ def show_subject():
         cur = cursor.execute("SELECT t_name FROM teachers")
         return render_template('subject.html', subject0=cursor.fetchall())
 
+    # catch Exception as e:
+    #     print(str(e))
+
+        # make list
+        # for x in value1.split('~'):
+        #     listy = []
+        #     for y in x.split(','):
+        #         listy.append(x)
+        #     listing.append(listy)
+        #
+        # for x in value1.split('~'):
+        #     listy = []
+        #     for y in x.split(','):
+        #         listy.append(x)
+        #     teacher_list.append(listy)
+        #
+        # for i in range(listing):
+        #     for j in listing[i]:
+        #         cur.execute("INSERT INTO subtea(sub, tea, year, div) VALUES (%s, %s, %s, %s)", (j, teacher_list[0] , listy[i * 2], listy[i * 2 + 1]))
+        #         mysql.connection.commit()
+        #
+
+        # for subjects name
+        # for i,x in enumerate(value1.split('~')):
+        #     for j,y in enumerate(x.split(',')):
+        #             m = 0
+        #             cur.execute("INSERT INTO subjects(s_name, year, division) VALUES (%s, %s, %s)", (y,years[i],divs[j]))
+        #             mysql.connection.commit()
+        #     m = 1
+    #         cur.execute("INSERT INTO rooms(r_name) VALUES (%s)", (x,))
 @app.route('/lab', methods=['GET', 'POST'])
 def show_lab():
     if request.method == 'POST':
@@ -112,9 +167,51 @@ def show_afterlab():
             count = count + 1
         cur.close()
 
+#
+# i = '1/2/3';
+# j = '4,5/6,7/8,9';
+# k = '8,8/8,8/8,8';
+# for i,j,k in zip(value1.split('/'),value2.split('/'),value3.split('/')):
+#     for l,m,n in zip(i.split('~'),j.split('~'),k.split('~')):
+#         print(l+m+n)
+        # count = 0
+        # cur = mysql.connection.cursor()
+        # list3 = []
+        # listty = []
+        # count = -1
+        # for x in value1.split('/'):
+        #     for j in x.split('~'):
+        #         for k in j.split(':'):
+        #             list3.append(k)
+        #     listty.append(list3)
+        #
+        # print(listty)
+        # for x in range(len(listty)):
+        #     # print(count)
+        #     # print(years)
+        #     firstyear = years[count]
+        #     # print(firstyear
+        #     cur.execute("INSERT INTO labs(l_name, l_teac, l_room, year, division) VALUES (%s, %s, %s, %s, %s)", (list3[x], list3[x + 1], list3[x + 2], firstyear[:2], firstyear[-1]))
+        #     x += 3
+        #     mysql.connection.commit()
+        # cur.close()
+        # cur.execute("INSERT INTO subjects(s_id, s_name, year, division) VALUES (%s, %s, %s, %s)", (k,l,s1,s2,))
+        #     mysql.connection.commit()
+        #     cur.close()
         return render_template('afterlab.html')
     else:
         return render_template('afterlab.html')
+
+# list3 = []
+# value = 'l1:t1,t2,t3:r1,r2/l2:t3,t4,t5,t1:r3,r4/l2:t3,t9,t8,t7:r5'
+# count = 0
+# for x in value.split('/'):
+#   for j in x.split(':'):
+#     list3.append(j)
+#
+# for x in range(len(list3)):
+#   cur.execute("INSERT INTO labtea(lab, teac, room) VALUES (%s, %s, %s)", (list3[x], list3[x + 1], list3[x + 2]))
+#   x += 3
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -199,7 +296,7 @@ def login():
                 session['username'] = username
 
                 flash('logged in', 'success')
-                return redirect(url_for('timetableId'))
+                return redirect(url_for('dashboard'))
             else:
                 error = 'Invalid login'
                 return render_template('login.html', error=error)
@@ -242,6 +339,7 @@ def login_admin():
             return render_template('login_admin.html', error=error)
     return render_template('login_admin.html')
 
+
 #check if user has logged in
 def is_logged_in(f):
     @wraps(f)
@@ -253,9 +351,6 @@ def is_logged_in(f):
             return redirect(url_for('login'))
     return wrap
 
-@app.route('/timetableId')
-def timetableId():
-    return render_template('timetableId.html')
 #logout
 @app.route('/logout')
 def logout():
@@ -269,22 +364,12 @@ def logout():
 def dashboard():
     return render_template('dashboard.html')
 
+#dashboard
 @app.route('/ttgeneration')
 def show_timetable():
-    # return all_timetable
-    return render_template('timetable.html',timetable = all_timetable)
+    return render_template('timetable.html',timetable = Timetables)
 
 #user log in
 if __name__ ==  '__main__':
-    population = create_population()
-    population = fitness(population)
-    population = labs_labs(population)
-    population1 = tournament(population)
-    population1 = crossover(population1)
-    population1 = mutation(population1)
-    population1 = change_fitness(population1)
-    population1 = fitness(population1)
-    population = new_population(population, population1)
-    all_timetable = timetables(population)
     app.secret_key='secret123'
     app.run(debug=True)
