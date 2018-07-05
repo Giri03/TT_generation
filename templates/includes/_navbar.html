@@ -1,37 +1,33 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-     <a class="navbar-brand" href="#">TT Generator</a>
-     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-       <span class="navbar-toggler-icon"></span>
-     </button>
 
-     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-       <ul class="navbar-nav mr-auto">
-         <li class="nav-item">
-           <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-         </li>
-         <li class="nav-item">
-           <a class="nav-link" href="/about">About</a>
-         </li>
-         <li class="nav-item">
-           <a class="nav-link" href="/courses">Generate TT</a>
-         </li>
-        </ul>
-       <ul class="navbar-nav navbar-right">
-        {% if session.logged_in %}
-          <li class="nav-item">
-            <a class="nav-link " href="/dashboard">Dashboard <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link " href="/logout">Logout <span class="sr-only">(current)</span></a>
-          </li>
-        {% else %}
-          <li class="nav-item">
-            <a class="nav-link " href="/register">Register <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link " href="/login">Login <span class="sr-only">(current)</span></a>
-          </li>
-        {% endif %}
-      </ul>
-     </div>
-   </nav>
+  <div class="w3-main" style="margin-left:200px">
+  <div class="w3-teal">
+    <button class="w3-button w3-teal w3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</button>
+    <div class="w3-container">
+      <h1>My Page</h1>
+    </div>
+  </div>
+  </div>
+
+  <script>
+  function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+  }
+  function w3_close() {document.getElementById("mySidebar").style.display = "none";
+  }
+  </script>
+
+  <div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:200px;" id="mySidebar">
+    <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Close &times;</button>
+    <a href="/teacher" class="w3-bar-item w3-button">Teacher</a>
+    <a href="/subject" class="w3-bar-item w3-button">Subjects</a>
+    <a href="/lab" class="w3-bar-item w3-button">Labs</a>
+  </div>
+
+  <script>
+  function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+  }
+  function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+  }
+  </script>

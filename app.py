@@ -28,7 +28,7 @@ Bootstrap(app)
 #     return render_template('about.html')
 
 listing = []
-years = ['seA', 'seB', 'beA', 'beB', 'teA', 'teB']
+years = ['seA', 'seB', 'teA', 'teB', 'beA', 'beB']
 # divs = [a, b]
 # teachers
 @app.route('/teacher', methods=['GET', 'POST'])
@@ -137,7 +137,7 @@ class RegisterForm(Form):
     validators.Regexp('(\w)+@+(somaiya.edu)', message="Invalid Email Address"),
     ])
     branch = SelectField('Branch', choices=[('Electronics', 'Electronics and Telecommunication'), ('Computers', 'CS and IT')])
-    year = SelectField('Year', choices=[('first','First Year'),('second','Second Year'),('third','Third Year'),('final','Final Year')])
+    year = SelectField('Year', choices=[('fe','First Year'),('se','Second Year'),('te','Third Year'),('be','Final Year')])
     division = SelectField('Division', choices=[('A','A'),('B','B')])
     password = PasswordField('Password', [
         validators.Regexp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}', message="Password must contain special character, digit, upper case, lower case character minimum 8 digits"),
@@ -170,7 +170,7 @@ def register():
         cur.close()
         # flash("your message", "type of message ")
         flash('You Are Now Registered', 'success')
-        redirect(url_for('show_index')) #method name for index.
+        redirect(url_for('dashboard')) #method name for index.
     return render_template('register.html', form=form)
 
 #userlogin
@@ -198,8 +198,14 @@ def login():
                 session['logged_in'] = True
                 session['username'] = username
 
+                year = data['year']
+                division = data['division']
+                year_div = year+division
+                year_index = years.index(year_div)
+
                 flash('logged in', 'success')
-                return redirect(url_for('timetableId'))
+
+                return redirect(url_for('timetableId',timetable = all_timetable,index = year_index))
             else:
                 error = 'Invalid login'
                 return render_template('login.html', error=error)
@@ -255,7 +261,7 @@ def is_logged_in(f):
 
 @app.route('/timetableId')
 def timetableId():
-    return render_template('timetableId.html')
+    return render_template('timetableId.html',timetable = all_timetable,index = 1)
 #logout
 @app.route('/logout')
 def logout():

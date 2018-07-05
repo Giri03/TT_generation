@@ -4,24 +4,27 @@
 <form class=""  method="post" >
   <div class="form-group">
     <label for="addSub">Add Subject</label>
-    <input type="text" id="addSub" name="addSub" class="form-control" placeholder="Add Subject" required>
-    <label for="addTeacher">Choose Teacher<label>
+    <input type="text" style="width: 500px;" id="addSub" name="addSub" class="form-control" placeholder="Add Subject" required>
     <!-- do select for teachers -->
     <br>
-    <textarea  id="Sub_textAreaField1" name="Sub_textAreaField1" ></textarea>
-    <textarea  id="Sub_textAreaField2" name="Sub_textAreaField2"></textarea>
     <!-- style="visibility: hidden" -->
-    <br><br>
-    <select name="subjects0" id="chooseTea">
+    <p><b>Choose Teacher:</b></p>
+    <select class="custom-select" name="subjects0" style="width: 500px;" id="chooseTea">
+      <option selected>Open this select menu</option>
       {% for i in subject0 %}
       <option value="{{ i.t_name }}">{{ i.t_name }}</option>
       {% endfor %}
-    </select>
-
+      </select>
+<br><br>
     <button type="button" onclick="addSubj();" class="btn btn-primary">Add</button>
     <input type="button" onclick="allSubj();" value="continue" class="btn btn-primary">
-    <button type="submit" name="button2" id='ram' onclick="javascript: form.action='/lab';" > when done !</button>
+<br><br>
+    <button class="btn btn-primary" type="submit" name="button2" id='ram' onclick="javascript: form.action='/lab';" > when done !</button>
+    <textarea  id="Sub_textAreaField1" name="Sub_textAreaField1" style="visibility: hidden"></textarea>
+    <textarea  id="Sub_textAreaField2" name="Sub_textAreaField2" style="visibility: hidden"></textarea>
+
   </div>
+
 </form>
 <script>
 //subjects

@@ -5,32 +5,31 @@
 <form class=""  method="post" >
   <div class="form-group">
     <label for="addLab">Add Labs</label>
-    <input type="text" id="addLab" name="addLab" class="form-control" placeholder="Add Lab" required>
+    <input type="text" style="width: 500px;" id="addLab" name="addLab" class="form-control" placeholder="Add Lab" required>
     <label for="addLabRoom">Add Lab Rooms</label>
-    <input type="text" id="addLabRoom" name="addLabRoom" class="form-control" placeholder="Add Lab Rooms" required>
-    <label for="addTeacher">Choose Teacher for all batches<label>
+    <input type="text" style="width: 500px;" id="addLabRoom" name="addLabRoom" class="form-control" placeholder="Add Lab Rooms" required>
     <!-- do select for teachers -->
-    <textarea name="Lab_textAreaField" id="Lab_textAreaField" ></textarea>
-    <textarea name="Lab_textAreaField2" id="Lab_textAreaField2" ></textarea>
-    <textarea name="Lab_textAreaField3" id="Lab_textAreaField3" ></textarea>
     <!-- style="visibility: hidden" -->
     <br>
-    <select name="subjects0" id="chooseTea" class=>
+    <select class="custom-select" style="width: 500px;" name="subjects0" id="chooseTea" class=>
             {% for i in subject0 %}
             <option value="{{ i.t_name }}">{{ i.t_name }}</option>
             {% endfor %}
     </select>
-    <select name="subjects0" id="chooseTea2" class=>
+    <br>
+    <select class="custom-select" style="width: 500px;" name="subjects0" id="chooseTea2" class=>
         {% for i in subject0 %}
         <option value="{{ i.t_name }}">{{ i.t_name }}</option>
         {% endfor %}
     </select>
-    <select name="subjects0" id="chooseTea3" class=>
+    <br>
+    <select class="custom-select" style="width: 500px;" name="subjects0" id="chooseTea3" class=>
         {% for i in subject0 %}
         <option value="{{ i.t_name }}">{{ i.t_name }}</option>
         {% endfor %}
     </select>
-    <select name="subjects0" id="chooseTea4" class=>
+    <br>
+    <select class="custom-select" style="width: 500px;" name="subjects0" id="chooseTea4" class=>
         {% for i in subject0 %}
         <option value="{{ i.t_name }}">{{ i.t_name }}</option>
         {% endfor %}
@@ -40,6 +39,10 @@
     <input type="button" onclick="allLaborateries();" value="continue" class="btn btn-primary">
     <br>
     <button type="submit" name="button2" id='ram' onclick="javascript: form.action='/afterlab';" > when done !</button>
+    <textarea name="Lab_textAreaField" id="Lab_textAreaField" ></textarea>
+    <textarea name="Lab_textAreaField2" id="Lab_textAreaField2" ></textarea>
+    <textarea name="Lab_textAreaField3" id="Lab_textAreaField3" ></textarea>
+
   </div>
 </form>
 <script>
