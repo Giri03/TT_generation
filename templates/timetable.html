@@ -40,16 +40,30 @@
       //          this allow the insertion of new lines after html
       pdf.save('Timetable.pdf');
   }, margins);
-
 }
   </script>
+  <style media="screen">
+    table,th,td{
+      border: 1px solid grey;
+      border-collapse: collapse;
+    }
+  </style>
+
   <div id="content">
   <div class="w3-container" >
+    <div class="para" style="text-align: center;">
+      <b><h4>K. J. Somaiya Institute of Engineering and Information Technology</p>
+      <p>Somaiya Ayurvihar Complex, Sion, Mumbai - 400022.</h4></b>
+    </div>
+    <h4 style="text-align: center;"><b>MASTER TIMETABLE</b></h4>
+    <p style="float: right;">{{y}}&nbsp;{{vars}}Semester</p>
+
 
   {% for x in timetable %}
-    <table class="w3-table-all">
+    <table class="w3-table-all" contenteditable='true'>
       <thead>
         <tr class="w3-grey">
+          <th></th>
           <th>09:00-10:00</th>
           <th>10:00-11:00</th>
           <th>11:10-12:10</th>
@@ -59,9 +73,13 @@
           <th>03:40-04:40</th>
         </tr>
       </thead>
+
       <tbody>
+      <p ><b>  {{year[index]}}</b></p>
         {% for y in x %}
         <tr>
+          {% set var = loop.index %}
+            <th scope="row">{{day[var-1]}}</th>
           {% for w in y %}
           <td>
             {% if w[0] is defined %}

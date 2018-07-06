@@ -8,7 +8,6 @@ from collections import Counter
 import random
 import sys
 import datetime
-
 from main import *
 
 # import pdfkit
@@ -27,6 +26,8 @@ year_index = 1
 mysql= MySQL(app)
 # for bootstrap
 Bootstrap(app)
+now = datetime.datetime.now()
+
 # Timetables = timetables()
 meettime = [['09:00-10:00', '10:00-11:00', '11:10-12:10', '12:10-01:10', '01:40-02:40', '02:40-03:40', '03:40-04:40'],['09:00-11:00', '11:10-01:10', '01:40-03:40', '02:40-04:40']]
 days = ['mon', 'tue', 'wed', 'thu', 'fri']
@@ -47,10 +48,10 @@ yearss = ['seA', 'seB', 'teA', 'teB', 'beA', 'beB']
 # teachers
 @app.route('/teacher', methods=['GET', 'POST'])
 def show_teacher():
-    cur = mysql.connection.cursor()
-    cur.execute('SELECT l_name, l_teac, l_room, year, division FROM labs')
-    sp = cur.fetchall()
-    return render_template('teacher.html')
+    # cur = mysql.connection.cursor()
+    # cur.execute('SELECT l_name, l_teac, l_room, year, division FROM labs')
+    # sp = cur.fetchall()
+    return render_template('teacher.html',depts = row)
 
 # rooms
 @app.route('/room', methods=['GET', 'POST'])
@@ -77,11 +78,13 @@ def show_subject():
             cur.execute("INSERT INTO rooms(r_name) VALUES (%s)",(j,))
             mysql.connection.commit()
         cur.close()
-        return render_template('subject.html')
-    else:
         cursor = mysql.connection.cursor()
         cur = cursor.execute("SELECT t_name FROM teachers")
         return render_template('subject.html', subject0=cursor.fetchall())
+    else:
+        cursor = mysql.connection.cursor()
+        cur = cursor.execute("SELECT t_name FROM teachers")
+        return render_template('subject.html', subject0=cursor.fetchall(), y=yearss)
 
 @app.route('/lab', methods=['GET', 'POST'])
 def show_lab():
@@ -102,11 +105,11 @@ def show_lab():
         cur.close()
         cursor = mysql.connection.cursor()
         cur = cursor.execute("SELECT t_name FROM teachers")
-        return render_template('lab.html', subject0=cursor.fetchall())
+        return render_template('lab.html', subject0=cursor.fetchall(),y=yearss)
     else:
         cursor = mysql.connection.cursor()
         cur = cursor.execute("SELECT t_name FROM teachers")
-        return render_template('lab.html', subject0=cursor.fetchall())
+        return render_template('lab.html', subject0=cursor.fetchall(),y=yearss)
 
 @app.route('/afterlab', methods=['GET', 'POST'])
 def show_afterlab():
@@ -129,9 +132,9 @@ def show_afterlab():
             count = count + 1
         cur.close()
 
-        return redirect(url_for('timetable'))
+        return redirect(url_for('dashboard'))
     else:
-        return redirect(url_for('timetable'))
+        return redirect(url_for('dashboard'))
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -231,7 +234,7 @@ def login():
 
                 flash('logged in', 'success')
 
-                return redirect(url_for('dashboard',timetable = all_timetable,index = year_index))
+                return redirect(url_for('ttgeneration',timetable = all_timetable, index = year_index, day=dayys, year=yearss))
             else:
                 error = 'Invalid login'
                 return render_template('login.html', error=error)
@@ -257,15 +260,17 @@ def login_admin():
             #get stored hash
             data = cur.fetchone()
             rows = data['a_password']
+            row = data['dept']
             if(rows == password_candidate):
             #compare the password
             # if sha256_crypt.verify(password_candidate, password):
                 #session
                 session['logged_in'] = True
                 session['username'] = username
+                # session['dept'] = row
 
                 flash('logged in', 'success')
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('show_teacher',depts = row))
             else:
                 error = 'Invalid login'
                 return render_template('login_admin.html', error=error)
@@ -287,7 +292,7 @@ def is_logged_in(f):
 
 
 @app.route('/ttgeneration', methods=['GET','POST'])
-def create_population():
+def ttgeneration():
     global population
     cur = mysql.connection.cursor()
     cur.execute("SELECT t_name FROM teachers")
@@ -345,8 +350,15 @@ def create_population():
     population1 = fitness(population1)
     population = new_population(population, population1)
     all_timetable = timetables(population)
-    print(all_timetable)
-    return render_template('timetable.html',timetable=all_timetable)
+    # print(all_timetable)
+    if(1 <=now.month<=6):
+        var = "Even"
+    else:
+        var =  "Odd"
+    yr = now.year
+    # return render_template('timetable.html',vars = var, y = yr, timetable=all_timetable, index=year_index,day=dayys,year=yearss)
+
+    return render_template('timetableId.html',vars = var, y = yr,timetable=all_timetable,index=year_index,day=dayys,year=yearss)
     # print(population)
     # print(lab)
     # return "ksdj"
@@ -360,7 +372,7 @@ def logout():
     return redirect(url_for('login'))
 
 #dashboard
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET','POST'])
 @is_logged_in
 def dashboard():
     global population
@@ -420,8 +432,13 @@ def dashboard():
     population1 = fitness(population1)
     population = new_population(population, population1)
     all_timetable = timetables(population)
-    print(all_timetable)
-    return render_template('timetableId.html',timetable=all_timetable,index=year_index,day=dayys,year=yearss)
+    # print(all_timetable)
+    if(1 <=now.month<=6):
+        var = "Even"
+    else:
+        var =  "Odd"
+    yr = now.year
+    return render_template('timetable.html',vars = var, y = yr, timetable=all_timetable, index=year_index,day=dayys,year=yearss)
 #
 # @app.route('/ttgeneration')
 # def show_timetable():

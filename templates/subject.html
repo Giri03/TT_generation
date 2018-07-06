@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
-
 {% block body %}
+{% set i = 0 %}
 <form class=""  method="post" >
   <div class="form-group">
     <label for="addSub">Add Subject</label>
@@ -10,11 +10,12 @@
     <!-- style="visibility: hidden" -->
     <p><b>Choose Teacher:</b></p>
     <select size="1" class="custom-select" name="subjects0" style="width: 500px;" id="chooseTea">
-      <option selected>Open this select menu</option>
+
       {% for i in subject0 %}
       <option value="{{ i.t_name }}">{{ i.t_name }}</option>
       {% endfor %}
       </select>
+
 <br><br>
     <button type="button" id="add" onclick="addSubj();" class="btn btn-primary">Add Subject</button>
     <input type="button" id="continue" onclick="allSubj();" value="Next division" class="btn btn-primary">
@@ -22,10 +23,9 @@
     <button class="btn btn-primary" type="submit" name="button2" id='done' onclick="javascript: form.action='/lab';" style="visibility: hidden">Next -> Lab</button>
     <textarea  id="Sub_textAreaField1" name="Sub_textAreaField1" style="visibility: hidden"></textarea>
     <textarea  id="Sub_textAreaField2" name="Sub_textAreaField2" style="visibility: hidden"></textarea>
-
   </div>
-
 </form>
+{{endfor}}
 <script>
 //subjects
     var currentSub = "";
@@ -36,11 +36,12 @@
     function addSubj(){
         var input = document.getElementById('addSub').value;
         var input2 = document.getElementById('chooseTea').value;
-        if(input != ' '){
+        if(input != ''){
             currentSub = input + ',' + currentSub;
             currentTea = input2  + ',' + currentTea;
             console.log(currentSub);
             console.log(currentTea);
+            // console.log({{y[0]}});
             document.getElementById('addSub').value = "";
         }
         else{

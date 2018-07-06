@@ -4,18 +4,21 @@
 <form class=""  method="post">
   <div class="form-group">
     <label for="addRooms">Add Room</label>
-    <input type="text" style="width: 500px;" id="allRooms" name="allRooms" class="form-control" placeholder="Add Rooms" required>
+    <input type="text" style="width: 500px;" id="allRooms" name="allRooms" class="form-control" placeholder="Add Rooms">
     <textarea name="room_textAreaField" id="room_textAreaField" style="visibility: hidden" ></textarea>
     <!-- style="visibility: hidden" -->
     <br>
-    <button type="button" onclick="addInRoom();" class="btn btn-primary">Add</button>
-    <input type="submit" onclick="javascript: form.action='/subject';" value="continue" class="btn btn-primary">
+    <button type="button" onclick="addInRoom();" class="btn btn-primary">Add Rooms</button>
+    <input type="submit" onclick="javascript: form.action='/subject';" value="Go to next Step" class="btn btn-primary">
   </div>
 </form>
 <script>
   var arrayRoom = '';
   function addInRoom(){
     var input = document.getElementById('allRooms').value;
+    if(input==''){
+      alert("Please fill out details")
+    }
     arrayRoom = input + ',' + arrayRoom;
     // Make array
     // var values = "";

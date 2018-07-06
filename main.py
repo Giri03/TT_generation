@@ -144,6 +144,8 @@ def crossover(selection):
             if(random.choice([True, False])):
                 swap(selection[0][i][6], selection[0][i+1][6])# slot
             if(random.choice([True, False])):
+                print(selection[0][i][5])
+                print(selection[0][i+1][5])
                 swap(selection[0][i][5], selection[0][i+1][5])# days
 
     # for labs
@@ -263,7 +265,7 @@ def timetables(population):
             if meettime[0].index(tp_time) == 7:
                 dt = 4
             else:
-                dt = (meettime[0].index(tp_time)) / 2
+                dt = int(meettime[0].index(tp_time) // 2)
                 lab_matrix[days.index(tp_day)][dt] -= 1
             timetable[days.index(tp_day)][meettime[0].index(tp_time)].append(['0', 'T&P', r, '', '', '', '', 'S-some', '0'])
             # if(day )
