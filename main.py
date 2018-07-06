@@ -144,8 +144,8 @@ def crossover(selection):
             if(random.choice([True, False])):
                 swap(selection[0][i][6], selection[0][i+1][6])# slot
             if(random.choice([True, False])):
-                print(selection[0][i][5])
-                print(selection[0][i+1][5])
+                # print(selection[0][i][5])
+                # print(selection[0][i+1][5])
                 swap(selection[0][i][5], selection[0][i+1][5])# days
 
     # for labs
@@ -221,8 +221,9 @@ def getTime(meet):
     return meet
 
 
-all_timetable = []
+all_time = []
 def timetables(population):
+
     timetable = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
     lab_matrix = [[2,2,1,1],[2,2,1,1],[2,2,1,1] ,[2,2,1,1],[2,2,1,1]]
     tea_matrix = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
@@ -245,7 +246,7 @@ def timetables(population):
         for div in divs:
             timetable = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
             # set zero hour for tt => thur 4 lecture
-            timetable[days.index('thu')][meettime[0].index('12:10-01:10')].append(['0', 'Zero Hour', '', '', '', '', '', 'S-some', '0'])
+            timetable[days.index('thu')][meettime[0].index('12:10-01:10')].append(['0', '/ / Zero Hour', '', '', '', '', '', 'S-some', '0'])
             # set free lectures.
             for q,p in enumerate(years):
                 if(p[0]==y[0]):
@@ -254,7 +255,7 @@ def timetables(population):
             index = iny*2+ind
             l = random.sample(days,free_lec[index])
             for p in l:
-                timetable[days.index(p)][meettime[0].index('03:40-04:40')].append(['0', 'Free',  '', '', '', '', '', 'S-some', '0'])
+                timetable[days.index(p)][meettime[0].index('03:40-04:40')].append(['0', '/ / Free',  '', '', '', '', '', 'S-some', '0'])
 
             toplabtime = []
             toplabs =  [[],[],[],[]]
@@ -332,24 +333,12 @@ def timetables(population):
                                                 prior_i = i[1]
                                                 tea_matrix[days.index(d)][meettime[0].index(m)].append(i[1])
                                                 room_matrix[days.index(d)][meettime[0].index(m)].append(i[4])
-            all_timetable.append(timetable)
+            all_time.append(timetable)
             # for x in timetable:
             #     for h in x:
             #         print(h)
 
-    return all_timetable
-
-if __name__ == '__main__':
-    population = create_population()
-    population = fitness(population)
-    population = labs_labs(population)
-    population1 = tournament(population)
-    population1 = crossover(population1)
-    population1 = mutation(population1)
-    population1 = change_fitness(population1)
-    population1 = fitness(population1)
-    population = new_population(population, population1)
-    all_timetable = timetables(population)
+    return all_time
 
         #     for p in population:
 

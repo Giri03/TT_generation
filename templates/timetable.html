@@ -1,9 +1,8 @@
 {% extends 'layout.html' %}
 {% block body %}
-
   <script type="text/javascript">
   function demoFromHTML() {
-  var pdf = new jsPDF('p', 'pt', 'letter');
+  var pdf = new jsPDF('p', 'mm', 'letter');
   // source can be HTML-formatted string, or a reference
   // to an actual DOM element from which the text will be scraped.
   source = $('#content')[0];
@@ -20,7 +19,8 @@
       }
   };
   margins = {
-      top: 80,
+
+      top: 20,
       bottom: 60,
       left: 40,
       width: 1400
@@ -52,14 +52,14 @@
   <div id="content">
   <div class="w3-container" >
     <div class="para" style="text-align: center;">
-      <b><h4>K. J. Somaiya Institute of Engineering and Information Technology</p>
+      <b><h4>K. J. Somaiya Institute of Engineering and Information Technology.</p>
       <p>Somaiya Ayurvihar Complex, Sion, Mumbai - 400022.</h4></b>
     </div>
-    <h4 style="text-align: center;"><b>MASTER TIMETABLE</b></h4>
-    <p style="float: right;">{{y}}&nbsp;{{vars}}Semester</p>
-
-
+    <h4 style="text-align: center;"><b>MASTER TIMETABLE {{vars}}&nbsp;Semester - {{y}}</b></h4>
+    <b></b>
   {% for x in timetable %}
+    {% set vary = loop.index0 %}
+
     <table class="w3-table-all" contenteditable='true'>
       <thead>
         <tr class="w3-grey">
@@ -75,7 +75,8 @@
       </thead>
 
       <tbody>
-      <p ><b>  {{year[index]}}</b></p>
+
+      <p ><b>{{year[vary]|upper}}</b></p>
         {% for y in x %}
         <tr>
           {% set var = loop.index %}

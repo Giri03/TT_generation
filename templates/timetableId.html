@@ -49,15 +49,14 @@
     border-collapse: collapse;
   }
 </style>
-
-  <div class="w3-container" >
+  <div class="w3-container" style="background-color: white;" >
   <div id="content">
-    <div class="para" style="text-align: center;">
-      <b><h4>K. J. Somaiya Institute of Engineering and Information Technology</p>
-      <p>Somaiya Ayurvihar Complex, Sion, Mumbai - 400022.</h4></b>
+    <div class="para" style="text-align: center; background-color: white;">
+      <b><h4>K. J. Somaiya Institute of Engineering and Information Technology.</p>
+      <p style="background-color: white;">Somaiya Ayurvihar Complex, Sion, Mumbai - 400022.</h4></b>
     </div>
-    <h4 style="text-align: center;"><b>MASTER TIMETABLE</b></h4>
-    <p style="float: right;">{{y}}&nbsp;{{vars}}Semester</p>
+    <b style="background-color: white;">{{vars}}&nbsp;Semester - {{y}}</b>
+    <!-- <h5><b>{{vars}}&nbsp;Semester - {{y}}</b></h5> -->
     <table contenteditable='true' class="w3-table-all">
       <thead >
         <tr class="w3-grey">
@@ -72,7 +71,7 @@
         </tr>
       </thead>
       <tbody>
-        {{year[index]}}
+        <b>{{year[index]|upper}}</b>
         {% for y in timetable[index] %}
         <tr>
           {% set var = loop.index %}

@@ -31,7 +31,7 @@ now = datetime.datetime.now()
 # Timetables = timetables()
 meettime = [['09:00-10:00', '10:00-11:00', '11:10-12:10', '12:10-01:10', '01:40-02:40', '02:40-03:40', '03:40-04:40'],['09:00-11:00', '11:10-01:10', '01:40-03:40', '02:40-04:40']]
 days = ['mon', 'tue', 'wed', 'thu', 'fri']
-dayys = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
+dayys = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
 population_sub_size = 200
 population_lab_size = 250
 timetable = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
@@ -126,7 +126,7 @@ def show_afterlab():
             for l,m,n in zip(i.split('~'),j.split('~'),k.split('~')):
                 s1 = yearss[count][:2]
                 s2 = yearss[count][2:]
-                print(l + ' ' + m +' ' +n)
+                # print(l + ' ' + m +' ' +n)
                 cur.execute("INSERT INTO labs(l_name, l_teac, l_room, year, division) VALUES (%s, %s, %s, %s, %s)", (l,m,n,s1,s2,))
                 mysql.connection.commit()
             count = count + 1
@@ -438,7 +438,7 @@ def dashboard():
     else:
         var =  "Odd"
     yr = now.year
-    return render_template('timetable.html',vars = var, y = yr, timetable=all_timetable, index=year_index,day=dayys,year=yearss)
+    return render_template('timetable.html',vars = var, y = yr, timetable=all_timetable, index=year_index, day=dayys, year=yearss)
 #
 # @app.route('/ttgeneration')
 # def show_timetable():
