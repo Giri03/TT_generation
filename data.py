@@ -69,4 +69,4 @@ free_lec = [2,2,0,0,2,2]
 
 
 # T&P lectures
-tp_lecture = ['t2','t4','t15','t17','t9','t20']
+tp_lecture = ['AK','MJ','RS','RK','PU','SVM']

@@ -23,18 +23,36 @@
         background-attachment: fixed;
         background-position: center;
       }
+
+      .footer {
+  font-size: .8em;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding-top:10px;
+  padding-bottom:10px;
+  background-color: #f5f5f5;
+  }
+
+body{
+  position: relative;
+}
+
     </style>
 </head>
   </head>
   <body>
     <!-- {% include 'includes/_form1.html' %} -->
     {% include 'includes/_navbar.html' %}
-      <div style="margin-left: 300px">
+      <div style="margin-left: 250px">
         <div style="margin-top: 100px">
           {% include 'includes/_messages.html' %}
           {% block body%}
           {% endblock %}
         </div>
+      </div>
+      <div id="footer" style="background-color: #4CAF50;">
+        <p>Developed by <b>MONOSYSTEMS</b></p>
       </div>
   </body>
 </html>

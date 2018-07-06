@@ -4,22 +4,22 @@
 <form class=""  method="post" >
   <div class="form-group">
     <label for="addSub">Add Subject</label>
-    <input type="text" style="width: 500px;" id="addSub" name="addSub" class="form-control" placeholder="Add Subject" required>
+    <input type="text" style="width: 500px;" id="addSub" name="addSub" class="form-control" placeholder="Add Subject" >
     <!-- do select for teachers -->
     <br>
     <!-- style="visibility: hidden" -->
     <p><b>Choose Teacher:</b></p>
-    <select class="custom-select" name="subjects0" style="width: 500px;" id="chooseTea">
+    <select size="1" class="custom-select" name="subjects0" style="width: 500px;" id="chooseTea">
       <option selected>Open this select menu</option>
       {% for i in subject0 %}
       <option value="{{ i.t_name }}">{{ i.t_name }}</option>
       {% endfor %}
       </select>
 <br><br>
-    <button type="button" onclick="addSubj();" class="btn btn-primary">Add</button>
-    <input type="button" onclick="allSubj();" value="continue" class="btn btn-primary">
+    <button type="button" id="add" onclick="addSubj();" class="btn btn-primary">Add Subject</button>
+    <input type="button" id="continue" onclick="allSubj();" value="Next division" class="btn btn-primary">
 <br><br>
-    <button class="btn btn-primary" type="submit" name="button2" id='ram' onclick="javascript: form.action='/lab';" > when done !</button>
+    <button class="btn btn-primary" type="submit" name="button2" id='done' onclick="javascript: form.action='/lab';" style="visibility: hidden">Next -> Lab</button>
     <textarea  id="Sub_textAreaField1" name="Sub_textAreaField1" style="visibility: hidden"></textarea>
     <textarea  id="Sub_textAreaField2" name="Sub_textAreaField2" style="visibility: hidden"></textarea>
 
@@ -36,7 +36,7 @@
     function addSubj(){
         var input = document.getElementById('addSub').value;
         var input2 = document.getElementById('chooseTea').value;
-        if(input != ''){
+        if(input != ' '){
             currentSub = input + ',' + currentSub;
             currentTea = input2  + ',' + currentTea;
             console.log(currentSub);
@@ -50,11 +50,13 @@
     function allSubj(){
         var input2 = document.getElementById('addSub').value;
         counter += 1
-        if(input2 != ''){
-            if(counter == 2){
+            if(counter == 6){
               // window.location('/lab');
-              alert('hellloo')
+                  // alert('hellloo')
               // progress bar
+              document.getElementById('done').style.visibility = 'visible';
+              document.getElementById('add').style.visibility = 'hidden';
+              document.getElementById('continue').style.visibility = 'hidden';
             }
             else{
                 currentSub = currentSub.slice(0, -1);
@@ -69,10 +71,8 @@
                 document.getElementById('Sub_textAreaField1').innerHTML = allSubjects;
                 document.getElementById('Sub_textAreaField2').innerHTML = allTeas;
             }
-        }
-        else{
-            alert('please fill all fields!');
-        }
+
+
     }
     // print(allSubjects)
 </script>

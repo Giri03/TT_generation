@@ -7,6 +7,14 @@
 {% block body %}
 <form action=""  method="post">
   <div class="form-group">
+    <!-- select semesters -->
+    <label for="addSem">Select Semester</label>
+    <br>
+    <select class="custom-select"  name="addSem" size="1" style="width: 500px;" id="addSem">
+    <option value="Even">Even</option>
+    <option value="Odd">Odd</option>
+    </select>
+    <br><br>
     <label for="teachArray">Add Teacher</label>
     <input type="text" style="width: 500px;" id="teachArray" name="teachArray" class="form-control" placeholder="Add Teachers">
     <textarea name="textAreaField1" id="textAreaField1" style="visibility: hidden"></textarea>

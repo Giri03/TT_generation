@@ -3,7 +3,7 @@
 
   <script type="text/javascript">
   function demoFromHTML() {
-  var pdf = new jsPDF('p', 'pt', 'letter');
+  var pdf = new jsPDF('p', 'mm', 'letter');
   // source can be HTML-formatted string, or a reference
   // to an actual DOM element from which the text will be scraped.
   source = $('#content')[0];
@@ -23,7 +23,7 @@
       top: 80,
       bottom: 60,
       left: 40,
-      width: 522
+      width: 1400
   };
   // all coords and widths are in jsPDF instance's declared units
   // 'inches' in this case
@@ -38,38 +38,52 @@
   function (dispose) {
       // dispose: object with X, Y of the last line add to the PDF
       //          this allow the insertion of new lines after html
-      pdf.save('Test.pdf');
+      pdf.save('Timetable.pdf');
   }, margins);
 
 }
-document.getElementById('content').style.color = "blue";
   </script>
+<style media="screen">
+  table,th,td{
+    border: 1px solid grey;
+    border-collapse: collapse;
+  }
+</style>
+
   <div class="w3-container" >
   <div id="content">
-    TIMETABLE
-    <table class="w3-table-all">
+    <div class="para">
+      <p>K. J. Somaiya Institute of Engineering and Information Technology</p>
+      <p>Somaiya Ayurvihar Complex, Sion, Mumbai - 400022.</p>
+    </div>
+    <caption>timetable</caption>
+    <table contenteditable='true' class="w3-table-all">
       <thead >
-        <tr class="w3-green">
-          <th>T1</th>
-          <th>T2</th>
-          <th>T3</th>
-          <th>T4</th>
-          <th>T5</th>
-          <th>T6</th>
-          <th>T7</th>
+        <tr class="w3-grey">
+          <th></th>
+          <th>09:00-10:00</th>
+          <th>10:00-11:00</th>
+          <th>11:10-12:10</th>
+          <th>12:10-01:10</th>
+          <th>01:40-02:40</th>
+          <th>02:40-03:40</th>
+          <th>03:40-04:40</th>
         </tr>
       </thead>
       <tbody>
+        {{year[index]}}
         {% for y in timetable[index] %}
         <tr>
+          {% set var = loop.index %}
+            <th scope="row">{{day[var-1]}}</th>
           {% for w in y %}
           <td>
             {% if w[0] is defined %}
               {% if 'S-' in w[0][-2] %}
-                {{w[0][1] + '  ' + w[0][2] +  '  ' + w[0][4]}}
+                {{w[0][1] + ' / ' + w[0][2] +  ' / ' + w[0][4]}}
               {% else %}
                 {% for m in w %}
-                  {{m[1] + '  ' + m[2] +  '  ' + m[-3]}}
+                  {{m[1] + ' / ' + m[2] +  ' / ' + m[-3]}}
                 {% endfor %}
               {% endif %}
             {% endif %}
@@ -82,7 +96,8 @@ document.getElementById('content').style.color = "blue";
   </div>
 </div>
 
-  <div id="bypassme"></div>
-  <button onclick="javascript:demoFromHTML();">PDF</button>
+<div id="bypassme"></div>
+<br><br>
+<button class="btn btn-primary" onclick="javascript:demoFromHTML();">Generate PDF</button>
 
 {% endblock %}

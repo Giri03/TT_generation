@@ -1,10 +1,24 @@
-<div class="w3-main"  >
+<style media="screen">
+  #soem{
+    margin-top: 130px;
+  }
+</style>
+<div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="position: absolute; width:200px; height: 100; z-index: -1; background-color:  #3a352b; color: white;" id="mySidebar" >
+  <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Close &times;</button>
+  <br><br><br><br><br>
+  <a href="/teacher" id="soem" style="margin-left: 40px; margin-top: 50px" class="w3-bar-item w3-button"><b>+<b> Add Teacher</a>
+  <a href="/rooms" style="margin-left: 40px" class="w3-bar-item w3-button"><b>+<b> Add Rooms</a>
+  <a href="/subject" style="margin-left: 40px" class="w3-bar-item w3-button"><b>+<b> Add Subjects</a>
+  <a href="/lab" style="margin-left: 40px" class="w3-bar-item w3-button"><b>+<b> Add Labs</a>
+</div>
+
+<div class="w3-main" style="z-index: 1;" >
   <div class="w3-green">
     <button class="w3-button w3-teal w3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</button>
     <div class="w3-container" style="padding: 9px;">
       <img src = '../../static/img/circlelogo.gif' width="70px" heigth="70px" alt="logo">
-    <a href="/logout" style="float: right; color: white; margin-top: 9px; margin-bottom: 0;">Logout</a>
-    </div>
+    <a href="/logout" style="float: right; color: white; margin-top: 40px; font-size: 20px; margin-bottom: 0;">Logout</a>
+  </div>
   </div>
 </div>
 
@@ -16,13 +30,6 @@
   }
 </script>
 
-<div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:200px; background-color:  #3a352b; color: white;" id="mySidebar" >
-  <button class="w3-bar-item w3-button w3-large w3-hide-large" onclick="w3_close()">Close &times;</button>
-  <a href="/teacher" class="w3-bar-item w3-button">Teacher</a>
-  <a href="/rooms" class="w3-bar-item w3-button">Rooms</a>
-  <a href="/subject" class="w3-bar-item w3-button">Subjects</a>
-  <a href="/lab" class="w3-bar-item w3-button">Labs</a>
-</div>
 
 <script>
 function w3_open() {
