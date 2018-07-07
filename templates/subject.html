@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 {% block body %}
-{% set i = 0 %}
+
 <form class=""  method="post" >
   <div class="form-group">
     <b><div id="titles" style="font-size: 29px;">SEA</div></b><br>
@@ -21,7 +21,7 @@
     <button type="button" id="add" onclick="addSubj();" class="btn btn-primary">Add Subject</button>
     <input type="button" id="continue" onclick="allSubj();" value="Next division" class="btn btn-primary">
 <br><br>
-    <button class="btn btn-primary" type="submit" name="button2" id='done' onclick="javascript: form.action='/lab';" style="visibility: hidden">Next -> Lab</button>
+    <button class="btn btn-primary" type="submit" name="button2" id='done' onclick="javascript: form.action='/lab';" style="visibility: hidden">Proceed -> Lab</button>
     <textarea  id="Sub_textAreaField1" name="Sub_textAreaField1" style="visibility: hidden"></textarea>
     <textarea  id="Sub_textAreaField2" name="Sub_textAreaField2" style="visibility: hidden"></textarea>
   </div>
@@ -54,17 +54,14 @@
     function allSubj(){
         var input2 = document.getElementById('addSub').value;
         counter += 1
-        document.getElementById("titles").innerHTML = arr[counter];
-
             if(counter == 6){
-              // window.location('/lab');
-                  // alert('hellloo')
-              // progress bar
+              document.getElementById("titles").innerHTML = "Done, Proceed to fill labs";
               document.getElementById('done').style.visibility = 'visible';
               document.getElementById('add').style.visibility = 'hidden';
               document.getElementById('continue').style.visibility = 'hidden';
             }
             else{
+                document.getElementById("titles").innerHTML = arr[counter];
                 currentSub = currentSub.slice(0, -1);
                 currentTea = currentTea.slice(0, -1);
                 allSubjects = currentSub + '~' + allSubjects;

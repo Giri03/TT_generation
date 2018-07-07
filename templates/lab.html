@@ -4,6 +4,7 @@
 <div id='meter'><div id='progress'></div> </div>
 <form class=""  method="post" >
   <div class="form-group">
+    <b><div id="titles" style="font-size: 29px;">SEA</div></b><br>
     <label for="addLab">Add Labs</label>
     <input type="text" style="width: 500px;" id="addLab" name="addLab" class="form-control" placeholder="Add Lab">
     <br>
@@ -52,64 +53,68 @@
 </form>
 <script type="text/javascript">
 //subjects
-    var cur_Labs = "";
-    var cur_teach = "";
-    var cur_room = "";
-    var all_labs = "";
-    var all_tea = "";
-    var all_room = "";
-    var counter = 0;
-    function addLaborateries(){
-        // alert('hk');
-        var input = document.getElementById('addLab').value;
-        var input2 = document.getElementById('chooseTea').value;
-        var input3 = document.getElementById('chooseTea2').value;
-        var input4 = document.getElementById('chooseTea3').value;
-        var input5 = document.getElementById('chooseTea4').value;
-        var input6 = document.getElementById('addLabRoom').value;
+  var cur_Labs = "";
+  var cur_teach = "";
+  var cur_room = "";
+  var all_labs = "";
+  var all_tea = "";
+  var all_room = "";
+  var counter = 0;
+  var arr = ['SEA', 'SEB', 'TEA', 'TEB', 'BEA', 'BEB']
 
-        if(input != '' && input6 != ''){
-            cur_Labs = input + '~' + cur_Labs;
-            cur_teach = input2 + ':' + input3 + ':' + input4 + ':' + input5 + '~' + cur_teach;
-            cur_room = input6 + '~' + cur_room;
-            console.log(cur_Labs);
-            console.log(cur_teach);
-            console.log(cur_room);
-            document.getElementById('addLab').value = "";
-            document.getElementById('addLabRoom').value = "";
-        }
-        else{
-            alert('please fill all fields!');
-        }
+  function addLaborateries(){
+      // alert('hk');
+      var input = document.getElementById('addLab').value;
+      var input2 = document.getElementById('chooseTea').value;
+      var input3 = document.getElementById('chooseTea2').value;
+      var input4 = document.getElementById('chooseTea3').value;
+      var input5 = document.getElementById('chooseTea4').value;
+      var input6 = document.getElementById('addLabRoom').value;
+
+      if(input != '' && input6 != ''){
+          cur_Labs = input + '~' + cur_Labs;
+          cur_teach = input2 + ':' + input3 + ':' + input4 + ':' + input5 + '~' + cur_teach;
+          cur_room = input6 + '~' + cur_room;
+          console.log(cur_Labs);
+          console.log(cur_teach);
+          console.log(cur_room);
+          document.getElementById('addLab').value = "";
+          document.getElementById('addLabRoom').value = "";
+      }
+      else{
+          alert('please fill all fields!');
+      }
+  }
+  // document.getElementById('done').style.visibility='hidden';
+  function allLaborateries(){
+    var input = document.getElementById('addLab').value;
+    counter += 1
+    if(counter == 6){
+      document.getElementById("titles").innerHTML = "Done, Generate Timetable";
+      document.getElementById('done').style.visibility = 'visible';
+      document.getElementById('add').style.visibility = 'hidden';
+      document.getElementById('continue').style.visibility = 'hidden';}
+    else{
+      document.getElementById("titles").innerHTML = arr[counter];
+      cur_Labs = cur_Labs.slice(0, -1);
+      cur_teach = cur_teach.slice(0, -1);
+      cur_room = cur_room.slice(0, -1);
+      all_labs = cur_Labs + '/' + all_labs;
+      all_tea = cur_teach + '/' + all_tea;
+      all_room = cur_room + '/' + all_room;
+      console.log(all_labs);
+      console.log(all_tea);
+      console.log(all_room);
+      cur_Labs = '';
+      cur_teach = '';
+      cur_room = '';
+      document.getElementById('addLab').value = "";
+      document.getElementById('addLabRoom').value = "";
+      document.getElementById('Lab_textAreaField').innerHTML = all_labs;
+      document.getElementById('Lab_textAreaField2').innerHTML = all_tea;
+      document.getElementById('Lab_textAreaField3').innerHTML = all_room;
     }
-    // document.getElementById('done').style.visibility='hidden';
-    function allLaborateries(){
-        var input = document.getElementById('addLab').value;
-        counter += 1
-            if(counter == 6){
-            document.getElementById('done').style.visibility = 'visible';
-            document.getElementById('add').style.visibility = 'hidden';
-            document.getElementById('continue').style.visibility = 'hidden';}
-            else{
-                cur_Labs = cur_Labs.slice(0, -1);
-                cur_teach = cur_teach.slice(0, -1);
-                cur_room = cur_room.slice(0, -1);
-                all_labs = cur_Labs + '/' + all_labs;
-                all_tea = cur_teach + '/' + all_tea;
-                all_room = cur_room + '/' + all_room;
-                console.log(all_labs);
-                console.log(all_tea);
-                console.log(all_room);
-                cur_Labs = '';
-                cur_teach = '';
-                cur_room = '';
-                document.getElementById('addLab').value = "";
-                document.getElementById('addLabRoom').value = "";
-                document.getElementById('Lab_textAreaField').innerHTML = all_labs;
-                document.getElementById('Lab_textAreaField2').innerHTML = all_tea;
-                document.getElementById('Lab_textAreaField3').innerHTML = all_room;
-            }
-        }
-    // print(allSubjects)
+  }
+  // print(allSubjects)
 </script>
 {% endblock %}
