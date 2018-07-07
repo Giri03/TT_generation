@@ -80,11 +80,11 @@ def show_subject():
         cur.close()
         cursor = mysql.connection.cursor()
         cur = cursor.execute("SELECT t_name FROM teachers")
-        return render_template('subject.html', subject0=cursor.fetchall())
+        return render_template('subject.html', subject0=cursor.fetchall(), y = yearss)
     else:
         cursor = mysql.connection.cursor()
         cur = cursor.execute("SELECT t_name FROM teachers")
-        return render_template('subject.html', subject0=cursor.fetchall(), y=yearss)
+        return render_template('subject.html', subject0=cursor.fetchall(), y = yearss)
 
 @app.route('/lab', methods=['GET', 'POST'])
 def show_lab():

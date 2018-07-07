@@ -3,6 +3,7 @@
 {% set i = 0 %}
 <form class=""  method="post" >
   <div class="form-group">
+    <b><div id="titles" style="font-size: 29px;">SEA</div></b><br>
     <label for="addSub">Add Subject</label>
     <input type="text" style="width: 500px;" id="addSub" name="addSub" class="form-control" placeholder="Add Subject" >
     <!-- do select for teachers -->
@@ -28,11 +29,13 @@
 {{endfor}}
 <script>
 //subjects
+
     var currentSub = "";
     var allSubjects = "";
     var currentTea = "";
     var allTeas = "";
     var counter = 0;
+    var arr = ['SEA', 'SEB', 'TEA', 'TEB', 'BEA', 'BEB']
     function addSubj(){
         var input = document.getElementById('addSub').value;
         var input2 = document.getElementById('chooseTea').value;
@@ -51,6 +54,8 @@
     function allSubj(){
         var input2 = document.getElementById('addSub').value;
         counter += 1
+        document.getElementById("titles").innerHTML = arr[counter];
+
             if(counter == 6){
               // window.location('/lab');
                   // alert('hellloo')
@@ -72,8 +77,6 @@
                 document.getElementById('Sub_textAreaField1').innerHTML = allSubjects;
                 document.getElementById('Sub_textAreaField2').innerHTML = allTeas;
             }
-
-
     }
     // print(allSubjects)
 </script>
