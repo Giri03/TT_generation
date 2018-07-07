@@ -220,7 +220,6 @@ def getTime(meet):
         meet += meettime[0][ind*2+1]
     return meet
 
-
 all_time = []
 def timetables(population):
 
@@ -242,11 +241,26 @@ def timetables(population):
         exclude_zero_day = list(x for x in days if x not in zero_day)
         tp_day = random.choice(exclude_zero_day)
         tp_time = random.choice(meettime[0])
+        exclude_days = list(x for x in days if x not in tp_day and zero_day)
+        if(y[0] == 'be'):
+            p2_days = random.sample(exclude_days, 2)
 
         for div in divs:
             timetable = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
             # set zero hour for tt => thur 4 lecture
             timetable[days.index('thu')][meettime[0].index('12:10-01:10')].append(['0', '/ / Zero Hour', '', '', '', '', '', 'S-some', '0'])
+            # set p2
+            if(y[0] == 'be' and div == 'A'):
+                for tmng in range(7):
+                    timetable[days.index(p2_days[0])][tmng].append(['0', 'P2', '', '', '', '', '', 'S-some', '0'])
+                for tmng in range(4):
+                    lab_matrix[days.index(p2_days[0])][tmng] -= 1
+            elif (y[0] == 'be' and div == 'B'):
+                for tmng in range(7):
+                    timetable[days.index(p2_days[1])][tmng].append(['0', 'P2', '', '', '', '', '', 'S-some', '0'])
+                for tmng in range(4):
+                    lab_matrix[days.index(p2_days[1])][tmng] -= 1
+
             # set free lectures.
             for q,p in enumerate(years):
                 if(p[0]==y[0]):
@@ -282,6 +296,7 @@ def timetables(population):
                         # to check for not conflicting with zero hour
                         if not ('thu' == i[4] and '11:10-01:10' == i[5]):
                             if not (i[4] in l and i[5] == '02:40-04:40'):
+                                print(lab_matrix[days.index(i[4])][meettime[1].index(i[5])])
                                 if(lab_matrix[days.index(i[4])][meettime[1].index(i[5])]>0):
                                     if(i[5] and i[4] not in toplabtime):
                                         if all([i[4] not in item for item in toplabtime]):

@@ -14,6 +14,7 @@ from main import *
 
 app = Flask(__name__)
 
+# data_sql = 'tt'
 # config MySQL
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -51,7 +52,7 @@ def show_teacher():
     # cur = mysql.connection.cursor()
     # cur.execute('SELECT l_name, l_teac, l_room, year, division FROM labs')
     # sp = cur.fetchall()
-    return render_template('teacher.html',depts = row)
+    return render_template('teacher.html')
 
 # rooms
 @app.route('/room', methods=['GET', 'POST'])
@@ -245,6 +246,7 @@ def login():
 
 @app.route('/login_admin', methods=['GET','POST'])
 def login_admin():
+
     if request.method == 'POST':
         #get form fields
         username = request.form['username']
@@ -255,7 +257,6 @@ def login_admin():
 
         #get user by Username
         result = cur.execute("SELECT * FROM admins WHERE a_name = %s", [username])
-        flash(result, 'success')
         if result > 0:
             #get stored hash
             data = cur.fetchone()
@@ -268,7 +269,9 @@ def login_admin():
                 session['logged_in'] = True
                 session['username'] = username
                 # session['dept'] = row
-
+                # if(row == 'admin2'):
+                #     app.config['MYSQL_DB'] = 'computertt'
+                    # flash(app.config['MYSQL_DB'],'success')
                 flash('logged in', 'success')
                 return redirect(url_for('show_teacher',depts = row))
             else:
@@ -293,7 +296,7 @@ def is_logged_in(f):
 
 @app.route('/ttgeneration', methods=['GET','POST'])
 def ttgeneration():
-    global population
+    global data_sql
     cur = mysql.connection.cursor()
     cur.execute("SELECT t_name FROM teachers")
     sp = cur.fetchall()
@@ -432,6 +435,7 @@ def dashboard():
     population1 = fitness(population1)
     population = new_population(population, population1)
     all_timetable = timetables(population)
+    print(all_timetable)
     # print(all_timetable)
     if(1 <=now.month<=6):
         var = "Even"
