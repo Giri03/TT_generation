@@ -10,11 +10,9 @@ import sys
 import datetime
 from main import *
 
-# import pdfkit
-
 app = Flask(__name__)
 
-# data_sql = 'tt'
+dept_sql = 'EXTC'
 # config MySQL
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -39,6 +37,8 @@ timetable = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[]
 population = []
 population_sub = []
 population_lab = []
+all_timetable = []
+
 # @app.route('/about')
 # def show_about():
 #     return render_template('about.html')
@@ -57,59 +57,66 @@ def show_teacher():
 # rooms
 @app.route('/room', methods=['GET', 'POST'])
 def show_room():
+    global dept_sql
     if request.method == 'POST':
         value1 = request.form['textAreaField1']
-        value1 = value1.rstrip(',')
-        cur = mysql.connection.cursor()
-        for j in value1.split(','):
-            cur.execute("INSERT INTO teachers(t_name) VALUES (%s)",(j,))
-            mysql.connection.commit()
-        cur.close()
+        if value1 != '':
+            value1 = value1.rstrip(',')
+            cur = mysql.connection.cursor()
+            for j in value1.split(','):
+                cur.execute("INSERT INTO teachers(t_name,depts) VALUES (%s,%s)",(j,dept_sql))
+                mysql.connection.commit()
+            cur.close()
         return render_template('rooms.html')
     else:
         return render_template('rooms.html')
 
 @app.route('/subject',methods=['GET', 'POST'])
 def show_subject():
+    global dept_sql
     if request.method == 'POST':
         value1 = request.form['room_textAreaField']
-        value1 = value1.rstrip(',')
-        cur = mysql.connection.cursor()
-        for j in value1.split(','):
-            cur.execute("INSERT INTO rooms(r_name) VALUES (%s)",(j,))
-            mysql.connection.commit()
-        cur.close()
+        if value1 != '':
+            value1 = value1.rstrip(',')
+            cur = mysql.connection.cursor()
+            for j in value1.split(','):
+                cur.execute("INSERT INTO rooms(r_name,depts) VALUES (%s,%s)",(j,dept_sql))
+                mysql.connection.commit()
+            cur.close()
         cursor = mysql.connection.cursor()
-        cur = cursor.execute("SELECT t_name FROM teachers")
+        cur = cursor.execute("SELECT t_name FROM teachers WHERE depts=%s", [dept_sql])
         return render_template('subject.html', subject0=cursor.fetchall(), y = yearss)
     else:
         cursor = mysql.connection.cursor()
-        cur = cursor.execute("SELECT t_name FROM teachers")
+        cur = cursor.execute("SELECT t_name FROM teachers WHERE depts=%s", [dept_sql])
         return render_template('subject.html', subject0=cursor.fetchall(), y = yearss)
 
 @app.route('/lab', methods=['GET', 'POST'])
 def show_lab():
+    global dept_sql
     if request.method == 'POST':
         value1 = request.form['Sub_textAreaField1']
         value2 = request.form['Sub_textAreaField2']
-        value1 = value1.rstrip(',')
-        value2 = value2.rstrip(',')
-        cur = mysql.connection.cursor()
-        count = 0
-        for i,j in zip(value1.split('~'),value2.split('~')):
-            for k,l in zip(i.split(','),j.split(',')):
-                s1 = yearss[count][:2]
-                s2 = yearss[count][2:]
-                cur.execute("INSERT INTO subjects(s_name, s_teach, year, division) VALUES (%s, %s, %s, %s)", (k,l,s1,s2,))
-                mysql.connection.commit()
-            count = count + 1;
-        cur.close()
+        value1 = value1.rstrip('~')
+        value2 = value2.rstrip('~')
+        print(value1 + value2)
+        if value1 != '' and value2 != '':
+            cur = mysql.connection.cursor()
+            count = 0
+            for i,j in zip(value1.split('~'),value2.split('~')):
+                for k,l in zip(i.split(','),j.split(',')):
+                    s1 = yearss[count][:2]
+                    s2 = yearss[count][2:]
+                    cur.execute("INSERT INTO subjects(s_name, s_teach, year, division,depts) VALUES (%s, %s, %s, %s, %s)", (k,l,s1,s2,dept_sql))
+                    mysql.connection.commit()
+                count = count + 1;
+            cur.close()
         cursor = mysql.connection.cursor()
-        cur = cursor.execute("SELECT t_name FROM teachers")
+        cur = cursor.execute("SELECT t_name FROM teachers WHERE depts=%s", [dept_sql])
         return render_template('lab.html', subject0=cursor.fetchall(),y=yearss)
     else:
         cursor = mysql.connection.cursor()
-        cur = cursor.execute("SELECT t_name FROM teachers")
+        cur = cursor.execute("SELECT t_name FROM teachers WHERE depts=%s", [dept_sql])
         return render_template('lab.html', subject0=cursor.fetchall(),y=yearss)
 
 @app.route('/afterlab', methods=['GET', 'POST'])
@@ -121,17 +128,18 @@ def show_afterlab():
         value1 = value1.rstrip('/')
         value2 = value2.rstrip('/')
         value3 = value3.rstrip('/')
-        cur = mysql.connection.cursor()
-        count = 0
-        for i,j,k in zip(value1.split('/'),value2.split('/'),value3.split('/')):
-            for l,m,n in zip(i.split('~'),j.split('~'),k.split('~')):
-                s1 = yearss[count][:2]
-                s2 = yearss[count][2:]
-                # print(l + ' ' + m +' ' +n)
-                cur.execute("INSERT INTO labs(l_name, l_teac, l_room, year, division) VALUES (%s, %s, %s, %s, %s)", (l,m,n,s1,s2,))
-                mysql.connection.commit()
-            count = count + 1
-        cur.close()
+        if value1 != '' and value2 != '' and value3 != '':
+            cur = mysql.connection.cursor()
+            count = 0
+            for i,j,k in zip(value1.split('/'),value2.split('/'),value3.split('/')):
+                for l,m,n in zip(i.split('~'),j.split('~'),k.split('~')):
+                    s1 = yearss[count][:2]
+                    s2 = yearss[count][2:]
+                    # print(l + ' ' + m +' ' +n)
+                    cur.execute("INSERT INTO labs(l_name, l_teac, l_room, year, division, depts) VALUES (%s, %s, %s, %s, %s, %s)", (l,m,n,s1,s2,dept_sql))
+                    mysql.connection.commit()
+                count = count + 1
+            cur.close()
 
         return redirect(url_for('dashboard'))
     else:
@@ -156,12 +164,11 @@ class RegisterForm(Form):
     validators.Length(min=6, max=50),
     validators.Regexp('(\w)+@+(somaiya.edu)', message="Invalid Email Address"),
     ])
-    branch = SelectField('Branch', choices=[('Electronics', 'Electronics and Telecommunication'), ('Computers', 'CS and IT')])
-    year = SelectField('Year', choices=[('fe','First Year'),('se','Second Year'),('te','Third Year'),('be','Final Year')])
+    depts = SelectField('Department', choices=[('EXTC', 'EXTC'),('ETRX', 'ETRX'), ('COMP', 'CS'), ('IT', 'IT')])
+    year = SelectField('Year', choices=[('se','Second Year'),('te','Third Year'),('be','Final Year')])
     division = SelectField('Division', choices=[('A','A'),('B','B')])
     password = PasswordField('Password', [
         validators.Regexp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}', message="Password must contain special character, digit, upper case, lower case character minimum 8 digits"),
-
         validators.DataRequired(),
         # validators.
         validators.EqualTo('confirm', message='Password do not match')
@@ -178,30 +185,26 @@ def register():
             email = form.email.data
             username = form.username.data
             lastname = form.lastname.data
-            branch = form.branch.data
+            depts = form.depts.data
             year = form.year.data
             division = form.division.data
             password = sha256_crypt.encrypt(str(form.password.data))
             # use cursor to execute commands
             cur = mysql.connection.cursor()
-            cur.execute("INSERT INTO users(username, firstname, lastname, email, password, year, division, branch) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (username, firstname, lastname, email, password, year, division, branch))
+            cur.execute("INSERT INTO users(username, firstname, lastname, email, password, year, division, depts) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (username, firstname, lastname, email, password, year, division, depts))
             #commit to db
             mysql.connection.commit()
             #close connection
             cur.close()
             # flash("your message", "type of message ")
             flash('You Are Now Registered', 'success')
-            redirect(url_for('dashboar')) #method name for index.
-        return render_template('register.html', form=form)
+            redirect(url_for('dashboard')) #method name for index.
+            return render_template('register.html', form=form)
 
     except Exception as e:
         flash('Sorry, User name is taken!', 'danger')
         return render_template('register.html', form=form)
 
-
-@app.route('/dash', methods=['GET','POST'])
-def dashboar():
-    return "123"
 #userlogin
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -227,7 +230,6 @@ def login():
                 #session
                 session['logged_in'] = True
                 session['username'] = username
-
                 year = data['year']
                 division = data['division']
                 year_div = year+division
@@ -244,9 +246,10 @@ def login():
             return render_template('login.html', error=error)
     return render_template('login.html')
 
+
 @app.route('/login_admin', methods=['GET','POST'])
 def login_admin():
-
+    global dept_sql
     if request.method == 'POST':
         #get form fields
         username = request.form['username']
@@ -271,7 +274,10 @@ def login_admin():
                 # session['dept'] = row
                 # if(row == 'admin2'):
                 #     app.config['MYSQL_DB'] = 'computertt'
-                    # flash(app.config['MYSQL_DB'],'success')
+                #     # flash(app.config['MYSQL_DB'],'success')
+                cur.execute("SELECT dept FROM admins WHERE a_name = %s", [username])
+                data = cur.fetchone()
+                dept_sql = data['dept']
                 flash('logged in', 'success')
                 return redirect(url_for('show_teacher',depts = row))
             else:
@@ -281,6 +287,7 @@ def login_admin():
             error = 'Username not found'
             return render_template('login_admin.html', error=error)
     return render_template('login_admin.html')
+
 
 #check if user has logged in
 def is_logged_in(f):
@@ -293,24 +300,24 @@ def is_logged_in(f):
             return redirect(url_for('login'))
     return wrap
 
-
-@app.route('/ttgeneration', methods=['GET','POST'])
-def ttgeneration():
-    global data_sql
+def generation():
+    global data_sql, all_timeable, population
+    all_timeable = []
+    population = []
     cur = mysql.connection.cursor()
-    cur.execute("SELECT t_name FROM teachers")
+    cur.execute("SELECT t_name FROM teachers WHERE depts = %s", [dept_sql])
     sp = cur.fetchall()
     teachers = []
     for row in sp:
         teachers.append(row['t_name'])
-    cur.execute("SELECT r_name FROM rooms")
+    cur.execute("SELECT r_name FROM rooms WHERE depts = %s", [dept_sql])
     sp = cur.fetchall()
     rooms = []
     for row in sp:
         rooms.append(row['r_name'])
-    cur.execute("SELECT s_name, s_teach, year, division FROM subjects")
+    cur.execute("SELECT s_name, s_teach, year, division FROM subjects WHERE depts = %s", [dept_sql])
     sub = cur.fetchall()
-    cur.execute("SELECT l_name, l_teac, l_room, year, division FROM labs")
+    cur.execute("SELECT l_name, l_teac, l_room, year, division FROM labs WHERE depts = %s", [dept_sql])
     lab = cur.fetchall()
 
     se = ['se']
@@ -353,20 +360,50 @@ def ttgeneration():
     population1 = fitness(population1)
     population = new_population(population, population1)
     all_timetable = timetables(population)
+    return all_timetable
+
+@app.route('/show_tt_master', methods=['GET','POST'])
+def show_tt_master():
+    global all, all_timeable
+    all = []
+    all_timeable = []
+    all = generation()
+    # my_var = request.args.get('my_var', None)if(1 <=now.month<=6):
+    if(1 <=now.month<=6):
+        var = "Even"
+    else:
+        var =  "Odd"
+    yr = now.year
+    return render_template('show_tt_master.html', vars = var, y = yr, timetable=all, index=year_index, day=dayys, year=yearss)
+
+@app.route('/show_tt_div', methods=['GET','POST'])
+def show_tt_div():
+    all = []
+    all = generation()
+    # my_var = request.args.get('my_var', None)if(1 <=now.month<=6):
+    if(1 <=now.month<=6):
+        var = "Even"
+    else:
+        var =  "Odd"
+    yr = now.year
+    return render_template('show_tt_div.html', vars = var, y = yr, timetable=all, index=year_index, day=dayys, year=yearss)
+
+@app.route('/ttgeneration', methods=['GET','POST'])
+def ttgeneration():
+    global all, all_timeable
+    all = []
+    all = generation()
     # print(all_timetable)
     if(1 <=now.month<=6):
         var = "Even"
     else:
         var =  "Odd"
     yr = now.year
-    # return render_template('timetable.html',vars = var, y = yr, timetable=all_timetable, index=year_index,day=dayys,year=yearss)
+    return render_template('timetableId.html',vars = var, y = yr, timetable=all, index=year_index,day=dayys,year=yearss)
 
-    return render_template('timetableId.html',vars = var, y = yr,timetable=all_timetable,index=year_index,day=dayys,year=yearss)
     # print(population)
     # print(lab)
     # return "ksdj"
-
-#logoutoar
 
 @app.route('/logout')
 def logout():
@@ -378,76 +415,17 @@ def logout():
 @app.route('/dashboard', methods=['GET','POST'])
 @is_logged_in
 def dashboard():
-    global population
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT t_name FROM teachers")
-    sp = cur.fetchall()
-    teachers = []
-    for row in sp:
-        teachers.append(row['t_name'])
-    cur.execute("SELECT r_name FROM rooms")
-    sp = cur.fetchall()
-    rooms = []
-    for row in sp:
-        rooms.append(row['r_name'])
-    cur.execute("SELECT s_name, s_teach, year, division FROM subjects")
-    sub = cur.fetchall()
-    cur.execute("SELECT l_name, l_teac, l_room, year, division FROM labs")
-    lab = cur.fetchall()
-
-    se = ['se']
-    te = ['te']
-    be = ['be']
-    divs = ['A', 'B']
-    years = [se, te, be]
-    for y in years:
-        only_subj = []
-        for i in sub:
-            if i['s_name'] not in only_subj and i['year'] == y[0]:
-                only_subj.append(i['s_name'])
-        y.append(only_subj)
-    for y in years:
-        only_lab = []
-        for i in lab:
-            if i['l_name'] not in only_lab and i['year'] == y[0]:
-                only_lab.append(i['l_name'])
-        y.append(only_lab)
-    ids = -1
-    for j in range(population_sub_size):
-        for i in sub:
-            ids += 1
-            population_sub.append([i['year'], i['s_name'], i['s_teach'], i['division'], random.choice(rooms), random.choice(days), random.choice(meettime[0]), 'S-'+str(ids) , -1])
-    for j in range(population_lab_size):
-        for i in lab:
-            ids += 1
-            population_lab.append([i['year'], i['l_name'], random.choice(i['l_teac'].split(',')), i['division'], random.choice(days), random.choice(meettime[1]),  random.choice(i['l_room'].split(',')), 'L-'+str(ids) , -1])
-    population.append(population_sub)
-    population.append(population_lab)
-    mysql.connection.commit()
-    cur.close()
-    # print(population)
-    population = fitness(population)
-    population = labs_labs(population)
-    population1 = tournament(population)
-    population1 = crossover(population1)
-    population1 = mutation(population1)
-    population1 = change_fitness(population1)
-    population1 = fitness(population1)
-    population = new_population(population, population1)
-    all_timetable = timetables(population)
-    print(all_timetable)
-    # print(all_timetable)
+    global all, all_timeable
+    all = []
+    all_timeable = []
+    all_time = []
+    all = generation()
     if(1 <=now.month<=6):
         var = "Even"
     else:
         var =  "Odd"
     yr = now.year
-    return render_template('timetable.html',vars = var, y = yr, timetable=all_timetable, index=year_index, day=dayys, year=yearss)
-#
-# @app.route('/ttgeneration')
-# def show_timetable():
-#     # return all_timeable
-#     return render_template('timetable.html',timetable = all_timetable)
+    return render_template('timetable.html', vars = var, y = yr, timetable=all, index=year_index, day=dayys, year=yearss)
 
 
 #user log in

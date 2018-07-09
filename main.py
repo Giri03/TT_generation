@@ -6,6 +6,7 @@ import sys
 population_size_sub = 150
 population_size_lab = 200
 timetable = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
+all_time = []
 
 def sortIt(population):
     population[0].sort(key = lambda x:x[-1])
@@ -220,9 +221,10 @@ def getTime(meet):
         meet += meettime[0][ind*2+1]
     return meet
 
-all_time = []
-def timetables(population):
 
+def timetables(population):
+    global all_time
+    all_time = []
     timetable = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
     lab_matrix = [[2,2,1,1],[2,2,1,1],[2,2,1,1] ,[2,2,1,1],[2,2,1,1]]
     tea_matrix = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
