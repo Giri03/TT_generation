@@ -26,7 +26,6 @@ mysql= MySQL(app)
 # for bootstrap
 Bootstrap(app)
 now = datetime.datetime.now()
-
 # Timetables = timetables()
 meettime = [['09:00-10:00', '10:00-11:00', '11:10-12:10', '12:10-01:10', '01:40-02:40', '02:40-03:40', '03:40-04:40'],['09:00-11:00', '11:10-01:10', '01:40-03:40', '02:40-04:40']]
 days = ['mon', 'tue', 'wed', 'thu', 'fri']
@@ -38,7 +37,7 @@ population = []
 population_sub = []
 population_lab = []
 all_timetable = []
-
+# rooms = []
 # @app.route('/about')
 # def show_about():
 #     return render_template('about.html')
@@ -99,7 +98,7 @@ def show_lab():
         value2 = request.form['Sub_textAreaField2']
         value1 = value1.rstrip('~')
         value2 = value2.rstrip('~')
-        print(value1 + value2)
+        # print(value1 + value2)
         if value1 != '' and value2 != '':
             cur = mysql.connection.cursor()
             count = 0
@@ -350,6 +349,10 @@ def generation():
     population.append(population_lab)
     mysql.connection.commit()
     cur.close()
+    if(1 <=now.month<=6):
+        var = "Even"
+    else:
+        var =  "Odd"
     # print(population)
     population = fitness(population)
     population = labs_labs(population)
@@ -359,7 +362,7 @@ def generation():
     population1 = change_fitness(population1)
     population1 = fitness(population1)
     population = new_population(population, population1)
-    all_timetable = timetables(population)
+    all_timetable = timetables(population, var, rooms)
     return all_timetable
 
 @app.route('/show_tt_master', methods=['GET','POST'])
