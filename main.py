@@ -235,10 +235,10 @@ def timetables(population, whichsem, room_tp):
     # for tplectures
     count_tp = -1
     # frozen constraint
+    zero_days = random.sample(days, 2)
     for y in years:
         count_tp += 1
         # set T&P day for year randomly
-        zero_days = random.sample(days, 2)
         zero_time = "03:40-04:40"
         if(y[0] == 'be' or y[0] == 'te'):
             exclude_zero_day = list(x for x in days if x != zero_days[1])
@@ -290,7 +290,7 @@ def timetables(population, whichsem, room_tp):
             if(y[0] == 'se'):
                 timetable[days.index(zero_days[0])][meettime[0].index(zero_time)].append(['0', 'Zero Hour', '', '', '', '', '', 'S-some', '0'])
             else:
-                timetable[days.index(zero_days[1])][meettime[0].index(zero_time)].append(['0', 'Zero Hour', '', '', '', '', '', 'S-some', '0'])
+                timetable[days.index(zero_days[1])][meettime[0].index(zero_time)].append(['0', 'Zero HourS', '', '', '', '', '', 'S-some', '0'])
 
             toplabtime = []
             toplabs =  [[],[],[],[]]
