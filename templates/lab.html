@@ -45,7 +45,7 @@
     <button type="button" id='add' onclick="addLaborateries();"  class="btn btn-primary">Add Lab</button>
     <input type="button" id='continue' onclick="allLaborateries();"  value="Next Division" class="btn btn-primary">
     <br>
-    <button type="submit" class="btn btn-primary" name="button2" id='done' style="visibility: hidden" onclick="javascript: form.action='/dashboard';">Generate Timetable</button>
+    <button type="submit" class="btn btn-primary" name="button2" id='done' style="visibility: hidden" onclick="javascript: form.action='/afterlab';">Generate Timetable</button>
     <textarea name="Lab_textAreaField" style="visibility: hidden"id="Lab_textAreaField" ></textarea>
     <textarea name="Lab_textAreaField2" id="Lab_textAreaField2" style="visibility: hidden"></textarea>
     <textarea name="Lab_textAreaField3" id="Lab_textAreaField3" style="visibility: hidden"></textarea>
@@ -89,32 +89,33 @@
   function allLaborateries(){
     var input = document.getElementById('addLab').value;
     counter += 1
+    document.getElementById("titles").innerHTML = arr[counter];
+    cur_Labs = cur_Labs.slice(0, -1);
+    cur_teach = cur_teach.slice(0, -1);
+    cur_room = cur_room.slice(0, -1);
+    all_labs = cur_Labs + '/' + all_labs;
+    all_tea = cur_teach + '/' + all_tea;
+    all_room = cur_room + '/' + all_room;
+    console.log(all_labs);
+    console.log(all_tea);
+    console.log(all_room);
+    cur_Labs = '';
+    cur_teach = '';
+    cur_room = '';
+    document.getElementById('addLab').value = "";
+    document.getElementById('addLabRoom').value = "";
+    document.getElementById('Lab_textAreaField').innerHTML = all_labs;
+    document.getElementById('Lab_textAreaField2').innerHTML = all_tea;
+    document.getElementById('Lab_textAreaField3').innerHTML = all_room;
+
     if(counter == 6){
       document.getElementById("titles").innerHTML = "Done, Generate Timetable";
       document.getElementById('done').style.visibility = 'visible';
       document.getElementById('add').style.visibility = 'hidden';
-      document.getElementById('continue').style.visibility = 'hidden';}
-    else{
-      document.getElementById("titles").innerHTML = arr[counter];
-      cur_Labs = cur_Labs.slice(0, -1);
-      cur_teach = cur_teach.slice(0, -1);
-      cur_room = cur_room.slice(0, -1);
-      all_labs = cur_Labs + '/' + all_labs;
-      all_tea = cur_teach + '/' + all_tea;
-      all_room = cur_room + '/' + all_room;
-      console.log(all_labs);
-      console.log(all_tea);
-      console.log(all_room);
-      cur_Labs = '';
-      cur_teach = '';
-      cur_room = '';
-      document.getElementById('addLab').value = "";
-      document.getElementById('addLabRoom').value = "";
-      document.getElementById('Lab_textAreaField').innerHTML = all_labs;
-      document.getElementById('Lab_textAreaField2').innerHTML = all_tea;
-      document.getElementById('Lab_textAreaField3').innerHTML = all_room;
+      document.getElementById('continue').style.visibility = 'hidden';
     }
-  }
+}
+
   // print(allSubjects)
 </script>
 {% endblock %}

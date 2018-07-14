@@ -17,7 +17,7 @@ dept_sql = 'EXTC'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'tt'
+app.config['MYSQL_DB'] = 'ttgeneration'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 year_index = 1
 
@@ -101,14 +101,14 @@ def show_lab():
         # print(value1 + value2)
         if value1 != '' and value2 != '':
             cur = mysql.connection.cursor()
-            count = 0
+            count = -1
             for i,j in zip(value1.split('~'),value2.split('~')):
                 for k,l in zip(i.split(','),j.split(',')):
                     s1 = yearss[count][:2]
                     s2 = yearss[count][2:]
-                    cur.execute("INSERT INTO subjects(s_name, s_teach, year, division,depts) VALUES (%s, %s, %s, %s, %s)", (k,l,s1,s2,dept_sql))
+                    cur.execute("INSERT INTO subjects(s_name, s_teach, year, division, depts) VALUES (%s, %s, %s, %s, %s)", (k,l,s1,s2,dept_sql))
                     mysql.connection.commit()
-                count = count + 1;
+                count = count - 1;
             cur.close()
         cursor = mysql.connection.cursor()
         cur = cursor.execute("SELECT t_name FROM teachers WHERE depts=%s", [dept_sql])
@@ -129,7 +129,7 @@ def show_afterlab():
         value3 = value3.rstrip('/')
         if value1 != '' and value2 != '' and value3 != '':
             cur = mysql.connection.cursor()
-            count = 0
+            count = -1
             for i,j,k in zip(value1.split('/'),value2.split('/'),value3.split('/')):
                 for l,m,n in zip(i.split('~'),j.split('~'),k.split('~')):
                     s1 = yearss[count][:2]
@@ -137,13 +137,12 @@ def show_afterlab():
                     # print(l + ' ' + m +' ' +n)
                     cur.execute("INSERT INTO labs(l_name, l_teac, l_room, year, division, depts) VALUES (%s, %s, %s, %s, %s, %s)", (l,m,n,s1,s2,dept_sql))
                     mysql.connection.commit()
-                count = count + 1
+                count = count - 1
             cur.close()
 
         return redirect(url_for('dashboard'))
     else:
-        return redirect(url_for('dashboard'))
-
+        return redirect(url_for('login_admin'))
 @app.errorhandler(404)
 def page_not_found(e):
     """Return a custom 404 error."""
@@ -198,7 +197,7 @@ def register():
             # flash("your message", "type of message ")
             flash('You Are Now Registered', 'success')
             redirect(url_for('dashboard')) #method name for index.
-            return render_template('register.html', form=form)
+        return render_template('register.html', form=form)
 
     except Exception as e:
         flash('Sorry, User name is taken!', 'danger')
@@ -365,6 +364,14 @@ def generation():
     all_timetable = timetables(population, var, rooms)
     return all_timetable
 
+@app.route('/delete/all')
+def del_all():
+    cur = mysql.connection.cursor()
+    cur.execute("TRUNCATE TABLE labs")
+    cur.execute("TRUNCATE TABLE rooms")
+    cur.execute("TRUNCATE TABLE subjects")
+    return redirect(url_for('dashboard'))
+
 @app.route('/show_tt_master', methods=['GET','POST'])
 def show_tt_master():
     global all, all_timeable
@@ -413,6 +420,13 @@ def logout():
     session.clear()
     flash('You have been logged out !!', 'success')
     return redirect(url_for('login'))
+
+
+@app.route('/logout_admin')
+def logout_admin():
+    session.clear()
+    flash('You have been logged out !!', 'success')
+    return redirect(url_for('login_admin'))
 
 #dashboard
 @app.route('/dashboard', methods=['GET','POST'])

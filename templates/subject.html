@@ -54,26 +54,25 @@
     function allSubj(){
         var input2 = document.getElementById('addSub').value;
         counter += 1
-            if(counter == 6){
-              document.getElementById("titles").innerHTML = "Done, Proceed to fill labs";
-              document.getElementById('done').style.visibility = 'visible';
-              document.getElementById('add').style.visibility = 'hidden';
-              document.getElementById('continue').style.visibility = 'hidden';
-            }
-            else{
-                document.getElementById("titles").innerHTML = arr[counter];
-                currentSub = currentSub.slice(0, -1);
-                currentTea = currentTea.slice(0, -1);
-                allSubjects = currentSub + '~' + allSubjects;
-                allTeas = currentTea + '~' + allTeas;
-                console.log(allSubjects);
-                console.log(allTeas);
-                currentSub = '';
-                currentTea = '';
-                document.getElementById('addSub').value = "";
-                document.getElementById('Sub_textAreaField1').innerHTML = allSubjects;
-                document.getElementById('Sub_textAreaField2').innerHTML = allTeas;
-            }
+        document.getElementById("titles").innerHTML = arr[counter];
+        currentSub = currentSub.slice(0, -1);
+        currentTea = currentTea.slice(0, -1);
+        allSubjects = currentSub + '~' + allSubjects;
+        allTeas = currentTea + '~' + allTeas;
+        console.log(allSubjects);
+        console.log(allTeas);
+        currentSub = '';
+        currentTea = '';
+        document.getElementById('addSub').value = "";
+        document.getElementById('Sub_textAreaField1').innerHTML = allSubjects;
+        document.getElementById('Sub_textAreaField2').innerHTML = allTeas;
+        if(counter == 6){
+          document.getElementById("titles").innerHTML = "Done, Proceed to fill labs";
+          document.getElementById('done').style.visibility = 'visible';
+          document.getElementById('add').style.visibility = 'hidden';
+          document.getElementById('continue').style.visibility = 'hidden';
+        }
+
     }
     // print(allSubjects)
 </script>
