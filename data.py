@@ -11,4 +11,4 @@ zerohours = [['mon', '02:40-03:40'],['thu', '02:40-03:40'],['wed', '01:40-02:40'
 # for keeping last lecture empty
 free_lec = [2,2,0,0,2,2]
 # T&P lectures
-tp_lecture = ['AK','MJ','RS','RK','PU','SVM']
+tp_lecture = ['AK','SP','RS','RK','PU','SVM']
