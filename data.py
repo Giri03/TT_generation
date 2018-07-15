@@ -1,7 +1,8 @@
+
 se = ['se', ['s21', 's22', 's23', 's24', 's25'], ['l21','l22','l23']]
 te = ['te', ['s31', 's32', 's33', 's34', 's35', 's36'], ['l31','l32','l33','l34']]
 be = ['be', ['s41', 's42', 's43', 's44'], ['l41','l42','l43','l44']]
-rooms = ['r1', 'r2', 'r3', 'r4', 'r5', 'r6']
+# rooms = ['r1', 'r2', 'r3', 'r4', 'r5', 'r6']
 
 years = [se, te, be]
 divs = ['A','B']
@@ -9,6 +10,6 @@ meettime = [['09:00-10:00', '10:00-11:00', '11:10-12:10', '12:10-01:10', '01:40-
 days = ['mon', 'tue', 'wed', 'thu', 'fri']
 zerohours = [['mon', '02:40-03:40'],['thu', '02:40-03:40'],['wed', '01:40-02:40']]
 # for keeping last lecture empty
-free_lec = [2,2,0,0,2,2]
+free_lec = [2,2,2,2,2,2]
 # T&P lectures
 tp_lecture = ['AK','SP','RS','RK','PU','SVM']

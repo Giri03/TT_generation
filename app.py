@@ -357,7 +357,7 @@ def generation():
     population = labs_labs(population)
     population1 = tournament(population)
     population1 = crossover(population1)
-    population1 = mutation(population1)
+    population1 = mutation(population1, rooms)
     population1 = change_fitness(population1)
     population1 = fitness(population1)
     population = new_population(population, population1)
