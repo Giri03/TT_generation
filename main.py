@@ -300,11 +300,13 @@ def timetables(population, whichsem, room_tp):
                         if (i[-3] not in room_matrix[days.index(i[4])][meettime[0].index(separatetime1)]) and (i[-3] not in room_matrix[days.index(i[4])][meettime[0].index(separatetime2)]):
                             if (i[2] not in tea_matrix[days.index(i[4])][meettime[0].index(separatetime1)]) and (i[2] not in tea_matrix[days.index(i[4])][meettime[0].index(separatetime2)]):
                                 # to check for not conflicting with zero hour
-                                if zero_day != i[4] and zero_time != i[5]:
-                                    if tp_day != i[4] and tp_time != i[5]:
-                                        if 'p2' not in timetable[days.index(i[4])][meettime[0].index(separatetime1)] and 'p2' not in timetable[days.index(i[4])][meettime[0].index(separatetime2)]:
-                                    # if not (i[4] in l and i[5] == '02:40-04:40'):
-                                    # print(lab_matrix[days.index(i[4])][meettime[1].index(i[5])])
+                                if not (zero_day == i[4] and zero_time == i[5]):
+                                    if not (tp_day == i[4] and tp_time == i[5]):
+                                        # if len(timetable[days.index(d)][meettime[0].index(m)]) == 0:
+                                        if len(timetable[days.index(i[4])][meettime[0].index(separatetime1)]) == 0 and len(timetable[days.index(i[4])][meettime[0].index(separatetime2)]) == 0:
+                                        # if 'p2' != timetable[days.index(i[4])][meettime[0].index(separatetime1)] and 'p2' != timetable[days.index(i[4])][meettime[0].index(separatetime2)]:
+                                        # if not (i[4] in l and i[5] == '02:40-04:40'):
+                                        # print(lab_matrix[days.index(i[4])][meettime[1].index(i[5])])
                                             if(lab_matrix[days.index(i[4])][meettime[1].index(i[5])]>0):
                                                 if(i[4]+i[5] not in toplabtime):
                                                     if all(i[4] not in item for item in toplabtime):
