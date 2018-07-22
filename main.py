@@ -4,8 +4,6 @@ from collections import Counter
 import random
 import sys
 
-population_size_sub = 150
-population_size_lab = 200
 timetable = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
 all_time = []
 
@@ -97,9 +95,9 @@ def labs_labs(population):
 
 
 def tournament(population):
-    tournment_size_sub = len(population[0]) // 20
-    tournment_size_lab = len(population[1]) // 15
-    newpop_sub_size = len(population[0]) // 3
+    tournment_size_sub = len(population[0]) // 10
+    tournment_size_lab = len(population[1]) // 5
+    newpop_sub_size = len(population[0]) // 2
     newpop_lab_size = len(population[1]) // 2
     # some max no.
     cross = []
@@ -158,7 +156,6 @@ def crossover(selection):
             if(random.choice([True, False])):
                 swap(selection[1][i][5], selection[1][i+1][5])# days
     return selection
-
 
 def mutation(population1, rooms_tp):
     pm = 0.45
@@ -304,8 +301,6 @@ def timetables(population, whichsem, room_tp):
                                     if not (tp_day == i[4] and tp_time == i[5]):
                                         # if len(timetable[days.index(d)][meettime[0].index(m)]) == 0:
                                         if len(timetable[days.index(i[4])][meettime[0].index(separatetime1)]) == 0 and len(timetable[days.index(i[4])][meettime[0].index(separatetime2)]) == 0:
-                                        # if 'p2' != timetable[days.index(i[4])][meettime[0].index(separatetime1)] and 'p2' != timetable[days.index(i[4])][meettime[0].index(separatetime2)]:
-                                        # if not (i[4] in l and i[5] == '02:40-04:40'):
                                         # print(lab_matrix[days.index(i[4])][meettime[1].index(i[5])])
                                             if(lab_matrix[days.index(i[4])][meettime[1].index(i[5])]>0):
                                                 if(i[4]+i[5] not in toplabtime):
@@ -328,17 +323,19 @@ def timetables(population, whichsem, room_tp):
                                         separatetime = getTime(i[5])
                                         separatetime1, separatetime2 = separatetime[:11], separatetime[11:]
                                         # count_toplabs +=1
-                                        toplabs[index1].append(i)
-                                        tea_matrix[days.index(i[4])][meettime[0].index(separatetime1)].append(i[2])
-                                        tea_matrix[days.index(i[4])][meettime[0].index(separatetime2)].append(i[2])
-                                        room_matrix[days.index(i[4])][meettime[0].index(separatetime1)].append(i[-3])
-                                        room_matrix[days.index(i[4])][meettime[0].index(separatetime2)].append(i[-3])
-                                        timetable[days.index(i[4])][meettime[0].index(separatetime1)].append(i)
-                                        timetable[days.index(i[4])][meettime[0].index(separatetime2)].append(i)
+                                        if (i[-3] not in room_matrix[days.index(i[4])][meettime[0].index(separatetime1)]) and (i[-3] not in room_matrix[days.index(i[4])][meettime[0].index(separatetime2)]):
+                                            if (i[2] not in tea_matrix[days.index(i[4])][meettime[0].index(separatetime1)]) and (i[2] not in tea_matrix[days.index(i[4])][meettime[0].index(separatetime2)]):
+                                                toplabs[index1].append(i)
+                                                tea_matrix[days.index(i[4])][meettime[0].index(separatetime1)].append(i[2])
+                                                tea_matrix[days.index(i[4])][meettime[0].index(separatetime2)].append(i[2])
+                                                room_matrix[days.index(i[4])][meettime[0].index(separatetime1)].append(i[-3])
+                                                room_matrix[days.index(i[4])][meettime[0].index(separatetime2)].append(i[-3])
+                                                timetable[days.index(i[4])][meettime[0].index(separatetime1)].append(i)
+                                                timetable[days.index(i[4])][meettime[0].index(separatetime2)].append(i)
+                                                print(tea_matrix)
             for k in toplabtime:
                 lab_matrix[days.index(k[:3])][meettime[1].index(k[3:])]-=1
             # for subjects
-
             for d in days:
                 prior_i = "null"
                 for m in meettime[0]:

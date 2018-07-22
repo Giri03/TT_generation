@@ -18,11 +18,11 @@ function hide_every() {
   <div class="w3-container" >
 
     <div class="para" style="text-align: center;">
-      <b><h4>K. J. Somaiya Institute of Engineering and Information Technology.</p>
-      <p>Somaiya Ayurvihar Complex, Sion, Mumbai - 400022.</h4></b>
+      <b><h4>K. J. Somaiya Institute of Engineering and Information Technology.
+      Somaiya Ayurvihar Complex, Sion, Mumbai - 400022.</h4></b>
     </div>
     <h4 style="text-align: center;"><b>MASTER TIMETABLE {{vars}}&nbsp;Semester - {{y}}</b></h4>
-    <b></b>
+
 
   {% for x in timetable %}
     {% set vary = loop.index0 %}
@@ -44,7 +44,6 @@ function hide_every() {
         </tr>
       </thead>
       <tbody>
-      <caption><p><b></b></p><caption>
         {% for y in x %}
         <tr>
           {% set var = loop.index %}
