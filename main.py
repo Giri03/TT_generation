@@ -295,7 +295,7 @@ def timetables(population, whichsem, room_tp):
                     separatetime = getTime(i[5])
                     separatetime1, separatetime2 = separatetime[:11], separatetime[11:]
                     # print(separatetime, separatetime1, separatetime2 )
-                    if len(toplabtime) < len(y[2]):
+                    if len(toplabtime) <= 4:
                     # check lab room and teacher conflicts
                         if (i[-3] not in room_matrix[days.index(i[4])][meettime[0].index(separatetime1)]) and (i[-3] not in room_matrix[days.index(i[4])][meettime[0].index(separatetime2)]):
                             if (i[2] not in tea_matrix[days.index(i[4])][meettime[0].index(separatetime1)]) and (i[2] not in tea_matrix[days.index(i[4])][meettime[0].index(separatetime2)]):
@@ -310,7 +310,7 @@ def timetables(population, whichsem, room_tp):
                                             if(lab_matrix[days.index(i[4])][meettime[1].index(i[5])]>0):
                                                 if(i[4]+i[5] not in toplabtime):
                                                     if all(i[4] not in item for item in toplabtime):
-                                                        if len(toplabtime) <= len(y[2]):
+                                                        if len(toplabtime) < 4:
                                                             toplabtime.append(i[4]+i[5])
 
             count_toplabs = 0

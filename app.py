@@ -30,8 +30,8 @@ now = datetime.datetime.now()
 meettime = [['09:00-10:00', '10:00-11:00', '11:10-12:10', '12:10-01:10', '01:40-02:40', '02:40-03:40', '03:40-04:40'],['09:00-11:00', '11:10-01:10', '01:40-03:40', '02:40-04:40']]
 days = ['mon', 'tue', 'wed', 'thu', 'fri']
 dayys = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
-population_sub_size = 250
-population_lab_size = 300
+population_sub_size = 200
+population_lab_size = 250
 timetable = [ [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]], [[],[],[],[],[],[],[]] ]
 population = []
 population_sub = []
@@ -98,6 +98,7 @@ def show_lab():
         value2 = request.form['Sub_textAreaField2']
         value1 = value1.rstrip('~')
         value2 = value2.rstrip('~')
+        # print(value1 + value2)
         if value1 != '' and value2 != '':
             cur = mysql.connection.cursor()
             count = -1
@@ -133,6 +134,7 @@ def show_afterlab():
                 for l,m,n in zip(i.split('~'),j.split('~'),k.split('~')):
                     s1 = yearss[count][:2]
                     s2 = yearss[count][2:]
+                    # print(l + ' ' + m +' ' +n)
                     cur.execute("INSERT INTO labs(l_name, l_teac, l_room, year, division, depts) VALUES (%s, %s, %s, %s, %s, %s)", (l,m,n,s1,s2,dept_sql))
                     mysql.connection.commit()
                 count = count - 1
@@ -350,6 +352,7 @@ def generation():
         var = "Even"
     else:
         var =  "Odd"
+    # print(population)
     population = fitness(population)
     population = labs_labs(population)
     population1 = tournament(population)
@@ -400,6 +403,7 @@ def ttgeneration():
     global all, all_timeable
     all = []
     all = generation()
+    # print(all_timetable)
     if(1 <=now.month<=6):
         var = "Even"
     else:
@@ -407,6 +411,9 @@ def ttgeneration():
     yr = now.year
     return render_template('timetableId.html',vars = var, y = yr, timetable=all, index=year_index,day=dayys,year=yearss)
 
+    # print(population)
+    # print(lab)
+    # return "ksdj"
 
 @app.route('/logout')
 def logout():
